@@ -1,6 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Tmds.DBus.Protocol;
 
 namespace CS_2450_Application;
 
