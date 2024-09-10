@@ -20,4 +20,4 @@ public partial class App : Application
 
         base.OnFrameworkInitializationCompleted();
     }
-}
+} //Testing my stuff
