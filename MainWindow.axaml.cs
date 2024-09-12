@@ -12,6 +12,6 @@ public partial class MainWindow : Window
 
     public void On_ButtonClick(object sender, RoutedEventArgs args)
     {
-        message.Text = "Button clicked!";
+        message.Text = "Hello World!";
     }
 }
