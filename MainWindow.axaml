@@ -3,33 +3,121 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="CS_2450_Application.MainWindow"
-        Title="CS_2450_Application">
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <!-- Create 5 Columns in the Grid with a relative width of 1 -->
-        <ColumnDefinition Width="1*"/>
-        <ColumnDefinition Width="1*"/>
-        <ColumnDefinition Width="1*"/>
-        <ColumnDefinition Width="1*"/>
-        <ColumnDefinition Width="1*"/>
-      </Grid.ColumnDefinitions>
-
-      <Grid.RowDefinitions>
-        <RowDefinition Height="1*"/>
-        <RowDefinition Height="1*"/>
-        <RowDefinition Height="1*"/>
-        <RowDefinition Height="1*"/>
-        <RowDefinition Height="1*"/>
-      </Grid.RowDefinitions>
-
-      <!-- Controls below here -->
-      <!-- If avalonia says something doesn't exist, usually the problem is just that you haven't rebuilt your project and it can't see your new stuff yet -->
-      <!-- Creates a button on Column 2, Row 1 with the text "Press Me!" -->
-      <!-- The "Click" field looks for a function of the same name, check the .cs file for an example, if it says your function doesn't exist just try rebuilding the project -->
-      <Button Click="On_ButtonClick" Grid.Column="2" Grid.Row="1">Press Me!</Button>
-
-      <!-- Creates a text field with the name "message", since you have given it a name, in the C# code you can access it with message.Text -->
-      <TextBlock Margin="0 10" x:Name="message" Grid.Column="2" Grid.Row="2">Ready...</TextBlock>
-    </Grid>
+        x:Class="AvaloniaApplication1.MainWindow"
+        Title="AvaloniaApplication1"
+        x:DataType="local:MainWindow"
+        xmlns:local="clr-namespace:AvaloniaApplication1">
+     
+        <Grid ShowGridLines="False">
+                <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                </Grid.RowDefinitions>
+                
+                <!-- <TextBox Grid.Row="3" Grid.Column="2"></TextBox> -->
+                <Grid Background="Gray" 
+                      Grid.Column="0" 
+                      Grid.Row="1" 
+                      Grid.ColumnSpan="3">
+                        
+                        <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Text="0x" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="1" Text="Hex" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Text="Instruction" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Grid>
+                
+                <ListBox Name="MyListBox" BorderThickness="1" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="7">
+                           <ListBox.ItemTemplate>  
+                                <DataTemplate>
+                                        <Grid>
+                                               <Grid.ColumnDefinitions>
+                                                       <ColumnDefinition/>
+                                                       <ColumnDefinition/>
+                                                       <ColumnDefinition/>
+                                               </Grid.ColumnDefinitions>
+                                               <TextBlock TextAlignment="Center" Grid.Column="0" Text="{Binding Text1}"/>
+                                               <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000"/>
+                                               <TextBlock TextAlignment="Center" Grid.Column="2" Text="Stuff"/>
+                                        </Grid>
+                                </DataTemplate>
+                           </ListBox.ItemTemplate>   
+                        <TextBlock>Sup</TextBlock>
+                </ListBox>
+                
+                
+                <Grid Grid.Column="3" 
+                      Grid.Row="0" 
+                      Grid.ColumnSpan="2" 
+                      Grid.RowSpan="3"
+                      Margin="10"
+                      Background="Gainsboro"
+                      ShowGridLines="False">
+                        
+                        <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        
+                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Register1:"/>
+                        <TextBlock Grid.Column="1" Grid.Row="0" Text="Register2:"/>
+                        <TextBlock Grid.Column="2" Grid.Row="0" Text="Register3:"/>
+                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Register4:"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" Text="Register5:"/>
+                        <TextBlock Grid.Column="2" Grid.Row="1" Text="Register6:"/>
+                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Register7:"/>
+                        
+                </Grid>
+                
+                <StackPanel Grid.Column="3"
+                            Grid.Row="3"
+                            Grid.ColumnSpan="2"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                        
+                        <Button Click="RunProg">Run</Button>
+                        <TextBlock VerticalAlignment="Center" x:Name="Message">Ready...</TextBlock>
+                        <TextBlock Text="{Binding Test}"/>
+                </StackPanel>
+                
+                <Border Grid.Column="3"
+                        Grid.Row="4" 
+                        Grid.ColumnSpan="2" 
+                        Grid.RowSpan="4" 
+                        BorderBrush="Black"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Margin="10">
+                        
+                        <TextBlock Margin="5">This is a test</TextBlock>
+                        
+                </Border>
+        </Grid>
 </Window>
