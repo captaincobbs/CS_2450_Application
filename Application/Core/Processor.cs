@@ -1,39 +1,73 @@
-﻿namespace UVSim
+﻿using System.Diagnostics;
+
+namespace UVSim
 {
     public class Processor
     {
-        private Register accumulator;
-        private int location;
+        private readonly Register accumulator = new Register();
+        private readonly Memory mainMemory;
+        private int currentLocation = 0;
         private int rawInstruction;
 
+        public Processor(Memory mainMemory)
+        {
+            this.mainMemory = mainMemory;
+        }
         public int Interpret(int instruction)
         {
             return default;
         }
-
-        public int Add(int instruction)
+        public void Load(int location)
         {
-            return default;
+            accumulator.Data = mainMemory.Read(location);
+        }
+        public void Store(int location)
+        {
+            mainMemory.WriteWord(location, accumulator.Data);
+        }
+        public void Add(int location)
+        {
+            int result = accumulator.Data + mainMemory.Read(location);
+            accumulator.Data = result;
         }
 
-        public int Subtract(int instruction)
+        public void Subtract(int location)
         {
-            return default;
+            int result = accumulator.Data - mainMemory.Read(location);
+            accumulator.Data = result;
         }
 
-        public int Divide(int instruction)
+        public void Divide(int location)
         {
-            return default;
+            int result = accumulator.Data / mainMemory.Read(location);
+            accumulator.Data = result;
         }
 
-        public int Multiply(int instruction)
+        public void Multiply(int location)
         {
-            return default;
+            int result = accumulator.Data * mainMemory.Read(location);
+            accumulator.Data = result;
         }
 
-        public void Branch(BranchCondition condition, int instruction)
+        public void Branch(BranchCondition condition, int location)
         {
-
+            switch (condition) {
+                case BranchCondition.BRANCH:
+                    currentLocation = location;
+                    break;
+                case BranchCondition.BRANCHNEG:
+                    if(accumulator.Data < 0)
+                    {
+                        currentLocation = location;
+                    }
+                    break;
+                case BranchCondition.BRANCHZERO:
+                    if(accumulator.Data == 0)
+                    {
+                        currentLocation = location;
+                    }
+                    break;
+            }
         }
 
         public void Halt()

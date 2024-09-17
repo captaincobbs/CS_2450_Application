@@ -1,33 +1,90 @@
-﻿using System.Collections.Generic;
+﻿using SkiaSharp;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace UVSim
 {
     public class Memory
     {
         private readonly Dictionary<int, int> locations;
+        private readonly int max_word;
 
-        public Memory()
+        public Memory(int capacity = 100, int max_word=9999)
         {
+            this.max_word = max_word;
             locations = [];
-            for (int i = 0; i <= 100; i++)
+            for (int i = 0; i <= capacity; i++)
             {
                 locations.Add(i, 0);
             }
         }
 
+        /// <summary>
+        /// Returns a word stored at the specififed memory location.
+        /// </summary>
+        /// <param name="location">An integer representing a memory location</param>
+        /// <returns>The word at the memory location. If location is invalid it returns 0</returns>
         public int Read(int location)
         {
-            return locations[location];
+            if (location < 0 || location >= locations.Count)
+            {
+                return 0;
+            }
+            else
+            {
+                return locations[location];
+            }
         }
 
-        public int WriteWord(int location, int data)
+        /// <summary>
+        /// Writes a word of data to the specified memory location
+        /// </summary>
+        /// <param name="location">int</param>
+        /// <param name="data">int</param>
+        /// <returns>Writes and returns true if location is valid and data is valid, Does not write and returns false otherwise</returns>
+        public bool WriteWord(int location, int data)
         {
-            return default;
+            if (location < 0 || location >= locations.Count || Math.Abs(data) > max_word)
+            {
+                return false;
+            }
+            else
+            {
+                locations[location] = data;
+                return true;
+            }
         }
 
-        public void WriteFile(int location, string fileName)
+        /// <summary>
+        /// Writes a file to memory line by line, starting at the specified location
+        /// </summary>
+        /// <param name="location">Location in memory to begin writing</param>
+        /// <param name="fileName">File with contents to write to memory</param>
+        /// <returns>True if successful, fale otherwise</returns>
+        /// consider returning WriteStatus obj with a bool and a message
+        /// could handle failure of an individual line better
+        public bool WriteFile(int location, string fileName)
         {
-            
+            if (!File.Exists(fileName))
+            {
+                return false;
+            }
+            else
+            {
+                foreach (string line in File.ReadLines(fileName))
+                {
+                    int data;
+                    if (Int32.TryParse(line, out data))
+                    {
+                        if(WriteWord(location, data))
+                        {
+                            location++;
+                        }
+                    }
+                }
+                return true;
+            }
         }
     }
 }
