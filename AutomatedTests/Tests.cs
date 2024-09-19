@@ -14,36 +14,79 @@ namespace AutomatedTests
         }
 
         [TestMethod]
-        public void Test1()
+        public void TestWritePos()
         {
             TestSetup();
             memory.WriteWord(0, 10);
             Assert.AreEqual(10, memory.Read(0));
         }
-
+        
         [TestMethod]
-        public void Test2()
+        public void TestWriteNeg()
         {
+            TestSetup();
+            memory.WriteWord(0, -10);
+            Assert.AreEqual(-10, memory.Read(0));
         }
 
         [TestMethod]
-        public void Test3()
+        public void TestAddPos()
         {
+            TestSetup();
+            memory.WriteWord(0, 10);
+            memory.WriteWord(1, 10);
+            processor.Load(0);
+            processor.Add(1);
+            processor.Store(3);
+            Assert.AreEqual(20, memory.Read(3));
         }
 
         [TestMethod]
-        public void Test4()
+        public void TestAddNegtoPos()
         {
+            TestSetup();
+            memory.WriteWord(0, 10);
+            memory.WriteWord(1, -10);
+            processor.Load(0);
+            processor.Add(1);
+            processor.Store(3);
+            Assert.AreEqual(0, memory.Read(3));
         }
 
         [TestMethod]
-        public void Test5()
+        public void TestSubPos()
         {
+            TestSetup();
+            memory.WriteWord(0, 10);
+            memory.WriteWord(1, 5);
+            processor.Load(0);
+            processor.Subtract(1);
+            processor.Store(3);
+            Assert.AreEqual(5, memory.Read(3));
         }
 
         [TestMethod]
-        public void Test6()
+        public void TestSubNegFromPos()
         {
+            TestSetup();
+            memory.WriteWord(0, 10);
+            memory.WriteWord(1, -5);
+            processor.Load(0);
+            processor.Subtract(1);
+            processor.Store(3);
+            Assert.AreEqual(15, memory.Read(3));
+        }
+
+        [TestMethod]
+        public void TestDividePos()
+        {
+            TestSetup();
+            memory.WriteWord(0, 10);
+            memory.WriteWord(1, -5);
+            processor.Load(0);
+            processor.Subtract(1);
+            processor.Store(3);
+            Assert.AreEqual(15, memory.Read(3));
         }
 
         [TestMethod]
