@@ -8,84 +8,51 @@
         x:DataType="local:MainWindow"
         xmlns:local="clr-namespace:AvaloniaApplication1">
      
-        <Grid ShowGridLines="False">
-                <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
+        <Grid ShowGridLines="False" 
+              RowDefinitions="*,*,*,*,*,*,*,*,*,*" 
+              ColumnDefinitions="1*,1*,1*,1*,1*">
                 
-                <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                </Grid.RowDefinitions>
-                
-                <!-- <TextBox Grid.Row="3" Grid.Column="2"></TextBox> -->
-                <Grid Background="Gray" 
-                      Grid.Column="0" 
-                      Grid.Row="1" 
-                      Grid.ColumnSpan="3">
+                <!-- CodeSpace for the User -->
+                <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="7">
                         
-                        <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                        <!-- CodeSpace Header -->
+                        <Grid Background="Gray" MinHeight="30">
+                                <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock Grid.Column="0" Text="0x" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Column="1" Text="Hex" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" Text="Instruction" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
                         
-                        <TextBlock Grid.Column="0" Text="0x" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="1" Text="Hex" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Column="2" Text="Instruction" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </Grid>
+                        <ListBox Name="MyListBox" BorderThickness="1" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="7">
+                                   <ListBox.ItemTemplate>  
+                                        <DataTemplate>
+                                                <Grid ColumnDefinitions="*,*,*">
+                                                        <TextBlock TextAlignment="Center" Grid.Column="0" Text="Bruh"/>
+                                                       <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000"/>
+                                                       <TextBlock TextAlignment="Center" Grid.Column="2" Text="Stuff"/>
+                                                </Grid>
+                                        </DataTemplate>
+                                   </ListBox.ItemTemplate>   
+                                <TextBlock>Sup</TextBlock>
+                        </ListBox>
+                </StackPanel>
                 
-                <ListBox Name="MyListBox" BorderThickness="1" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="7">
-                           <ListBox.ItemTemplate>  
-                                <DataTemplate>
-                                        <Grid>
-                                               <Grid.ColumnDefinitions>
-                                                       <ColumnDefinition/>
-                                                       <ColumnDefinition/>
-                                                       <ColumnDefinition/>
-                                               </Grid.ColumnDefinitions>
-                                               <TextBlock TextAlignment="Center" Grid.Column="0" Text="{Binding Text1}"/>
-                                               <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000"/>
-                                               <TextBlock TextAlignment="Center" Grid.Column="2" Text="Stuff"/>
-                                        </Grid>
-                                </DataTemplate>
-                           </ListBox.ItemTemplate>   
-                        <TextBlock>Sup</TextBlock>
-                </ListBox>
-                
-                
+                <!-- Register Space -->
                 <Grid Grid.Column="3" 
                       Grid.Row="0" 
                       Grid.ColumnSpan="2" 
                       Grid.RowSpan="3"
                       Margin="10"
                       Background="Gainsboro"
-                      ShowGridLines="False">
-                        
-                        <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        
+                      ShowGridLines="False" 
+                      ColumnDefinitions="*,*,*" 
+                      RowDefinitions="*,*,*">
+
                         <TextBlock Grid.Column="0" Grid.Row="0" Text="Register1:"/>
                         <TextBlock Grid.Column="1" Grid.Row="0" Text="Register2:"/>
                         <TextBlock Grid.Column="2" Grid.Row="0" Text="Register3:"/>
@@ -96,6 +63,7 @@
                         
                 </Grid>
                 
+                <!-- Control Buttons -->
                 <StackPanel Grid.Column="3"
                             Grid.Row="3"
                             Grid.ColumnSpan="2"
@@ -107,6 +75,7 @@
                         <TextBlock Text="{Binding Test}"/>
                 </StackPanel>
                 
+                <!-- Output Section --> 
                 <Border Grid.Column="3"
                         Grid.Row="4" 
                         Grid.ColumnSpan="2" 
@@ -114,10 +83,10 @@
                         BorderBrush="Black"
                         BorderThickness="1"
                         CornerRadius="10"
-                        Margin="10">
+                        Margin="10"
+                        Padding="5">
                         
-                        <TextBlock Margin="5">This is a test</TextBlock>
-                        
+                        <TextBlock>This is a test</TextBlock>
                 </Border>
         </Grid>
 </Window>
