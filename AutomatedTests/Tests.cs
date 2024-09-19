@@ -118,11 +118,11 @@ namespace AutomatedTests
         {
             TestSetup();
             memory.WriteWord(0, -5);
-            memory.WriteWord(1, -3);
+            memory.WriteWord(1, -4);
             processor.Load(0);
             processor.Multiply(1);
             processor.Store(3);
-            Assert.AreEqual(15, memory.Read(3));
+            Assert.AreEqual(20, memory.Read(3));
         }
 
         [TestMethod]
