@@ -27,6 +27,10 @@ namespace UVSim
             if(location < 0 || location > 99)
             {
                 return false;
+            } 
+            else
+            {
+                currentLocation = location;
             }
             while(currentLocation < mainMemory.capacity)
             {
@@ -122,7 +126,7 @@ namespace UVSim
         /// <param name="location"></param>
         public void Write(int location)
         {
-            Console.WriteLine($"{mainMemory.Read(currentLocation)}");
+            Console.WriteLine($"{mainMemory.Read(location)}");
         }
         /// <summary>
         /// Loads a word from the location in mainMemory into accumulator

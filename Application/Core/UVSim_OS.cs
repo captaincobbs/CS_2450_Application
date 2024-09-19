@@ -22,20 +22,23 @@ namespace UVSim
         /// <summary>
         /// The text-based user interface driver.
         /// </summary>
-        public void TextUI()
+        public void BootToTextUI()
         {
             while (true)
             {
                 Console.Write("""
                     -----Main Menu-----
-                    1: Fill Memory Location
-                    2: Load File
-                    3: Execute Instructions
-                    4: View Memory
-                    5: Restart
-                    6: Exit
+                1: Fill Memory Location
+                2: Load File
+                3: Execute Instructions
+                4: View Memory
+                5: Restart
+                6: Exit
+
+
+
+
                 """);
-                Console.SetCursorPosition(0, Console.GetCursorPosition().Top + 4);
                 int condition;
                 bool success;
                 while (true)
@@ -88,7 +91,7 @@ namespace UVSim
                 if (condition <= 2)
                 {
                     Console.Clear();
-                    Console.SetCursorPosition(0, 9);
+                    Console.SetCursorPosition(0, 8);
                     switch (condition)
                     {
                         case 1:
@@ -137,24 +140,24 @@ namespace UVSim
             string path_chars = "\\/";
             char[] chars = path_chars.ToCharArray();
             Console.WriteLine("Files:");
-            foreach(string file in Directory.GetFiles("/Files"))
+            foreach(string file in Directory.GetFiles("..\\..\\..\\Files"))
             {
-                Console.WriteLine($"\t{file.Substring(file.LastIndexOfAny(chars))}");
+                Console.WriteLine($"\t{file.Substring(file.LastIndexOfAny(chars)+1)}");
             }
-            string? fileName;
+            string? filePath;
             while (true)
             {
                 Console.Write("Select a file to load from the list: ");
-                fileName = Console.ReadLine();
-                if(String.IsNullOrWhiteSpace(fileName) || !File.Exists(fileName))
+                filePath = Console.ReadLine();
+                if(!String.IsNullOrWhiteSpace(filePath))
                 {
-                    Console.WriteLine("error -- select a file from the list");
-                    continue;
+                    filePath = "..\\..\\..\\Files\\" + filePath;
+                    if(File.Exists(filePath))
+                    {
+                        break;
+                    }
                 }
-                else
-                {
-                    break;
-                }
+                Console.WriteLine("error -- select a file from the list");
             }
             int location;
             while (true)
@@ -171,7 +174,7 @@ namespace UVSim
                     break;
                 }
             }
-            return mainMemory.WriteFile(location, fileName);
+            return mainMemory.WriteFile(location, filePath);
         }
         /// <summary>
         /// Prompts a user for a memory location and begins instruction execution at that location.
@@ -203,7 +206,7 @@ namespace UVSim
             Console.WriteLine("Address:\tData");
             for(int i = 0; i < mainMemory.capacity; i++)
             {
-                string data = String.Format("{d:2}     :\t{d:4}", i, mainMemory.Read(i));
+                string data = String.Format("     {0:00}:\t{1:+0000;-0000}", i, mainMemory.Read(i));
                 Console.WriteLine(data);
             }
         }
