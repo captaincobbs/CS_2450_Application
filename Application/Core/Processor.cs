@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Collections.Generic;
-using System.IO;
 
 namespace UVSim
 {
     public class Processor
     {
-        private readonly Register accumulator = new Register();
+        private readonly Register accumulator = new();
         private readonly Memory mainMemory;
         private int currentLocation = 0;
 
@@ -15,8 +12,9 @@ namespace UVSim
         {
             this.mainMemory = mainMemory;
         }
+
         /// <summary>
-        /// Resets accumulator and begins executing from the specified location. 
+        /// Resets accumulator and begins executing from the specified location.
         /// Executes until end of memory or Halt is called.
         /// </summary>
         /// <param name="location">Location to begin execution</param>
@@ -27,7 +25,7 @@ namespace UVSim
             if(location < 0 || location > 99)
             {
                 return false;
-            } 
+            }
             else
             {
                 currentLocation = location;
@@ -38,8 +36,10 @@ namespace UVSim
             }
             return true;
         }
+
+        #region Methods
         /// <summary>
-        /// Executes the instruction at the currentLocation and updates the currentLocation 
+        /// Executes the instruction at the currentLocation and updates the currentLocation
         /// </summary>
         public void Interpret()
         {
@@ -91,8 +91,8 @@ namespace UVSim
                     Halt();
                     break;
             }
-
         }
+
         /// <summary>
         /// Reads a word from the keyboard into the specified memory location. Loops until a valid word can be stored.
         /// </summary>
@@ -103,16 +103,15 @@ namespace UVSim
             {
                 Console.Write("input: ");
                 string? in_word = Console.ReadLine();
-                int word;
-                if (!int.TryParse(in_word, out word))
+                if (!int.TryParse(in_word, out int word))
                 {
                     Console.WriteLine("error - please enter a 4 digit decimal number");
                     continue;
                 }
+
                 if (!mainMemory.WriteWord(location, word))
                 {
                     Console.WriteLine($"error - max word is {mainMemory.max_word}");
-                    continue;
                 }
                 else
                 {
@@ -120,6 +119,7 @@ namespace UVSim
                 }
             }
         }
+
         /// <summary>
         /// Writes the word at the specified location in memory to the console.
         /// </summary>
@@ -128,6 +128,7 @@ namespace UVSim
         {
             Console.WriteLine($"{mainMemory.Read(location)}");
         }
+
         /// <summary>
         /// Loads a word from the location in mainMemory into accumulator
         /// </summary>
@@ -136,6 +137,7 @@ namespace UVSim
         {
             accumulator.Data = mainMemory.Read(location);
         }
+
         /// <summary>
         /// Stores the value in the accumulator into the location in mainMemory
         /// </summary>
@@ -213,4 +215,5 @@ namespace UVSim
             currentLocation = mainMemory.capacity;
         }
     }
+    #endregion
 }
