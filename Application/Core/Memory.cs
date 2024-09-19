@@ -1,5 +1,4 @@
-﻿using SkiaSharp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -76,13 +75,9 @@ namespace UVSim
             {
                 foreach (string line in File.ReadLines(fileName))
                 {
-                    int data;
-                    if (Int32.TryParse(line, out data))
+                    if (Int32.TryParse(line, out int data) && WriteWord(location, data))
                     {
-                        if(WriteWord(location, data))
-                        {
-                            location++;
-                        }
+                        location++;
                     }
                 }
                 return true;
