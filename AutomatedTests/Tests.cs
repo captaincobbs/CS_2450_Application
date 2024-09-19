@@ -82,26 +82,47 @@ namespace AutomatedTests
         {
             TestSetup();
             memory.WriteWord(0, 10);
+            memory.WriteWord(1, 5);
+            processor.Load(0);
+            processor.Divide(1);
+            processor.Store(3);
+            Assert.AreEqual(2, memory.Read(3));
+        }
+
+        [TestMethod]
+        public void TestDivideNegFromPos()
+        {
+            TestSetup();
+            memory.WriteWord(0, 10);
             memory.WriteWord(1, -5);
             processor.Load(0);
-            processor.Subtract(1);
+            processor.Divide(1);
             processor.Store(3);
-            Assert.AreEqual(15, memory.Read(3));
+            Assert.AreEqual(-2, memory.Read(3));
         }
 
         [TestMethod]
-        public void Test7()
+        public void TestMultPos()
         {
+            TestSetup();
+            memory.WriteWord(0, 10);
+            memory.WriteWord(1, 5);
+            processor.Load(0);
+            processor.Multiply(1);
+            processor.Store(3);
+            Assert.AreEqual(50, memory.Read(3));
         }
 
         [TestMethod]
-        public void Test8()
+        public void TestMultNeg()
         {
-        }
-
-        [TestMethod]
-        public void Test9()
-        {
+            TestSetup();
+            memory.WriteWord(0, -4);
+            memory.WriteWord(1, -3);
+            processor.Load(0);
+            processor.Multiply(1);
+            processor.Store(3);
+            Assert.AreEqual(12, memory.Read(3));
         }
 
         [TestMethod]
