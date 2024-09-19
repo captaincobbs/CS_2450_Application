@@ -16,6 +16,25 @@ namespace UVSim
             this.mainMemory = mainMemory;
         }
         /// <summary>
+        /// Resets accumulator and begins executing from the specified location. 
+        /// Executes until end of memory or Halt is called.
+        /// </summary>
+        /// <param name="location">Location to begin execution</param>
+        /// <returns>Executes and returns true if beginning location was valid, otherwise does not execute and returns false</returns>
+        public bool Execute(int location)
+        {
+            accumulator.Data = 0;
+            if(location < 0 || location > 99)
+            {
+                return false;
+            }
+            while(currentLocation < mainMemory.capacity)
+            {
+                Interpret();
+            }
+            return true;
+        }
+        /// <summary>
         /// Executes the instruction at the currentLocation and updates the currentLocation 
         /// </summary>
         public void Interpret()
@@ -60,6 +79,7 @@ namespace UVSim
                     break;
                 case (int)BasicML.HALT:
                     Halt();
+                    Console.WriteLine("program HALT -- exit: success");
                     break;
                 default:
                     // Halts on invalid instruction
@@ -181,10 +201,12 @@ namespace UVSim
                     break;
             }
         }
-
+        /// <summary>
+        /// Halts execution by setting current location beyond possible locations
+        /// </summary>
         public void Halt()
         {
-            currentLocation = mainMemory.capacity + 1;
+            currentLocation = mainMemory.capacity;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace UVSim
             this.max_word = max_word;
             this.capacity = capacity;
             locations = [];
-            for (int i = 0; i <= capacity; i++)
+            for (int i = 0; i < capacity; i++)
             {
                 locations.Add(i, 0);
             }
