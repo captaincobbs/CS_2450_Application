@@ -25,7 +25,7 @@ class Program
     // Main function for console application
     public static void Main(string[] args)
     {
-        UVSim_OS virtualMachine = new UVSim_OS();
+        UVSim.OperatingSystem virtualMachine = new UVSim.OperatingSystem();
         virtualMachine.BootToTextUI();
     }
 }

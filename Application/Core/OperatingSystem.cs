@@ -8,12 +8,12 @@ namespace UVSim
     /// <summary>
     /// Interface with the machine components
     /// </summary>
-    public class UVSim_OS
+    public class OperatingSystem
     {
-        private Processor cpu;
-        private Memory mainMemory;
+        private readonly Processor cpu;
+        private readonly Memory mainMemory;
 
-        public UVSim_OS()
+        public OperatingSystem()
         {
             mainMemory = new Memory();
             cpu = new Processor(mainMemory);
@@ -78,7 +78,7 @@ namespace UVSim
                             {
                                 continue;
                             }
-                            else 
+                            else
                             {
                                 return;
                             }
@@ -103,7 +103,7 @@ namespace UVSim
                             break;
                     }
                     Console.SetCursorPosition(0, 0);
-                } 
+                }
                 else
                 {
                     Console.WriteLine("\n");
@@ -123,7 +123,6 @@ namespace UVSim
                 if (!int.TryParse(input, out location) || location < 0 || location > mainMemory.capacity - 1)
                 {
                     Console.WriteLine($"error -- input a location 0-{mainMemory.capacity - 1}");
-                    continue;
                 }
                 else
                 {
@@ -137,12 +136,12 @@ namespace UVSim
         /// </summary>
         private bool LoadFile()
         {
-            string path_chars = "\\/";
+            const string path_chars = "\\/";
             char[] chars = path_chars.ToCharArray();
             Console.WriteLine("Files:");
             foreach(string file in Directory.GetFiles("..\\..\\..\\Files"))
             {
-                Console.WriteLine($"\t{file.Substring(file.LastIndexOfAny(chars)+1)}");
+                Console.WriteLine($"\t{file[(file.LastIndexOfAny(chars) + 1)..]}");
             }
             string? filePath;
             while (true)
@@ -151,7 +150,7 @@ namespace UVSim
                 filePath = Console.ReadLine();
                 if(!String.IsNullOrWhiteSpace(filePath))
                 {
-                    filePath = "..\\..\\..\\Files\\" + filePath;
+                    filePath = $"..\\..\\..\\Files\\{filePath}";
                     if(File.Exists(filePath))
                     {
                         break;
@@ -167,7 +166,6 @@ namespace UVSim
                 if (!int.TryParse(input, out location) || location < 0 || location > mainMemory.capacity - 1)
                 {
                     Console.WriteLine($"error -- input a location 0-{mainMemory.capacity - 1}");
-                    continue;
                 }
                 else
                 {
@@ -189,7 +187,6 @@ namespace UVSim
                 if (!int.TryParse(input, out location) || location < 0 || location > mainMemory.capacity - 1)
                 {
                     Console.WriteLine($"error -- input a location 0-{mainMemory.capacity - 1}");
-                    continue;
                 }
                 else
                 {
