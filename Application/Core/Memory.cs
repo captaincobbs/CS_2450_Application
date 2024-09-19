@@ -8,11 +8,13 @@ namespace UVSim
     public class Memory
     {
         private readonly Dictionary<int, int> locations;
-        private readonly int max_word;
+        public readonly int max_word;
+        public readonly int capacity;
 
         public Memory(int capacity = 100, int max_word=9999)
         {
             this.max_word = max_word;
+            this.capacity = capacity;
             locations = [];
             for (int i = 0; i <= capacity; i++)
             {
