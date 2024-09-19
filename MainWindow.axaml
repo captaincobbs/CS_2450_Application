@@ -28,16 +28,17 @@
                                 <TextBlock Grid.Column="2" Text="Instruction" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
                         
+                        
                         <ListBox Name="MyListBox" BorderThickness="1" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="7">
-                                   <ListBox.ItemTemplate>  
+                                   <ListBox.ItemTemplate>
                                         <DataTemplate>
                                                 <Grid ColumnDefinitions="*,*,*">
                                                         <TextBlock TextAlignment="Center" Grid.Column="0" Text="Bruh"/>
-                                                       <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000"/>
-                                                       <TextBlock TextAlignment="Center" Grid.Column="2" Text="Stuff"/>
+                                                        <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000"/>
+                                                        <TextBlock TextAlignment="Center" Grid.Column="2" Text="Stuff"/>
                                                 </Grid>
                                         </DataTemplate>
-                                   </ListBox.ItemTemplate>   
+                                   </ListBox.ItemTemplate>
                                 <TextBlock>Sup</TextBlock>
                         </ListBox>
                 </StackPanel>
@@ -53,13 +54,45 @@
                       ColumnDefinitions="*,*,*" 
                       RowDefinitions="*,*,*">
 
-                        <TextBlock Grid.Column="0" Grid.Row="0" Text="Register1:"/>
-                        <TextBlock Grid.Column="1" Grid.Row="0" Text="Register2:"/>
-                        <TextBlock Grid.Column="2" Grid.Row="0" Text="Register3:"/>
-                        <TextBlock Grid.Column="0" Grid.Row="1" Text="Register4:"/>
-                        <TextBlock Grid.Column="1" Grid.Row="1" Text="Register5:"/>
-                        <TextBlock Grid.Column="2" Grid.Row="1" Text="Register6:"/>
-                        <TextBlock Grid.Column="0" Grid.Row="2" Text="Register7:"/>
+                        <StackPanel Grid.Column="0" Grid.Row="0">
+                                <TextBlock  Text="Register0:"/>
+                                <TextBlock Text="00"/>
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="1" Grid.Row="0">
+                                <TextBlock  Text="Register1:"/>
+                                <TextBlock Text="00"/>
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="2" Grid.Row="0">
+                                <TextBlock  Text="Register2:"/>
+                                <TextBlock Text="00"/>
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="0" Grid.Row="1">
+                                <TextBlock  Text="Register3:"/>
+                                <TextBlock Text="00"/>
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="1" Grid.Row="1">
+                                <TextBlock  Text="Register4:"/>
+                                <TextBlock Text="00"/>
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="2" Grid.Row="1">
+                                <TextBlock  Text="Register5:"/>
+                                <TextBlock Text="00"/>
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="0" Grid.Row="2">
+                                <TextBlock  Text="Register6:"/>
+                                <TextBlock Text="00"/>
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="1" Grid.Row="2">
+                                <TextBlock  Text="Register7:"/>
+                                <TextBlock Text="00"/>
+                        </StackPanel>
                         
                 </Grid>
                 
