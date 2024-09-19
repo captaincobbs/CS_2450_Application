@@ -5,9 +5,20 @@ namespace AutomatedTests
     [TestClass]
     public class Tests
     {
+        Processor processor;
+        Memory memory;
+        public void TestSetup()
+        {
+            memory = new();
+            processor = new(memory);
+        }
+
         [TestMethod]
         public void Test1()
         {
+            TestSetup();
+            memory.WriteWord(0, 10);
+            Assert.AreEqual(10, memory.Read(0));
         }
 
         [TestMethod]
