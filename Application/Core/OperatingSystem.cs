@@ -139,7 +139,7 @@ namespace UVSim
             const string path_chars = "\\/";
             char[] chars = path_chars.ToCharArray();
             Console.WriteLine("Files:");
-            foreach(string file in Directory.GetFiles("..\\..\\..\\Files"))
+            foreach(string file in Directory.GetFiles($"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}Files"))
             {
                 Console.WriteLine($"\t{file[(file.LastIndexOfAny(chars) + 1)..]}");
             }
