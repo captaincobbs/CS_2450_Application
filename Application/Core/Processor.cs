@@ -22,6 +22,16 @@ namespace UVSim
             return currentLocation;
         }
 
+        public void SetAccumulator(int value)
+        {
+            accumulator.Data = value;
+        }
+
+        public int GetAccumulator()
+        {
+            return accumulator.Data;
+        }
+
         /// <summary>
         /// Resets accumulator and begins executing from the specified location.
         /// Executes until end of memory or Halt is called.

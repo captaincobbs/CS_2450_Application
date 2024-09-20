@@ -129,10 +129,57 @@ namespace AutomatedTests
         public void TestBranch()
         {
             TestSetup();
-            processor.Branch(40,20);
-            Assert.IsTrue(processor.GetCurrentLocation() == 20);
+
+            int branchLocation = 25;
+            int initialLocation = 3;
             
+            processor.Load(initialLocation);
+            processor.Branch((int)BasicML.BRANCH, branchLocation);
+            Assert.AreEqual(branchLocation, processor.GetCurrentLocation());
         }
+        
+        [TestMethod]
+        public void TestBranchNeg()
+        {
+            TestSetup();
+
+            int branchLocation = 34;
+            int initialLocation = 0;
+            
+            processor.Load(initialLocation);
+            processor.SetAccumulator(-20);
+            processor.Branch((int)BasicML.BRANCHNEG, branchLocation);
+            Assert.AreEqual(branchLocation, processor.GetCurrentLocation());
+        }
+        
+        [TestMethod]
+        public void TestBranchNeg2() // Testing to see if a positive number would work on BRANCHNEG.
+        {
+            TestSetup();
+
+            int branchLocation = 34;
+            int initialLocation = 0;
+            
+            processor.Load(initialLocation);
+            processor.SetAccumulator(17);
+            processor.Branch((int)BasicML.BRANCHNEG, branchLocation);
+            Assert.AreNotEqual(branchLocation, processor.GetCurrentLocation());
+        }
+        
+        [TestMethod]
+        public void TestBranchZero()
+        {
+            TestSetup();
+
+            int branchLocation = 21;
+            int initialLocation = 0;
+            
+            processor.Load(initialLocation);
+            processor.SetAccumulator(0);
+            processor.Branch((int)BasicML.BRANCHZERO, branchLocation);
+            Assert.AreEqual(branchLocation, processor.GetCurrentLocation());
+        }
+        
 
         [TestMethod]
         public void TestHalt()
@@ -156,6 +203,7 @@ namespace AutomatedTests
         [TestMethod]
         public void Test12()
         {
+            
         }
 
         [TestMethod]
