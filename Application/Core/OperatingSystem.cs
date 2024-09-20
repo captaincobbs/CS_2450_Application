@@ -150,7 +150,7 @@ namespace UVSim
                 filePath = Console.ReadLine();
                 if(!String.IsNullOrWhiteSpace(filePath))
                 {
-                    filePath = $"..\\..\\..\\Files\\{filePath}";
+                    filePath = $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}Files{Path.DirectorySeparatorChar}{filePath}";
                     if(File.Exists(filePath))
                     {
                         break;
