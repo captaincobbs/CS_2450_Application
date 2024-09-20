@@ -41,6 +41,7 @@ namespace UVSim
         public bool Execute(int location)
         {
             accumulator.Data = 0;
+            bool last_command = false;
             if(location < 0 || location > 99)
             {
                 return false;
@@ -51,16 +52,16 @@ namespace UVSim
             }
             while(currentLocation < mainMemory.capacity)
             {
-                Interpret();
+                last_command = Interpret();
             }
-            return true;
+            return last_command;
         }
 
         #region Methods
         /// <summary>
         /// Executes the instruction at the currentLocation and updates the currentLocation
         /// </summary>
-        public void Interpret()
+        public bool Interpret()
         {
             int word = mainMemory.Read(currentLocation);
             currentLocation++;
@@ -108,8 +109,10 @@ namespace UVSim
                     // Halts on invalid instruction
                     Console.WriteLine($"error -- invalid instruction at location {location}\nprocess halted");
                     Halt();
+                    return false;
                     break;
             }
+            return true;
         }
 
         /// <summary>

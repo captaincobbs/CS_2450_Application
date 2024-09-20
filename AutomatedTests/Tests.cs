@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Serialization;
 using UVSim;
 
 namespace AutomatedTests
@@ -29,6 +30,55 @@ namespace AutomatedTests
             Assert.AreEqual(-10, memory.Read(0));
         }
 
+        [TestMethod]
+        public void TestReadPos()
+        {
+            TestSetup();
+            memory.WriteWord(1, 9999);
+            Assert.AreEqual(9999, memory.Read(1));
+        }
+
+        [TestMethod]
+        public void TestReadNeg()
+        {
+            TestSetup();
+            memory.WriteWord(1, -9999);
+            Assert.AreEqual(-9999, memory.Read(1));
+        }
+        [TestMethod]
+        public void TestLoadPos()
+        {
+            TestSetup();
+            memory.WriteWord(1, 33);
+            processor.Load(1);
+            Assert.AreEqual(33, processor.GetAccumulator());
+        }
+
+        [TestMethod]
+        public void TestLoadNeg()
+        {
+            TestSetup();
+            memory.WriteWord(1, -33);
+            processor.Load(1);
+            Assert.AreEqual(-33, processor.GetAccumulator());
+        }
+        [TestMethod]
+        public void TestStorePos()
+        {
+            TestSetup();
+            processor.SetAccumulator(1000);
+            processor.Store(1);
+            Assert.AreEqual(1000, memory.Read(1));
+        }
+
+        [TestMethod]
+        public void TestStoreNeg()
+        {
+            TestSetup();
+            processor.SetAccumulator(-1000);
+            processor.Store(1);
+            Assert.AreEqual(-1000, memory.Read(1));
+        }
         [TestMethod]
         public void TestAddPos()
         {
@@ -201,24 +251,73 @@ namespace AutomatedTests
         }
 
         [TestMethod]
-        public void Test12()
+        public void TestHaltMidProgram()
         {
-            
+            TestSetup();
+            memory.WriteWord(0, 150);
+            memory.WriteWord(1, 150);
+            memory.WriteWord(2, 50);
+            memory.WriteWord(3, 2000);
+            memory.WriteWord(4, 3001);
+            memory.WriteWord(5, 4300);
+            memory.WriteWord(6, 2102);
+            processor.Execute(3);
+            Assert.AreEqual(50, memory.Read(2));
+        }
+        [TestMethod]
+        public void TestWriteFile()
+        {
+            TestSetup();
+            using (StreamWriter mockFileFS = File.AppendText("mockFile.txt")) 
+            {
+                mockFileFS.Write("+0150\n+0150\n+0050\n+2000\n+3001\n+2102\n+4300\n");
+            }
+            memory.WriteFile(0, "mockFile.txt");
+            Assert.AreEqual(4300, memory.Read(6));
+            File.Delete("mockFile.txt");
+        }
+        [TestMethod]
+        public void TestWriteFileNegValues()
+        {
+            TestSetup();
+            using (StreamWriter mockFileFS = File.AppendText("mockFile.txt"))
+            {
+                mockFileFS.Write("-0150\n-0150\n-0050\n+2000\n+3001\n+2102\n+4300\n");
+            }
+            memory.WriteFile(0, "mockFile.txt");
+            Assert.AreEqual(-50, memory.Read(2));
+            File.Delete("mockFile.txt");
         }
 
         [TestMethod]
-        public void Test13()
+        public void TestExecuteSuccess()
         {
+            TestSetup();
+            //program adds 0 and 1 and stores in 2
+            memory.WriteWord(0, 150);
+            memory.WriteWord(1, 150);
+            memory.WriteWord(2, 50);
+            memory.WriteWord(3, 2000);
+            memory.WriteWord(4, 3001);
+            memory.WriteWord(5, 2102);
+            memory.WriteWord(6, 4300);
+            Assert.AreEqual(true, processor.Execute(3));
         }
-
         [TestMethod]
-        public void Test14()
+        public void TestExecuteBadCmd()
         {
-        }
-
-        [TestMethod]
-        public void Test15()
-        {
+            TestSetup();
+            //program adds 0 and 1 and stores in 2, with bad instruction  at location 5
+            //should fail
+            memory.WriteWord(0, 150);
+            memory.WriteWord(1, 150);
+            memory.WriteWord(2, 50);
+            memory.WriteWord(3, 2000);
+            memory.WriteWord(4, 3001);
+            memory.WriteWord(5, 7200);
+            memory.WriteWord(6, 2102);
+            memory.WriteWord(7, 4300);
+            Assert.AreEqual(false, processor.Execute(3));
         }
     }
 }
