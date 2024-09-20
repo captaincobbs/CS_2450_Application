@@ -14,6 +14,15 @@ namespace UVSim
         }
 
         /// <summary>
+        /// Used mainly for the tests, will return the location to ensure Halt has worked.
+        /// </summary>
+        /// <returns></returns>
+        public int GetCurrentLocation()
+        {
+            return currentLocation;
+        }
+
+        /// <summary>
         /// Resets accumulator and begins executing from the specified location.
         /// Executes until end of memory or Halt is called.
         /// </summary>

@@ -126,13 +126,31 @@ namespace AutomatedTests
         }
 
         [TestMethod]
-        public void Test10()
+        public void TestBranch()
         {
+            TestSetup();
+            processor.Branch(40,20);
+            Assert.IsTrue(processor.GetCurrentLocation() == 20);
+            
         }
 
         [TestMethod]
-        public void Test11()
+        public void TestHalt()
         {
+            TestSetup();
+            memory.WriteWord(0, -5);
+            memory.WriteWord(1, -4);
+            memory.WriteWord(2, 2);
+            processor.Load(0);
+            processor.Multiply(1);
+            processor.Store(4);
+            Assert.AreEqual(20, memory.Read(4));
+            processor.Load(4);
+            processor.Divide(2);
+            processor.Store(5);
+            Assert.AreEqual(10, memory.Read(5));
+            processor.Halt();
+            Assert.AreEqual(memory.capacity, processor.GetCurrentLocation());
         }
 
         [TestMethod]
