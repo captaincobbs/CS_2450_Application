@@ -2,7 +2,7 @@ Cloning the Repository
 Begin by cloning the repository. This can be done by running this command in the command line: git clone https://github.com/captaincobbs/CS_2450_Application.git
 
 Building the Application
-Build the application by navigating to the cloned directory and selecting the shortcut to the executable file (.exe) in the main directory and run it. 
+Build the application by navigating to the cloned directory and selecting the shortcut to the executable file (Application\bin\Debug\net8.0\CS_2450_Application.exe) in the main directory and run it. 
 
 Writing and Executing BasicML
 Once the application has been built, you should be able to start executing BasicML files by following the input prompts displayed in the terminal.
