@@ -18,5 +18,13 @@ namespace UVSim
             mainMemory = new Memory();
             cpu = new Processor(mainMemory);
         }
+
+        /// <summary>
+        /// Prompts a user for a memory location and begins instruction execution at that location.
+        /// </summary>
+        public void Execute()
+        {
+            cpu.Execute(0);
+        }
     }
 }

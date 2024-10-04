@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using UVSim;
 
 
@@ -42,6 +43,15 @@ public partial class MainWindow : Window
 
         // Show the dialog and wait for the result
         var result = await dialog.ShowAsync(this);
+    }
+
+    public async void OnRun_Click(object sender, RoutedEventArgs args)
+    {
+        await Task.Run(() =>
+            {
+                viewModel.virtualMachine.Execute();
+            }
+        );
     }
     #endregion
 
@@ -90,7 +100,9 @@ public partial class MainWindow : Window
             };
             LoadedMemory.Add(memory);
         }
-
+        /// <summary>
+        /// Loads all memory locations from mainMemory into the GUI.
+        /// </summary>
         public void LoadLocations()
         {
             for(int i = 0; i < virtualMachine.mainMemory.capacity; i++)
@@ -101,6 +113,13 @@ public partial class MainWindow : Window
 
                 AddItem(i, data, instruction);
             }
+        }
+        /// <summary>
+        /// Updates the corresponding memory location in mainMemory when it is changed manually in the GUI.
+        /// </summary>
+        public void UpdateLocation()
+        {
+
         }
     }
     #endregion

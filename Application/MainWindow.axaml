@@ -37,7 +37,7 @@
           <DataTemplate>
             <Grid ColumnDefinitions="*,*,*">
               <TextBlock TextAlignment="Center" Grid.Column="0" Text="{ReflectionBinding LineNumber}"/>
-              <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000" Text="{ReflectionBinding Data}"/>
+              <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000" Text="{ReflectionBinding Data, Mode=TwoWay}"/>
               <TextBlock TextAlignment="Center" Grid.Column="2" Text="{ReflectionBinding Instruction}"/>
             </Grid>
           </DataTemplate>
@@ -79,7 +79,7 @@
                 Orientation="Horizontal"
                 HorizontalAlignment="Center">
 
-      <Button>Run</Button>
+      <Button Click="OnRun_Click">Run</Button>
       <!-- <TextBlock VerticalAlignment="Center" x:Name="Message">Ready...</TextBlock> -->
       <Button>Halt</Button>
       <Button>Step</Button>
