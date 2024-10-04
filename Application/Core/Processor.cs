@@ -16,17 +16,25 @@ namespace UVSim
         /// <summary>
         /// Used mainly for the tests, will return the location to ensure Halt has worked.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Current location in memory being read</returns>
         public int GetCurrentLocation()
         {
             return currentLocation;
         }
 
+        /// <summary>
+        /// Sets the value retained in the accumulator to the argument
+        /// </summary>
+        /// <param name="value">The value to store in the accumulator</param>
         public void SetAccumulator(int value)
         {
             accumulator.Data = value;
         }
 
+        /// <summary>
+        /// Returns the current value retained in the accumulator
+        /// </summary>
+        /// <returns>The value stored in the accumulator</returns>
         public int GetAccumulator()
         {
             return accumulator.Data;
@@ -50,7 +58,7 @@ namespace UVSim
             {
                 currentLocation = location;
             }
-            while(currentLocation < mainMemory.capacity)
+            while(currentLocation < mainMemory.Capacity)
             {
                 last_command = Interpret();
             }
@@ -110,7 +118,6 @@ namespace UVSim
                     Console.WriteLine($"error -- invalid instruction at location {location}\nprocess halted");
                     Halt();
                     return false;
-                    break;
             }
             return true;
         }
@@ -133,7 +140,7 @@ namespace UVSim
 
                 if (!mainMemory.WriteWord(location, word))
                 {
-                    Console.WriteLine($"error - max word is {mainMemory.max_word}");
+                    Console.WriteLine($"error - max word is {mainMemory.MaxWord}");
                 }
                 else
                 {
@@ -234,7 +241,7 @@ namespace UVSim
         /// </summary>
         public void Halt()
         {
-            currentLocation = mainMemory.capacity;
+            currentLocation = mainMemory.Capacity;
         }
     }
     #endregion
