@@ -2,6 +2,7 @@
 {
     public enum BasicML
     {
+        NONE = 0,
         READ = 10,
         WRITE = 11,
         LOAD = 20,

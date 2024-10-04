@@ -14,7 +14,7 @@ class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        UVSim.OperatingSystem virtualMachine = new UVSim.OperatingSystem();
+        //UVSim.OperatingSystem virtualMachine = new UVSim.OperatingSystem();
 
         BuildAvaloniaApp()
         .StartWithClassicDesktopLifetime(args);
