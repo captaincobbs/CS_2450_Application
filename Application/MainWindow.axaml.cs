@@ -19,7 +19,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         ViewModelData = new();
         DataContext = ViewModelData;
-        ViewModelData.LoadLocations();
+        //ViewModelData.LoadLocations();
     }
 
     #region Events
@@ -90,45 +90,23 @@ public partial class MainWindow : Window
     #endregion
 
     #region Classes
-    public class MemoryLine : ObservableObject
+    public partial class ViewModel : ObservableObject
     {
-        private int _lineNumber;
-        private int _data;
-        private BasicML _instruction;
-        public int LineNumber
-        {
-            get { return _lineNumber; }
-            set { SetProperty(ref _lineNumber, value); }
-        }
-
-        public int Data
-        {
-            get { return _data; }
-            set { SetProperty(ref _data, value); }
-        }
-        public BasicML Instruction
-        {
-            get { return _instruction; }
-            set { SetProperty(ref _instruction, value); }
-        }
-    }
-
-    public class ViewModel : ObservableObject
-    {
-        public ObservableCollection<MemoryLine> LoadedMemory { get; }
+        public ObservableCollection<Memory.MemoryLine> LoadedMemory { get; set; }
         public OperatingSystemGUI VirtualMachine;
-        public int Register { get; set; }
+        [ObservableProperty]
+        public int _register;
 
         public ViewModel()
         {
-            LoadedMemory = [];
             VirtualMachine = new OperatingSystemGUI();
+            LoadedMemory = VirtualMachine.MainMemory.locations;
             Register = VirtualMachine.CPU.GetAccumulator();
         }
 
         public void AddItem(int lineNumber, int data, BasicML instruction)
         {
-            MemoryLine memory = new()
+            Memory.MemoryLine memory = new()
             {
                 LineNumber = lineNumber,
                 Data = data,

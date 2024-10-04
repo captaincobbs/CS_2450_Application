@@ -10,7 +10,31 @@ namespace UVSim
 {
     public class Memory
     {
-        private readonly Dictionary<int, int> locations;
+        public class MemoryLine : ObservableObject
+        {
+            private int _lineNumber;
+            private int _data;
+            private BasicML _instruction;
+            public int LineNumber
+            {
+                get { return _lineNumber; }
+                set { SetProperty(ref _lineNumber, value); }
+            }
+
+            public int Data
+            {
+                get { return _data; }
+                set { SetProperty(ref _data, value); }
+            }
+            public BasicML Instruction
+            {
+                get { return _instruction; }
+                set { SetProperty(ref _instruction, value); }
+            }
+        }
+
+
+        public readonly ObservableCollection<MemoryLine> locations;
         public readonly int MaxWord;
         public readonly int Capacity;
 
@@ -21,7 +45,13 @@ namespace UVSim
             locations = [];
             for (int i = 0; i < capacity; i++)
             {
-                locations.Add(i, 0);
+                locations.Add(new MemoryLine()
+                {
+                    LineNumber = i,
+                    Data = 0,
+                    Instruction = BasicML.NONE
+                });
+
             }
         }
 
@@ -38,7 +68,7 @@ namespace UVSim
             }
             else
             {
-                return locations[location];
+                return locations[location].Data;
             }
         }
 
@@ -56,7 +86,7 @@ namespace UVSim
             }
             else
             {
-                locations[location] = data;
+                locations[location].Data = data;
                 return true;
             }
         }
