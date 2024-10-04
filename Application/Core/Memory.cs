@@ -10,6 +10,9 @@ namespace UVSim
 {
     public class Memory
     {
+        /// <summary>
+        /// A class which represents each memory location formatted for the GUI.
+        /// </summary>
         public class MemoryLine : ObservableObject
         {
             private int _lineNumber;
@@ -122,7 +125,10 @@ namespace UVSim
                 return true;
             }
         }
-
+        /// <summary>
+        /// Saves the contents of all memory locations to a file.
+        /// </summary>
+        /// <param name="fileName">The filepath of the file to create or overwrite</param>
         public void SaveToDisk(string fileName)
         {
             using (StreamWriter sw = File.CreateText(fileName))

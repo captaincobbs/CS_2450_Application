@@ -2,6 +2,9 @@
 
 namespace UVSim
 {
+    /// <summary>
+    /// Models the processor of the virtual machine
+    /// </summary>
     public class Processor
     {
         private readonly Register accumulator = new();
@@ -111,11 +114,11 @@ namespace UVSim
                     break;
                 case (int)BasicML.HALT:
                     Halt();
-                    Console.WriteLine("program HALT -- exit: success");
+                    //Console.WriteLine("program HALT -- exit: success");
                     break;
                 default:
                     // Halts on invalid instruction
-                    Console.WriteLine($"error -- invalid instruction at location {location}\nprocess halted");
+                    //Console.WriteLine($"error -- invalid instruction at location {location}\nprocess halted");
                     Halt();
                     return false;
             }

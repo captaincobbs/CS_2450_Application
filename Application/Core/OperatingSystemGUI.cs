@@ -5,6 +5,9 @@
         public readonly Processor CPU;
         public readonly Memory MainMemory;
 
+        /// <summary>
+        /// Creates and links a CPU and MainMemory
+        /// </summary>
         public OperatingSystemGUI()
         {
             MainMemory = new Memory();
@@ -12,7 +15,7 @@
         }
 
         /// <summary>
-        /// Prompts a user for a memory location and begins instruction execution at that location.
+        /// Begins instruction execution at location 0.
         /// </summary>
         public void Execute()
         {
