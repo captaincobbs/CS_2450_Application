@@ -82,9 +82,10 @@ public partial class MainWindow : Window
     {
         await Task.Run(() =>
             {
-                viewModel.virtualMachine.Execute();
+                ViewModelData.VirtualMachine.Execute();
             }
         );
+        ViewModelData.Register = ViewModelData.VirtualMachine.CPU.GetAccumulator();
     }
     #endregion
 
@@ -116,11 +117,13 @@ public partial class MainWindow : Window
     {
         public ObservableCollection<MemoryLine> LoadedMemory { get; }
         public OperatingSystemGUI VirtualMachine;
+        public int Register { get; set; }
 
         public ViewModel()
         {
             LoadedMemory = [];
             VirtualMachine = new OperatingSystemGUI();
+            Register = VirtualMachine.CPU.GetAccumulator();
         }
 
         public void AddItem(int lineNumber, int data, BasicML instruction)

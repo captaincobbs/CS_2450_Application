@@ -45,7 +45,7 @@
           <DataTemplate>
             <Grid ColumnDefinitions="*,*,*">
               <TextBlock TextAlignment="Center" Grid.Column="0"  Text="{ReflectionBinding LineNumber}" VerticalAlignment="Center"/>
-              <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000" Text="{ReflectionBinding Data}"/>
+              <TextBox TextAlignment="Center" Grid.Column="1" Watermark="0000" Text="{ReflectionBinding Data, Mode=TwoWay}"/>
               <TextBlock TextAlignment="Center" Grid.Column="2" Text="{ReflectionBinding Instruction}" VerticalAlignment="Center"/>
               </Grid>
           </DataTemplate>
@@ -77,7 +77,7 @@
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center">
         <TextBlock Text="Register: "/>
-        <TextBlock Text="null"/>
+        <TextBlock Text="{ReflectionBinding Register}"/>
       </StackPanel>
     </Border>
 
@@ -88,7 +88,7 @@
                 Orientation="Horizontal"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom">
-      <Button>Run</Button>
+      <Button Click="OnRun_Click">Run</Button>
       <Button>Halt</Button>
       <Button>Step</Button>
     </StackPanel>

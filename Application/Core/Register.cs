@@ -6,5 +6,9 @@
     public class Register
     {
         public int Data { get; set; }
+
+        public Register() {
+            Data = 0;
+        }
     }
 }
