@@ -77,7 +77,7 @@
                   HorizontalAlignment="Center"
                   VerticalAlignment="Center">
         <TextBlock Text="Register: "/>
-        <TextBlock Text="00"/>
+        <TextBlock Text="null"/>
       </StackPanel>
     </Border>
 
