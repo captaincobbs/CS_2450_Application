@@ -1,6 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UVSim;
@@ -16,10 +17,7 @@ public partial class MainWindow : Window
         InitializeComponent();
         viewModel = new();
         DataContext = viewModel;
-        for (int i = 0; i < 10; i++)
-        {
-            viewModel.AddItem(i, $"000{i}", BasicML.READ);
-        }
+        viewModel.LoadLocations();
     }
 
     #region Events
@@ -51,7 +49,7 @@ public partial class MainWindow : Window
     public class MemoryLine : ObservableObject
     {
         private int _lineNumber;
-        private string? _hexNumber;
+        private int _data;
         private BasicML _instruction;
         public int LineNumber
         {
@@ -59,10 +57,10 @@ public partial class MainWindow : Window
             set { SetProperty(ref _lineNumber, value); }
         }
 
-        public string? HexNumber
+        public int Data
         {
-            get { return _hexNumber; }
-            set { SetProperty(ref _hexNumber, value); }
+            get { return _data; }
+            set { SetProperty(ref _data, value); }
         }
         public BasicML Instruction
         {
@@ -74,21 +72,35 @@ public partial class MainWindow : Window
     public class ViewModel : ObservableObject
     {
         public ObservableCollection<MemoryLine> LoadedMemory { get; }
+        public UVSim.GuiOs virtualMachine;
 
         public ViewModel()
         {
             LoadedMemory = new ObservableCollection<MemoryLine>();
+            virtualMachine = new UVSim.GuiOs();
         }
 
-        public void AddItem(int lineNumber, string hexNumber, BasicML instruction)
+        public void AddItem(int lineNumber, int data, BasicML instruction)
         {
             MemoryLine memory = new()
             {
                 LineNumber = lineNumber,
-                HexNumber = hexNumber,
+                Data = data,
                 Instruction = instruction
             };
             LoadedMemory.Add(memory);
+        }
+
+        public void LoadLocations()
+        {
+            for(int i = 0; i < virtualMachine.mainMemory.capacity; i++)
+            {
+                int data = virtualMachine.mainMemory.Read(i);
+                int instruct_data = data / 100;
+                BasicML instruction = Enum.IsDefined(typeof(BasicML), instruct_data) ? (BasicML) instruct_data : BasicML.NONE;
+
+                AddItem(i, data, instruction);
+            }
         }
     }
     #endregion

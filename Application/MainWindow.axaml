@@ -25,8 +25,8 @@
             <ColumnDefinition/>
           </Grid.ColumnDefinitions>
 
-          <TextBlock Grid.Column="0" Text="0x" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-          <TextBlock Grid.Column="1" Text="Hex" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+          <TextBlock Grid.Column="0" Text="Location" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+          <TextBlock Grid.Column="1" Text="Data" VerticalAlignment="Center" HorizontalAlignment="Center"/>
           <TextBlock Grid.Column="2" Text="Instruction" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
       </Border>
@@ -37,7 +37,7 @@
           <DataTemplate>
             <Grid ColumnDefinitions="*,*,*">
               <TextBlock TextAlignment="Center" Grid.Column="0" Text="{ReflectionBinding LineNumber}"/>
-              <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000" Text="{ReflectionBinding HexNumber}"/>
+              <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000" Text="{ReflectionBinding Data}"/>
               <TextBlock TextAlignment="Center" Grid.Column="2" Text="{ReflectionBinding Instruction}"/>
             </Grid>
           </DataTemplate>
