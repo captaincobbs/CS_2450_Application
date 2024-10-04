@@ -82,7 +82,7 @@ public partial class MainWindow : Window
     {
         await Task.Run(() =>
             {
-                viewModel.virtualMachine.Execute();
+                ViewModelData.VirtualMachine.Execute();
             }
         );
     }
