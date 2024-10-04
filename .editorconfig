@@ -1,10 +1,4 @@
 ﻿[*.cs]
 
-# S2589: Boolean expressions should not be gratuitous
-dotnet_diagnostic.S2589.severity = none
-
-# IDE0130: Namespace does not match folder structure
-dotnet_diagnostic.IDE0130.severity = none
-
-# IDE0290: Use primary constructor
-dotnet_diagnostic.IDE0290.severity = none
+# CS0618: Type or member is obsolete
+dotnet_diagnostic.CS0618.severity = none
