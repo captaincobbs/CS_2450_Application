@@ -72,16 +72,9 @@ namespace UVSim
                             success = true;
                             break;
                         case "6":
-                            Console.Write("Are you sure you want to exit (n to cancel): ");
-                            string? exit = Console.ReadLine();
-                            if(exit != null && (exit == "n" || exit == "N"))
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                return;
-                            }
+                            Console.Write("Press any key to exit");
+                            _ = Console.ReadKey();
+                            continue;
                         default:
                             Console.WriteLine("error -- make a selction 1-6");
                             continue;
@@ -118,11 +111,11 @@ namespace UVSim
             int location;
             while (true)
             {
-                Console.Write($"Select an address to fill (0-{mainMemory.capacity - 1}): ");
+                Console.Write($"Select an address to fill (0-{mainMemory.Capacity - 1}): ");
                 string? input = Console.ReadLine();
-                if (!int.TryParse(input, out location) || location < 0 || location > mainMemory.capacity - 1)
+                if (!int.TryParse(input, out location) || location < 0 || location > mainMemory.Capacity - 1)
                 {
-                    Console.WriteLine($"error -- input a location 0-{mainMemory.capacity - 1}");
+                    Console.WriteLine($"error -- input a location 0-{mainMemory.Capacity - 1}");
                 }
                 else
                 {
@@ -148,7 +141,7 @@ namespace UVSim
             {
                 Console.Write("Select a file to load from the list: ");
                 filePath = Console.ReadLine();
-                if(!String.IsNullOrWhiteSpace(filePath))
+                if(!string.IsNullOrWhiteSpace(filePath))
                 {
                     filePath = $"..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}..{Path.DirectorySeparatorChar}Files{Path.DirectorySeparatorChar}{filePath}";
                     if(File.Exists(filePath))
@@ -161,11 +154,11 @@ namespace UVSim
             int location;
             while (true)
             {
-                Console.Write($"Select an address to begin loading file (0-{mainMemory.capacity - 1}): ");
+                Console.Write($"Select an address to begin loading file (0-{mainMemory.Capacity - 1}): ");
                 string? input = Console.ReadLine();
-                if (!int.TryParse(input, out location) || location < 0 || location > mainMemory.capacity - 1)
+                if (!int.TryParse(input, out location) || location < 0 || location > mainMemory.Capacity - 1)
                 {
-                    Console.WriteLine($"error -- input a location 0-{mainMemory.capacity - 1}");
+                    Console.WriteLine($"error -- input a location 0-{mainMemory.Capacity - 1}");
                 }
                 else
                 {
@@ -182,11 +175,11 @@ namespace UVSim
             int location;
             while (true)
             {
-                Console.Write($"Select an address to begin execution (0-{mainMemory.capacity - 1}): ");
+                Console.Write($"Select an address to begin execution (0-{mainMemory.Capacity - 1}): ");
                 string? input = Console.ReadLine();
-                if (!int.TryParse(input, out location) || location < 0 || location > mainMemory.capacity - 1)
+                if (!int.TryParse(input, out location) || location < 0 || location > mainMemory.Capacity - 1)
                 {
-                    Console.WriteLine($"error -- input a location 0-{mainMemory.capacity - 1}");
+                    Console.WriteLine($"error -- input a location 0-{mainMemory.Capacity - 1}");
                 }
                 else
                 {
@@ -201,9 +194,9 @@ namespace UVSim
         private void ViewMemory()
         {
             Console.WriteLine("Address:\tData");
-            for(int i = 0; i < mainMemory.capacity; i++)
+            for(int i = 0; i < mainMemory.Capacity; i++)
             {
-                string data = String.Format("     {0:00}:\t{1:+0000;-0000}", i, mainMemory.Read(i));
+                string data = $"     {i:00}:\t{mainMemory.Read(i):+0000;-0000}";
                 Console.WriteLine(data);
             }
         }
@@ -214,7 +207,7 @@ namespace UVSim
         {
             Console.Clear();
             Console.Write("Restarting");
-            for(int i = 0; i < mainMemory.capacity; i++)
+            for(int i = 0; i < mainMemory.Capacity; i++)
             {
                 mainMemory.WriteWord(i, 0);
                 Console.Write(".");

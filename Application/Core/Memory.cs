@@ -7,13 +7,13 @@ namespace UVSim
     public class Memory
     {
         private readonly Dictionary<int, int> locations;
-        public readonly int max_word;
-        public readonly int capacity;
+        public readonly int MaxWord;
+        public readonly int Capacity;
 
-        public Memory(int capacity = 100, int max_word=9999)
+        public Memory(int capacity = 100, int maxWord=9999)
         {
-            this.max_word = max_word;
-            this.capacity = capacity;
+            MaxWord = maxWord;
+            Capacity = capacity;
             locations = [];
             for (int i = 0; i < capacity; i++)
             {
@@ -46,7 +46,7 @@ namespace UVSim
         /// <returns>Writes and returns true if location is valid and data is valid, Does not write and returns false otherwise</returns>
         public bool WriteWord(int location, int data)
         {
-            if (location < 0 || location >= locations.Count || Math.Abs(data) > max_word)
+            if (location < 0 || location >= locations.Count || Math.Abs(data) > MaxWord)
             {
                 return false;
             }
@@ -75,7 +75,7 @@ namespace UVSim
             {
                 foreach (string line in File.ReadLines(fileName))
                 {
-                    if (Int32.TryParse(line, out int data) && WriteWord(location, data))
+                    if (int.TryParse(line, out int data) && WriteWord(location, data))
                     {
                         location++;
                     }

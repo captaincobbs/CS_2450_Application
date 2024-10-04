@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using System;
-using UVSim;
 
 namespace CS_2450_Application;
 

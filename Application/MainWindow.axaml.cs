@@ -12,13 +12,13 @@ namespace CS_2450_Application;
 
 public partial class MainWindow : Window
 {
-    public ViewModel viewModel;
+    public ViewModel ViewModelData;
     public MainWindow()
     {
         InitializeComponent();
-        viewModel = new();
-        DataContext = viewModel;
-        viewModel.LoadLocations();
+        ViewModelData = new();
+        DataContext = ViewModelData;
+        ViewModelData.LoadLocations();
     }
 
     #region Events
@@ -57,7 +57,8 @@ public partial class MainWindow : Window
             [
                 new() { Name = "UVSim Files", Extensions = ["uvsim"] }
             ],
-            InitialFileName = Path.Combine(Directory.GetCurrentDirectory(), "memory.uvsim")
+            InitialFileName = "memory.uvsim",
+            Directory = Directory.GetCurrentDirectory()
         };
 
         // Show the dialog and wait for the result
@@ -104,12 +105,12 @@ public partial class MainWindow : Window
     public class ViewModel : ObservableObject
     {
         public ObservableCollection<MemoryLine> LoadedMemory { get; }
-        public UVSim.GuiOs virtualMachine;
+        public OperatingSystemGUI VirtualMachine;
 
         public ViewModel()
         {
             LoadedMemory = [];
-            virtualMachine = new GuiOs();
+            VirtualMachine = new OperatingSystemGUI();
         }
 
         public void AddItem(int lineNumber, int data, BasicML instruction)
@@ -125,9 +126,9 @@ public partial class MainWindow : Window
 
         public void LoadLocations()
         {
-            for (int i = 0; i < virtualMachine.mainMemory.capacity; i++)
+            for (int i = 0; i < VirtualMachine.MainMemory.Capacity; i++)
             {
-                int data = virtualMachine.mainMemory.Read(i);
+                int data = VirtualMachine.MainMemory.Read(i);
                 int instruct_data = data / 100;
                 BasicML instruction = Enum.IsDefined(typeof(BasicML), instruct_data) ? (BasicML)instruct_data : BasicML.NONE;
 
