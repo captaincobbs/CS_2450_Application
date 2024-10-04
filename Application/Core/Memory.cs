@@ -24,7 +24,12 @@ namespace UVSim
             public int Data
             {
                 get { return _data; }
-                set { SetProperty(ref _data, value); }
+                set 
+                { 
+                    SetProperty(ref _data, value);
+                    int instruct_data = _data / 100;
+                    Instruction = Enum.IsDefined(typeof(BasicML), instruct_data) ? (BasicML)instruct_data : BasicML.NONE;
+                }
             }
             public BasicML Instruction
             {

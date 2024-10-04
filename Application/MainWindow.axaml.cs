@@ -92,7 +92,8 @@ public partial class MainWindow : Window
     #region Classes
     public partial class ViewModel : ObservableObject
     {
-        public ObservableCollection<Memory.MemoryLine> LoadedMemory { get; set; }
+        [ObservableProperty]
+        public ObservableCollection<Memory.MemoryLine> _loadedMemory;
         public OperatingSystemGUI VirtualMachine;
         [ObservableProperty]
         public int _register;
@@ -100,41 +101,41 @@ public partial class MainWindow : Window
         public ViewModel()
         {
             VirtualMachine = new OperatingSystemGUI();
-            LoadedMemory = VirtualMachine.MainMemory.locations;
+            _loadedMemory = VirtualMachine.MainMemory.locations;
             Register = VirtualMachine.CPU.GetAccumulator();
         }
 
-        public void AddItem(int lineNumber, int data, BasicML instruction)
-        {
-            Memory.MemoryLine memory = new()
-            {
-                LineNumber = lineNumber,
-                Data = data,
-                Instruction = instruction
-            };
-            LoadedMemory.Add(memory);
-        }
-        /// <summary>
-        /// Loads all memory locations from mainMemory into the GUI.
-        /// </summary>
-        public void LoadLocations()
-        {
-            for (int i = 0; i < VirtualMachine.MainMemory.Capacity; i++)
-            {
-                int data = VirtualMachine.MainMemory.Read(i);
-                int instruct_data = data / 100;
-                BasicML instruction = Enum.IsDefined(typeof(BasicML), instruct_data) ? (BasicML)instruct_data : BasicML.NONE;
+        //public void AddItem(int lineNumber, int data, BasicML instruction)
+        //{
+        //    Memory.MemoryLine memory = new()
+        //    {
+        //        LineNumber = lineNumber,
+        //        Data = data,
+        //        Instruction = instruction
+        //    };
+        //    LoadedMemory.Add(memory);
+        //}
+        ///// <summary>
+        ///// Loads all memory locations from mainMemory into the GUI.
+        ///// </summary>
+        //public void LoadLocations()
+        //{
+        //    for (int i = 0; i < VirtualMachine.MainMemory.Capacity; i++)
+        //    {
+        //        int data = VirtualMachine.MainMemory.Read(i);
+        //        int instruct_data = data / 100;
+        //        BasicML instruction = Enum.IsDefined(typeof(BasicML), instruct_data) ? (BasicML)instruct_data : BasicML.NONE;
 
-                AddItem(i, data, instruction);
-            }
-        }
-        /// <summary>
-        /// Updates the corresponding memory location in mainMemory when it is changed manually in the GUI.
-        /// </summary>
-        public void UpdateLocation()
-        {
+        //        AddItem(i, data, instruction);
+        //    }
+        //}
+        ///// <summary>
+        ///// Updates the corresponding memory location in mainMemory when it is changed manually in the GUI.
+        ///// </summary>
+        //public void UpdateLocation()
+        //{
 
-        }
+        //}
     }
     #endregion
 }
