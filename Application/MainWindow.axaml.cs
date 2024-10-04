@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using UVSim;
 
 
@@ -25,23 +26,54 @@ public partial class MainWindow : Window
     {
         OpenFileDialog dialog = new()
         {
-            Title = "Load a File",
-            AllowMultiple = false // Set to true if you want to allow multiple file selection
+            Title = "Open UVSim File",
+            AllowMultiple = false, // Single file selection
+            Filters =
+            [
+                new() { Name = "UVSim Files", Extensions = ["uvsim"] },
+                new() { Name = "Text Files", Extensions = ["txt"] },
+                new() { Name = "All Files", Extensions = ["*"] }
+            ],
+            // Set the default directory to the program's current directory
+            Directory = Directory.GetCurrentDirectory()
         };
 
-        // Show the dialog and wait for the result
         var result = await dialog.ShowAsync(this);
+
+        if (result != null && result.Length > 0) {
+            string filePath = result[0];
+
+            // string contents = File.ReadAllText(filePath);
+        }
     }
 
     public async void OnSave_Click(object sender, RoutedEventArgs args)
     {
         SaveFileDialog dialog = new()
         {
-            Title = "Save File",
+            Title = "Save UVSim File",
+            DefaultExtension = ".uvsim",
+            Filters =
+            [
+                new() { Name = "UVSim Files", Extensions = ["uvsim"] }
+            ],
+            InitialFileName = Path.Combine(Directory.GetCurrentDirectory(), "memory.uvsim")
         };
 
         // Show the dialog and wait for the result
         var result = await dialog.ShowAsync(this);
+
+        if (!string.IsNullOrEmpty(result))
+        {
+            // data must be a string
+            //File.WriteAllText(result, data);
+        }
+    }
+
+    private void Window_Resized(object? sender, WindowResizedEventArgs e)
+    {
+        // This ensures that the Listbox resizes with the rest of the GUI since apparently listboxes are weird
+        ListboxCodeSpace.MaxHeight = BorderOutput.Bounds.Bottom - ListboxCodeSpace.Bounds.Top - BorderCodeSpaceFooter.Bounds.Height;
     }
     #endregion
 
@@ -76,8 +108,8 @@ public partial class MainWindow : Window
 
         public ViewModel()
         {
-            LoadedMemory = new ObservableCollection<MemoryLine>();
-            virtualMachine = new UVSim.GuiOs();
+            LoadedMemory = [];
+            virtualMachine = new GuiOs();
         }
 
         public void AddItem(int lineNumber, int data, BasicML instruction)
@@ -93,11 +125,11 @@ public partial class MainWindow : Window
 
         public void LoadLocations()
         {
-            for(int i = 0; i < virtualMachine.mainMemory.capacity; i++)
+            for (int i = 0; i < virtualMachine.mainMemory.capacity; i++)
             {
                 int data = virtualMachine.mainMemory.Read(i);
                 int instruct_data = data / 100;
-                BasicML instruction = Enum.IsDefined(typeof(BasicML), instruct_data) ? (BasicML) instruct_data : BasicML.NONE;
+                BasicML instruction = Enum.IsDefined(typeof(BasicML), instruct_data) ? (BasicML)instruct_data : BasicML.NONE;
 
                 AddItem(i, data, instruction);
             }
