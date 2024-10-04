@@ -16,16 +16,10 @@ public partial class MainWindow : Window
         InitializeComponent();
         viewModel = new();
         DataContext = viewModel;
-        viewModel.AddItem(0, "xxxx", BasicML.READ);
-        viewModel.AddItem(1, "xxxx", BasicML.READ);
-        viewModel.AddItem(2, "xxxx", BasicML.READ);
-        viewModel.AddItem(3, "xxxx", BasicML.READ);
-        viewModel.AddItem(4, "xxxx", BasicML.READ);
-        viewModel.AddItem(5, "xxxx", BasicML.READ);
-        viewModel.AddItem(6, "xxxx", BasicML.READ);
-        viewModel.AddItem(7, "xxxx", BasicML.READ);
-        viewModel.AddItem(8, "xxxx", BasicML.READ);
-        viewModel.AddItem(9, "xxxx", BasicML.READ);
+        for (int i = 0; i < 10; i++)
+        {
+            viewModel.AddItem(i, $"000{i}", BasicML.READ);
+        }
     }
 
     #region Events
@@ -79,11 +73,11 @@ public partial class MainWindow : Window
 
     public class ViewModel : ObservableObject
     {
-        public ObservableCollection<MemoryLine> LoadedMemory { get; set; }
+        public ObservableCollection<MemoryLine> LoadedMemory { get; }
 
         public ViewModel()
         {
-            LoadedMemory = new();
+            LoadedMemory = new ObservableCollection<MemoryLine>();
         }
 
         public void AddItem(int lineNumber, string hexNumber, BasicML instruction)
@@ -94,7 +88,6 @@ public partial class MainWindow : Window
                 HexNumber = hexNumber,
                 Instruction = instruction
             };
-
             LoadedMemory.Add(memory);
         }
     }

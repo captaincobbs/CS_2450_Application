@@ -32,13 +32,13 @@
       </Border>
 
       <!-- CodeSpace -->
-      <ListBox x:Name="ListboxCodeSpace" BorderThickness="1" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="7" ItemsSource="{Binding LoadedMemory}">
+      <ListBox x:Name="ListboxCodeSpace" BorderThickness="1" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Grid.RowSpan="7" ItemsSource="{ReflectionBinding LoadedMemory}">
         <ListBox.ItemTemplate>
           <DataTemplate>
             <Grid ColumnDefinitions="*,*,*">
-              <TextBlock TextAlignment="Center" Grid.Column="0" Text="{Binding LineNumber}"/>
-              <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000" Text="{Binding HexNumber}"/>
-              <TextBlock TextAlignment="Center" Grid.Column="2" Text="{Binding Instruction}"/>
+              <TextBlock TextAlignment="Center" Grid.Column="0" Text="{ReflectionBinding LineNumber}"/>
+              <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000" Text="{ReflectionBinding HexNumber}"/>
+              <TextBlock TextAlignment="Center" Grid.Column="2" Text="{ReflectionBinding Instruction}"/>
             </Grid>
           </DataTemplate>
         </ListBox.ItemTemplate>
