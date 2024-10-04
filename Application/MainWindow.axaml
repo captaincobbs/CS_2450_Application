@@ -11,7 +11,7 @@
         MinHeight="360"
         MinWidth="640">
 
-  <Grid ShowGridLines="True"
+  <Grid ShowGridLines="False"
         RowDefinitions="1*,1*,1*,1*,1*,1*,1*,1*,1*,1*"
         ColumnDefinitions="1*,1*,1*,1*,1*" >
 
@@ -47,7 +47,7 @@
               <TextBlock TextAlignment="Center" Grid.Column="0"  Text="{ReflectionBinding LineNumber}" VerticalAlignment="Center"/>
               <TextBox TextAlignment="Center" Grid.Column="1" Watermark="x0000" Text="{ReflectionBinding Data}"/>
               <TextBlock TextAlignment="Center" Grid.Column="2" Text="{ReflectionBinding Instruction}" VerticalAlignment="Center"/>
-            </Grid>
+              </Grid>
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
