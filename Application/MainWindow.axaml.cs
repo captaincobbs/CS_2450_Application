@@ -1,3 +1,4 @@
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -41,9 +42,11 @@ public partial class MainWindow : Window
 
         var result = await dialog.ShowAsync(this);
 
-        if (result != null && result.Length > 0) {
+        if (result != null && result.Length > 0)
+        {
             string filePath = result[0];
 
+            ViewModelData.VirtualMachine.MainMemory.WriteFile(0, filePath);
             // string contents = File.ReadAllText(filePath);
         }
     }
@@ -81,11 +84,41 @@ public partial class MainWindow : Window
     public async void OnRun_Click(object sender, RoutedEventArgs args)
     {
         await Task.Run(() =>
-            {
-                ViewModelData.VirtualMachine.Execute();
-            }
+        {
+            ViewModelData.VirtualMachine.Execute();
+        }
         );
         ViewModelData.Register = ViewModelData.VirtualMachine.CPU.GetAccumulator();
+    }
+
+    private void Input_KeyDown(object? sender, Avalonia.Input.KeyEventArgs e)
+    {
+        if ((((int)e.Key < 34 || (int)e.Key > 43) && ((int)e.Key == 143) && ((int)e.Key < 74 || (int)e.Key > 83)))
+        {
+            e.Handled = true;
+        }
+    }
+
+    private void NumericTextBox_PropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+    {
+        if (sender is TextBox control)
+        {
+            if (double.TryParse(control.Text, out double parsed))
+            {
+                if (parsed > 9999)
+                {
+                    control.Text = "9999";
+                }
+                else if (parsed < -9999)
+                {
+                    control.Text = "-9999";
+                }
+            }
+            else
+            {
+                control.Text = "0";
+            }
+        }
     }
     #endregion
 
@@ -94,10 +127,14 @@ public partial class MainWindow : Window
     {
         [ObservableProperty]
         public ObservableCollection<Memory.MemoryLine> _loadedMemory;
+
         public OperatingSystemGUI VirtualMachine;
+
         [ObservableProperty]
         public int _register;
 
+        [ObservableProperty]
+        public string _consoleOutput = "TEST";
         public ViewModel()
         {
             VirtualMachine = new OperatingSystemGUI();

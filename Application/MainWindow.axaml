@@ -16,7 +16,7 @@
         ColumnDefinitions="1*,1*,1*,1*,1*" >
 
     <!-- CodeSpace for the User -->
-    <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="8" Margin="10">
+    <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="9" Margin="5">
 
       <!-- CodeSpace Header -->
       <Border BorderThickness="1,1,1, 0"
@@ -45,9 +45,9 @@
           <DataTemplate>
             <Grid ColumnDefinitions="*,*,*">
               <TextBlock TextAlignment="Center" Grid.Column="0"  Text="{ReflectionBinding LineNumber}" VerticalAlignment="Center"/>
-              <TextBox TextAlignment="Center" Grid.Column="1" Watermark="0000" Text="{ReflectionBinding Data, Mode=TwoWay}"/>
+              <TextBox TextAlignment="Center" Grid.Column="1" Text="{ReflectionBinding Data, Mode=TwoWay}" PropertyChanged="NumericTextBox_PropertyChanged" MaxLength="5"/>
               <TextBlock TextAlignment="Center" Grid.Column="2" Text="{ReflectionBinding Instruction}" VerticalAlignment="Center"/>
-              </Grid>
+            </Grid>
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
@@ -83,7 +83,7 @@
 
     <!-- Control Buttons -->
     <StackPanel Grid.Column="3"
-                Grid.Row="2"
+                Grid.Row="1"
                 Grid.ColumnSpan="2"
                 Orientation="Horizontal"
                 HorizontalAlignment="Center"
@@ -95,17 +95,35 @@
 
     <!-- Output Section -->
     <Border Grid.Column="3"
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.ColumnSpan="2"
-            Grid.RowSpan="6"
+            Grid.RowSpan="5"
             BorderBrush="Black"
             BorderThickness="1"
-            CornerRadius="10"
-            Margin="10"
+            Margin="5"
             Padding="5"
             x:Name="BorderOutput"
             ScrollViewer.VerticalScrollBarVisibility="Auto">
-      <TextBox IsReadOnly="True">Output</TextBox>
+      <Grid RowDefinitions="*,10*">
+        <TextBlock FontSize="14" Grid.Row="0">Output</TextBlock>
+        <TextBox IsReadOnly="True" Grid.Row="1" Text="{ReflectionBinding ConsoleOutput}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto"/>
+      </Grid>
+    </Border>
+    <Border Grid.Column="3"
+            Grid.Row="7"
+            Grid.ColumnSpan="2"
+            Grid.RowSpan="2"
+            BorderBrush="Black"
+            BorderThickness="1"
+            Margin="5"
+            Padding="5"
+            x:Name="BorderInput"
+            ScrollViewer.VerticalScrollBarVisibility="Auto">
+      <Grid RowDefinitions="*,2*" ColumnDefinitions="4*,*">
+        <TextBlock FontSize="14" Grid.Row="0">Input</TextBlock>
+        <TextBox IsReadOnly="True" Grid.Row="1" Text="{ReflectionBinding ConsoleInput}" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Content="Send" Margin="5" x:Name="ButtonSendInput" KeyDown="Input_KeyDown"/>
+      </Grid>
     </Border>
   </Grid>
 </Window>
