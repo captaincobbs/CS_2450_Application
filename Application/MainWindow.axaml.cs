@@ -43,7 +43,7 @@ public partial class MainWindow : Window
 
         if (result != null && result.Length > 0) {
             string filePath = result[0];
-
+            ViewModelData.VirtualMachine.MainMemory.WriteFile(0, filePath);
             // string contents = File.ReadAllText(filePath);
         }
     }
