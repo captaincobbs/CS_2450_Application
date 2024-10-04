@@ -68,7 +68,7 @@ public partial class MainWindow : Window
         if (!string.IsNullOrEmpty(result))
         {
             // data must be a string
-            //File.WriteAllText(result, data);
+            ViewModelData.VirtualMachine.MainMemory.SaveToDisk(result);
         }
     }
 

@@ -122,5 +122,21 @@ namespace UVSim
                 return true;
             }
         }
+
+        public void SaveToDisk(string fileName)
+        {
+            using (StreamWriter sw = File.CreateText(fileName))
+            {
+                foreach(var location in locations)
+                {
+                    int data = location.Data;
+                    if (data > 0)
+                    {
+                        sw.Write("+");
+                    }
+                    sw.WriteLine(data);
+                }
+            }
+        }
     }
 }
