@@ -59,8 +59,8 @@
               Orientation="Horizontal"
               HorizontalAlignment="Right"
               Margin="10">
-          <Button Click="OnSave_Click" HorizontalContentAlignment="Right">Save</Button>
-          <Button Click="OnUpload_Click" HorizontalContentAlignment="Right">Upload</Button>
+          <Button Click="OnSave_Click" HorizontalContentAlignment="Right">Export</Button>
+          <Button Click="OnUpload_Click" HorizontalContentAlignment="Right">Import</Button>
         </StackPanel>
       </Border>
     </StackPanel>
