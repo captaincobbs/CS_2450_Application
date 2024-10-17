@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Windows.Controls;
 
 namespace GUI
 {
@@ -35,16 +34,5 @@ namespace GUI
 
         [JsonProperty(PropertyName = "CODESPACE")]
         public string CodeSpace { get; set; } = "#39FFFFFF";
-
-        public static Theme Default => new()
-        {
-            Background = "#4C721D",
-            Foreground = "#FFFFFF",
-            Accent = "#D3D3D3",
-            Border = "#000000",
-            Header = "#808080",
-            TextBoxBackground = "#39FFFFFF",
-            TextBoxBorder = "#3FABADB3",
-        };
     }
 }

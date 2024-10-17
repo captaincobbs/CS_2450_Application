@@ -8,7 +8,7 @@ namespace UVSim
     public partial class App : Application
     {
         private static Theme? theme;
-        public static Theme? Theme { get => theme ?? Theme.Default; private set => theme = value; }
+        public static Theme? Theme { get => theme ?? new(); private set => theme = value; }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -33,7 +33,7 @@ namespace UVSim
                     // If object is null, then just use a default theme
                     if (loadedTheme == null)
                     {
-                        Theme = Theme.Default;
+                        Theme = new();
                     }
                     // If not, then use the loaded theme
                     else
@@ -44,14 +44,14 @@ namespace UVSim
                 // If the file doesn't exist, then just use the default theme
                 else
                 {
-                    Theme = Theme.Default;
+                    Theme = new();
                     File.WriteAllText(settingsPath, JsonConvert.SerializeObject(Theme));
                 }
             }
             // If something goes wrong when loading, then just use the default theme
             catch
             {
-                Theme = Theme.Default;
+                Theme = new();
                 File.WriteAllText(settingsPath, JsonConvert.SerializeObject(Theme));
             }
         }
