@@ -34,6 +34,8 @@ namespace UVSim
             }
         }
 
+        public int Word { get; set; }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)

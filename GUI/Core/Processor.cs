@@ -10,6 +10,7 @@ namespace UVSim
         public readonly Register Accumulator = new();
         private readonly Memory mainMemory = mainMemory;
         private int currentLocation = 0;
+        public event Action<bool>? AwaitingInput;
 
         /// <summary>
         /// Used mainly for the tests, will return the location to ensure Halt has worked.
@@ -149,9 +150,11 @@ namespace UVSim
         /// Writes the word at the specified location in memory to the console.
         /// </summary>
         /// <param name="location"></param>
-        public void Write(int location)
+        public string Write(int location)
         {
-            Console.WriteLine($"{mainMemory.Read(location)}");
+            string output = $"{mainMemory.Read(location)}";
+            Console.WriteLine(output);
+            return output;
         }
 
         /// <summary>

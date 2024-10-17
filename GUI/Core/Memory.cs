@@ -62,8 +62,8 @@ namespace UVSim
             // If within bounds, assign data and instruction
             else
             {
-                Locations[location].Data = data % 100;
-                int instruct_data = Math.Abs(data / 100);
+                Locations[location].Data = data % 100; // Get last 2 digits
+                int instruct_data = Math.Abs(data / 100); // Get first 2 digits, ensure instructions are positive
                 Locations[location].Instruction = Enum.IsDefined(typeof(BasicML), instruct_data) ? (BasicML)instruct_data : BasicML.NONE;
                 return true;
             }

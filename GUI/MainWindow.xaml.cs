@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Microsoft.Win32;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Diagnostics;
 
 namespace UVSim
 {
@@ -37,6 +38,93 @@ namespace UVSim
 
         private void OnLoad_Click(object sender, RoutedEventArgs e)
         {
+            LoadFile();
+        }
+
+
+        private void OnSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFile();
+        }
+
+        // Handle Run button
+        private void OnExecute_Click(object sender, RoutedEventArgs e)
+        {
+            VirtualMachine.Execute();
+        }
+
+        private void OnHalt_Click(object sender, RoutedEventArgs e)
+        {
+            VirtualMachine.Halt();
+        }
+
+        private void OnStep_Click(object sender, RoutedEventArgs e)
+        {
+            VirtualMachine.Step();
+        }
+
+        private void OnData_TextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            // If running in a code editor, enable debug tools
+            if (Debugger.IsAttached)
+            {
+                switch (e.Key)
+                {
+                    case Key.Escape:
+                        Application.Current.Shutdown();
+                        break;
+                    case Key.F1:
+                        MainGrid.ShowGridLines = !MainGrid.ShowGridLines;
+                        break;
+                    case Key.F2:
+                        Console.WriteLine("Use this as a manual breakpoint");
+                        break;
+                    case Key.F3:
+                        VirtualMachine = new();
+                        ListboxCodeSpace.ItemsSource = VirtualMachine.MainMemory.Locations;
+
+                        // Subscribing changes to the Accumulator's data to the TextBlock
+                        VirtualMachine.CPU.Accumulator.OnPropertyChanged += UpdateAccumulator;
+                        VirtualMachine.CPU.Accumulator.Data = 0;
+                        UpdateAccumulator(VirtualMachine.CPU.Accumulator.Data);
+                        break;
+                    case Key.F4:
+                        LoadFile();
+                        break;
+                    case Key.F5:
+                        SaveFile();
+                        break;
+                    case Key.F10:
+                        VirtualMachine.Execute();
+                        break;
+                    case Key.F11:
+                        VirtualMachine.Step();
+                        break;
+                    case Key.F12:
+                        VirtualMachine.Halt();
+                        break;
+                }
+            }
+        }
+
+        #region Functions
+        private void UpdateAccumulator(int data)
+        {
+            TextAccumulator.Text = $"{data}";
+        }
+
+        private void UpdateOutput(string output)
+        {
+            TextOutput.Text = output;
+        }
+
+        private void LoadFile()
+        {
             OpenFileDialog dialog = new()
             {
                 Title = "Open UVSim File",
@@ -55,10 +143,10 @@ namespace UVSim
                 // Process the file as needed (e.g., write to memory or load data)
                 VirtualMachine.MainMemory.ReadFile(0, filePath);
             }
+
         }
 
-
-        private void OnSave_Click(object sender, RoutedEventArgs e)
+        private void SaveFile()
         {
             SaveFileDialog dialog = new()
             {
@@ -77,52 +165,6 @@ namespace UVSim
                 // data must be a string
                 VirtualMachine.MainMemory.SaveFile(dialog.FileName);
             }
-        }
-
-        // Handle Run button
-        private void OnRun_Click(object sender, RoutedEventArgs e)
-        {
-            // Run
-        }
-
-        private void OnHalt_Click(object sender, RoutedEventArgs e)
-        {
-            // Halt
-        }
-
-        private void OnStep_Click(object sender, RoutedEventArgs e)
-        {
-            // Step
-        }
-
-        private void OnData_TextInput(object sender, TextCompositionEventArgs e)
-        {
-            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
-        }
-
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            // For debugging UI
-            if (e.Key == Key.F1)
-            {
-                MainGrid.ShowGridLines = !MainGrid.ShowGridLines;
-            }
-
-            if (e.Key == Key.F2)
-            {
-                Console.WriteLine("Use this as a manual breakpoint");
-            }
-        }
-
-        #region Functions
-        private void UpdateAccumulator(int data)
-        {
-            TextAccumulator.Text = $"{data}";
-        }
-
-        private void UpdateOutput(string output)
-        {
-            TextOutput.Text = output;
         }
         #endregion
     }

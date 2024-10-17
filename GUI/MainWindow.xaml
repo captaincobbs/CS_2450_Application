@@ -95,7 +95,7 @@
         </ListBox>
 
         <!-- Buttons (Save/Upload) -->
-        <Border Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}" x:Name="BorderCodeSpaceFooter" Background="{StaticResource AccentBrush}" MinHeight="40" Margin="5,0,5,5">
+        <Border Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}" x:Name="BorderCodeSpaceFooter" Background="{StaticResource AccentBrush}" MinHeight="40" Margin="5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
                 <Button Click="OnSave_Click" HorizontalContentAlignment="Right" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}">Save</Button>
                 <Button Click="OnLoad_Click" HorizontalContentAlignment="Right" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}">Load</Button>
@@ -125,7 +125,7 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom">
-            <Button Content="Run" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="OnRun_Click"/>
+            <Button Content="Execute" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="OnExecute_Click"/>
             <Button Content="Halt" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="OnHalt_Click"/>
             <Button Content="Step" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="OnStep_Click"/>
         </StackPanel>
