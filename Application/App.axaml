@@ -25,16 +25,16 @@
                 </ControlTemplate>
             </Setter>
         </Style>
-        <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Style Selector="Button.control:pointerover /template/ ContentPresenter#PART_ContentPresenter">
             <Setter Property="Background" Value="rgb(118, 188, 67)" />
         </Style>
         
         <Style Selector="Button.Codespace_Button">
-            <Setter Property="Width" Value="50"/>
-            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="45"/>
+            <Setter Property="Height" Value="30"/>
             <Setter Property="Background" Value="white"/>
             <Setter Property="Foreground" Value="DarkGreen" />
-            <Setter Property="Margin" Value="5 3"/>
+            <Setter Property="Margin" Value="5 0"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Template">
@@ -49,8 +49,9 @@
                 </ControlTemplate>
             </Setter>
         </Style>
-        <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-            <Setter Property="Background" Value="rgb(118, 188, 67)" />
+        <Style Selector="Button.Codespace_Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="rgb(142, 140, 137)" />
+            <Setter Property="Foreground" Value="DarkGreen"/>
         </Style>
         
         <Style Selector="Border">
