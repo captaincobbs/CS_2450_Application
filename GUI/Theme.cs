@@ -3,6 +3,9 @@ using Newtonsoft.Json.Serialization;
 
 namespace GUI
 {
+    /// <summary>
+    /// uses JSON to help set the theme and color of the brushes used to stylize the UI
+    /// </summary>
     public class Theme
     {
         [JsonProperty(PropertyName = "BACKGROUND")]
