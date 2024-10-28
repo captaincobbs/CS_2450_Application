@@ -3,7 +3,7 @@
 namespace UVSim
 {
     /// <summary>
-    /// where the data for the table in the UI is stored
+    /// Class for storing and binding memory data to the table UI
     /// </summary>
     public class MemoryLine : INotifyPropertyChanged
     {

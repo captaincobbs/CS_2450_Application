@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Collections.ObjectModel;
-using Newtonsoft.Json.Linq;
 
 namespace UVSim
 {

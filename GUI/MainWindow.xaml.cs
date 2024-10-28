@@ -8,6 +8,9 @@ using System.Diagnostics;
 
 namespace UVSim
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window
     {
         public OperatingSystemGui VirtualMachine { get; set; }
@@ -40,7 +43,105 @@ namespace UVSim
             Instructions = new ObservableCollection<BasicML>(Enum.GetValues(typeof(BasicML)).Cast<BasicML>());
         }
 
-        #region Event
+        #region Functions
+        /// <summary>
+        /// Updates the TextAccumulator with the most recent value from the Accumulator
+        /// </summary>
+        /// <param name="data">Input value to set TextAccumulator to</param>
+        private void UpdateAccumulator(int data)
+        {
+            TextAccumulator.Text = $"{data}";
+        }
+
+        /// <summary>
+        /// Updates TextOutput with new texts from the Processor
+        /// </summary>
+        /// <param name="output">String to append to output console</param>
+        private void UpdateOutput(string output)
+        {
+            if (string.IsNullOrEmpty(TextOutput.Text))
+            {
+                TextOutput.Text = output;
+            }
+            else
+            {
+                TextOutput.Text += $"\n{output}";
+            }
+        }
+
+        /// <summary>
+        /// Opens the load file dialog for the user to select a file to load, does not check for errors
+        /// </summary>
+        private void LoadFile()
+        {
+            OpenFileDialog dialog = new()
+            {
+                Title = "Open UVSim File",
+                Multiselect = false, // Single file selection
+                Filter = "UVSim Files (*.uvsim)|*.uvsim|Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
+                InitialDirectory = Directory.GetCurrentDirectory() // Set the initial directory to the program's current directory
+            };
+
+            // Show the dialog and get the result
+            bool? result = dialog.ShowDialog();
+
+            // Check if a file was selected
+            if (result == true && !string.IsNullOrEmpty(dialog.FileName))
+            {
+                string filePath = dialog.FileName;
+                // Process the file as needed (e.g., write to memory or load data)
+                VirtualMachine.MainMemory.ReadFile(0, filePath);
+            }
+
+        }
+
+        /// <summary>
+        /// Opens the save file dialog for the user to define where they want the current loaded memory lines saved
+        /// </summary>
+        private void SaveFile()
+        {
+            SaveFileDialog dialog = new()
+            {
+                Title = "Save UVSim File",
+                DefaultExt = ".uvsim",
+                Filter = "UVSim Files (*.uvsim)|*.uvsim|Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
+                InitialDirectory = Directory.GetCurrentDirectory(),
+                FileName = "memory.uvsim",
+            };
+
+            // Show the dialog and wait for the result
+            bool? result = dialog.ShowDialog();
+
+            if (result == true && !string.IsNullOrEmpty(dialog.FileName))
+            {
+                // data must be a string
+                VirtualMachine.MainMemory.SaveFile(dialog.FileName);
+            }
+        }
+
+        /// <summary>
+        /// Enables the text input functionality, locks editing other UI until input is provided.
+        /// </summary>
+        private void PrepareForInput()
+        {
+
+        }
+
+        /// <summary>
+        /// Opens a new modal ThemeWindow and disables the MainWindow until it is closed
+        /// </summary>
+        private void OpenThemeWindow()
+        {
+            ThemeWindow themeWindow = new()
+            {
+                Owner = this,
+                ShowInTaskbar = false,
+            };
+            themeWindow.ShowDialog();
+        }
+        #endregion
+
+        #region Events
         ///<summary>
         /// allows user to import/load a file into the codespace.
         /// </summary>
@@ -137,77 +238,6 @@ namespace UVSim
                         break;
                 }
             }
-        }
-        #endregion
-
-        #region Functions
-        private void UpdateAccumulator(int data)
-        {
-            TextAccumulator.Text = $"{data}";
-        }
-
-        private void UpdateOutput(string output)
-        {
-            TextOutput.Text = output;
-        }
-
-        private void LoadFile()
-        {
-            OpenFileDialog dialog = new()
-            {
-                Title = "Open UVSim File",
-                Multiselect = false, // Single file selection
-                Filter = "UVSim Files (*.uvsim)|*.uvsim|Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
-                InitialDirectory = Directory.GetCurrentDirectory() // Set the initial directory to the program's current directory
-            };
-
-            // Show the dialog and get the result
-            bool? result = dialog.ShowDialog();
-
-            // Check if a file was selected
-            if (result == true && !string.IsNullOrEmpty(dialog.FileName))
-            {
-                string filePath = dialog.FileName;
-                // Process the file as needed (e.g., write to memory or load data)
-                VirtualMachine.MainMemory.ReadFile(0, filePath);
-            }
-
-        }
-
-        private void SaveFile()
-        {
-            SaveFileDialog dialog = new()
-            {
-                Title = "Save UVSim File",
-                DefaultExt = ".uvsim",
-                Filter = "UVSim Files (*.uvsim)|*.uvsim|Text Files (*.txt)|*.txt|All Files (*.*)|*.*",
-                InitialDirectory = Directory.GetCurrentDirectory(),
-                FileName = "memory.uvsim",
-            };
-
-            // Show the dialog and wait for the result
-            bool? result = dialog.ShowDialog();
-
-            if (result == true && !string.IsNullOrEmpty(dialog.FileName))
-            {
-                // data must be a string
-                VirtualMachine.MainMemory.SaveFile(dialog.FileName);
-            }
-        }
-
-        private void PrepareForInput()
-        {
-
-        }
-
-        private void OpenThemeWindow()
-        {
-            ThemeWindow themeWindow = new()
-            {
-                Owner = this,
-                ShowInTaskbar = true,
-            };
-            themeWindow.ShowDialog();
         }
         #endregion
     }

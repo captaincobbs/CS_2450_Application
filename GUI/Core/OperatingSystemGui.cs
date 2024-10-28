@@ -21,15 +21,5 @@
         {
             CPU.Execute(0);
         }
-
-        public void Step()
-        {
-            // DOESNT DO ANYTHING YET
-        }
-
-        public void Halt()
-        {
-            // DOESNT DO ANYTHING YET
-        }
     }
 }

@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace UVSim
 {
+    // If you add non-hexcolor string properties to this class, the program will not launch. I will not fix this.
     /// <summary>
     /// Stores hexcolor data for user theme
     /// </summary>
@@ -123,6 +124,10 @@ namespace UVSim
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        /// <summary>
+        /// Iterates through each property, determining whether they are valid RGB or RGBA hexcolors of either full or half length
+        /// </summary>
+        /// <returns>Whether all properties are valid hexcolors or not</returns>
         public bool ValidateHexcolors()
         {
             var properties = typeof(Theme).GetProperties();

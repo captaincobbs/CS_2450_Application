@@ -9,6 +9,9 @@ namespace UVSim
     /// </summary>
     public class ColorStringConverter : IValueConverter
     {
+        /// <summary>
+        /// Converts an input hexcolor <see cref="string"/> to <see cref="Color"/> 
+        /// </summary>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string colorString)
@@ -25,6 +28,9 @@ namespace UVSim
             return Colors.White;
         }
 
+        /// <summary>
+        /// Converts an input <see cref="Color"/> to hexcolor <see cref="string"/>
+        /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is Color color)
@@ -34,6 +40,9 @@ namespace UVSim
             return "#FFFFFF";
         }
 
+        /// <summary>
+        /// Converts an input <see cref="Color"/> to rgba hexcolor <see cref="string"/> 
+        /// </summary>
         private string ColorToHex(Color color)
         {
             // Convert Color to Hex string
