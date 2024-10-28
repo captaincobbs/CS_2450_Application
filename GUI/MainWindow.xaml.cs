@@ -36,18 +36,25 @@ namespace UVSim
             Instructions = new ObservableCollection<BasicML>(Enum.GetValues(typeof(BasicML)).Cast<BasicML>());
         }
 
+    ///<summary>
+    /// allows user to import/load a file into the codespace.
+    /// </summary>
         private void OnLoad_Click(object sender, RoutedEventArgs e)
         {
             LoadFile();
         }
 
-
+    /// <summary>
+    /// Allows user to save their code into a file.
+    /// </summary>
         private void OnSave_Click(object sender, RoutedEventArgs e)
         {
             SaveFile();
         }
 
-        // Handle Run button
+    /// <summary>
+    /// Lets the user execute their code and displays it onto the output section.
+    /// </summary>
         private void OnExecute_Click(object sender, RoutedEventArgs e)
         {
             VirtualMachine.Execute();
