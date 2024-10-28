@@ -2,6 +2,9 @@
 
 namespace UVSim
 {
+    /// <summary>
+    /// where the data for the table in the UI is stored
+    /// </summary>
     public class MemoryLine : INotifyPropertyChanged
     {
         private int _lineNumber;
