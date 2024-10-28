@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         xmlns:local="clr-namespace:UVSim" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Title="CS_2450_Application"
+        Title="UVSim Editor"
         DataContext="{Binding RelativeSource={RelativeSource Self}}"
         MinHeight="360"
         MinWidth="640"
@@ -95,11 +95,17 @@
         </ListBox>
 
         <!-- Buttons (Save/Upload) -->
-        <Border Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}" x:Name="BorderCodeSpaceFooter" Background="{StaticResource AccentBrush}" MinHeight="40" Margin="5">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-                <Button Click="OnSave_Click" HorizontalContentAlignment="Right" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}">Save</Button>
-                <Button Click="OnLoad_Click" HorizontalContentAlignment="Right" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}">Load</Button>
-            </StackPanel>
+        <Border Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}" x:Name="BorderCodeSpaceFooter" Background="{StaticResource HeaderBrush}" MinHeight="40" Margin="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Click="OnSave_Click" Grid.Column="0" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Save</Button>
+                <Button Click="OnLoad_Click" Grid.Column="1" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Load</Button>
+                <Button Click="OnTheme_Click" Grid.Column="2" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Theme</Button>
+            </Grid>
         </Border>
 
         <!-- Register Space -->
@@ -119,15 +125,14 @@
         </Border>
 
         <!-- Control Buttons -->
+        <Button Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Content="Execute" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="OnExecute_Click" Margin="10"/>
         <StackPanel Grid.Column="3"
                     Grid.Row="1"
                     Grid.ColumnSpan="2"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom">
-            <Button Content="Execute" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="OnExecute_Click"/>
-            <Button Content="Halt" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="OnHalt_Click"/>
-            <Button Content="Step" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="OnStep_Click"/>
+            
         </StackPanel>
 
         <!-- Output Section -->

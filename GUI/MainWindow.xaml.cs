@@ -12,13 +12,17 @@ namespace UVSim
     {
         public OperatingSystemGui VirtualMachine { get; set; }
         private string _consoleOutput = string.Empty;
-        public string ConsoleOutput { get => _consoleOutput; set
+        public string ConsoleOutput
+        {
+            get => _consoleOutput; set
             {
                 _consoleOutput = value;
                 UpdateOutput(_consoleOutput);
             }
         }
         public ObservableCollection<BasicML> Instructions { get; set; }
+
+        public bool IsUILocked { get; set; } = false;
 
         public MainWindow()
         {
@@ -36,57 +40,61 @@ namespace UVSim
             Instructions = new ObservableCollection<BasicML>(Enum.GetValues(typeof(BasicML)).Cast<BasicML>());
         }
 
-    ///<summary>
-    /// allows user to import/load a file into the codespace.
-    /// </summary>
+        #region Event
+        ///<summary>
+        /// allows user to import/load a file into the codespace.
+        /// </summary>
         private void OnLoad_Click(object sender, RoutedEventArgs e)
         {
-            LoadFile();
+            if (!IsUILocked)
+            {
+                LoadFile();
+            }
         }
 
-    /// <summary>
-    /// Allows user to save their code into a file.
-    /// </summary>
+        /// <summary>
+        /// Allows user to save their code into a file.
+        /// </summary>
         private void OnSave_Click(object sender, RoutedEventArgs e)
         {
-            SaveFile();
+            if (!IsUILocked)
+            {
+                SaveFile();
+            }
         }
 
-    /// <summary>
-    /// Lets the user execute their code and displays it onto the output section.
-    /// </summary>
+        /// <summary>
+        /// Allows user to edit their current theme
+        /// </summary>
+        private void OnTheme_Click(object sender, RoutedEventArgs e)
+        {
+            OpenThemeWindow();
+        }
+
+        /// <summary>
+        /// Lets the user execute their code and displays it onto the output section.
+        /// </summary>
         private void OnExecute_Click(object sender, RoutedEventArgs e)
         {
-            VirtualMachine.Execute();
+            if (!IsUILocked)
+            {
+                IsUILocked = true;
+                VirtualMachine.Execute();
+                IsUILocked = false;
+            }
         }
 
-    /// <summary>
-    /// Allows user to halt the program while it is running
-    /// </summary>
-        private void OnHalt_Click(object sender, RoutedEventArgs e)
-        {
-            VirtualMachine.Halt();
-        }
-
-    /// <summary>
-    /// Allows user to step into code to handle manual debugging and testing
-    /// </summary>
-        private void OnStep_Click(object sender, RoutedEventArgs e)
-        {
-            VirtualMachine.Step();
-        }
-
-    /// <summary>
-    /// Handles exception of user input
-    /// </summary>
+        /// <summary>
+        /// Handles exception of user input
+        /// </summary>
         private void OnData_TextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
         }
 
-    /// <summary>
-    /// Allows user to handle debugging in a code editior
-    /// </summary>
+        /// <summary>
+        /// Allows user to enable various debugging functions while running the program with a Debugger
+        /// </summary>
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             // If running in a code editor, enable debug tools
@@ -130,6 +138,7 @@ namespace UVSim
                 }
             }
         }
+        #endregion
 
         #region Functions
         private void UpdateAccumulator(int data)
@@ -184,6 +193,21 @@ namespace UVSim
                 // data must be a string
                 VirtualMachine.MainMemory.SaveFile(dialog.FileName);
             }
+        }
+
+        private void PrepareForInput()
+        {
+
+        }
+
+        private void OpenThemeWindow()
+        {
+            ThemeWindow themeWindow = new()
+            {
+                Owner = this,
+                ShowInTaskbar = true,
+            };
+            themeWindow.ShowDialog();
         }
         #endregion
     }
