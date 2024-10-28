@@ -60,21 +60,33 @@ namespace UVSim
             VirtualMachine.Execute();
         }
 
+    /// <summary>
+    /// Allows user to halt the program while it is running
+    /// </summary>
         private void OnHalt_Click(object sender, RoutedEventArgs e)
         {
             VirtualMachine.Halt();
         }
 
+    /// <summary>
+    /// Allows user to step into code to handle manual debugging and testing
+    /// </summary>
         private void OnStep_Click(object sender, RoutedEventArgs e)
         {
             VirtualMachine.Step();
         }
 
+    /// <summary>
+    /// Handles exception of user input
+    /// </summary>
         private void OnData_TextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
         }
 
+    /// <summary>
+    /// Allows user to handle debugging in a code editior
+    /// </summary>
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             // If running in a code editor, enable debug tools
