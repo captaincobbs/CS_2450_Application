@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.ComponentModel;
+using System.Text.RegularExpressions;
 
 namespace UVSim
 {
@@ -9,6 +10,9 @@ namespace UVSim
     /// </summary>
     public class Theme
     {
+        private static readonly Regex rgbPattern = new(@"^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$", RegexOptions.Compiled);
+        private static readonly Regex rgbaPattern = new(@"^#([0-9A-Fa-f]{4}|[0-9A-Fa-f]{8})$", RegexOptions.Compiled);
+
         private string background = "#4C721D";
         [JsonProperty(PropertyName = "BACKGROUND")]
         public string Background
@@ -117,6 +121,47 @@ namespace UVSim
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public bool ValidateHexcolors()
+        {
+            var properties = typeof(Theme).GetProperties();
+            foreach (var property in properties)
+            {
+                var value = property.GetValue(this)?.ToString();
+
+                if (string.IsNullOrEmpty(value))
+                {
+                    Console.WriteLine($"Invalid property value: {property.Name} is null or empty");
+                    return false;
+                }
+
+                if (value.Length == 5 || value.Length == 9) // 6 or 8 character RGBA
+                {
+                    if (!rgbaPattern.IsMatch(value))
+                    {
+                        Console.WriteLine($"Invalid RGB color: {property.Name} - '{value}'");
+                        return false;
+                    }
+                }
+
+                else if (value.Length == 4 || value.Length == 7) // 3 or 4 character RGB
+                {
+                    if (!rgbPattern.IsMatch(value))
+                    {
+                        Console.WriteLine($"Invalid RGB color: {property.Name} - '{value}'");
+                        return false;
+                    }
+                }
+
+                else
+                {
+                    Console.WriteLine($"Invalid color: {property.Name} - '{value}'");
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

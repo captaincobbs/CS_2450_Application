@@ -40,20 +40,30 @@ namespace UVSim
                     string json = File.ReadAllText(SettingsPath);
                     Theme? loadedTheme = JsonConvert.DeserializeObject<Theme>(json);
 
-                    // If object is null, then just use a default theme
-                    if (loadedTheme == null)
+                    if (loadedTheme?.ValidateHexcolors() ?? false)
                     {
-                        Theme = new();
+                        // If object is null, then just use a default theme
+                        if (loadedTheme == null)
+                        {
+                            Theme = new();
+                        }
+                        // If not, then use the loaded theme
+                        else
+                        {
+                            Theme = loadedTheme;
+                        }
                     }
-                    // If not, then use the loaded theme
                     else
                     {
-                        Theme = loadedTheme;
+                        Console.WriteLine("Invalid theme, using default");
+                        Theme = new();
+                        SaveColorScheme();
                     }
                 }
                 // If the file doesn't exist, then just use the default theme
                 else
                 {
+                    Console.WriteLine("No theme file found, using default");
                     Theme = new();
                     SaveColorScheme();
                 }
@@ -61,6 +71,7 @@ namespace UVSim
             // If something goes wrong when loading, then just use the default theme
             catch
             {
+                Console.WriteLine("Something unexpected prevented the theme from being loaded, using default");
                 Theme = new();
                 SaveColorScheme();
             }
