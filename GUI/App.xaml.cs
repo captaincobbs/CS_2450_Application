@@ -16,6 +16,10 @@ namespace UVSim
             LoadColorScheme();
         }
 
+        /// <summary>
+        /// Loads the colors from the Theme.cs to help paint the styles for the GUI
+        /// </summary>
+        /// <returns></returns>
         private static void LoadColorScheme()
         {
             // Get absolute location of the file
