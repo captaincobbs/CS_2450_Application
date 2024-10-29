@@ -58,7 +58,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="Location" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}"/>
+                <TextBlock Grid.Column="0" Text="Locations (0)" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}" Name="TextLocations"/>
                 <TextBlock Grid.Column="1" Text="Instruction" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}"/>
                 <TextBlock Grid.Column="2" Text="Data" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}"/>
             </Grid>
@@ -81,7 +81,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0" TextAlignment="Center" Text="{Binding LineNumber}" VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}" Margin="5,0,5,0"/>
+                        <TextBlock Grid.Column="0" TextAlignment="Center" Text="{Binding LineNumber, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}" Margin="5,0,5,0"/>
                         <ComboBox Grid.Column="1" ItemsSource="{Binding DataContext.Instructions, RelativeSource={RelativeSource AncestorType=Window}}" SelectedValue="{Binding Instruction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="."/>
                         <xctk:IntegerUpDown Grid.Column="2" TextAlignment="Center" Value="{Binding Data, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="5" Foreground="{StaticResource ForegroundBrush}" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}" PreviewTextInput="OnData_TextInput" Maximum="99" Minimum="-99" Margin="5,0,5,0"/>
                     </Grid>
@@ -101,10 +101,16 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Click="OnSave_Click" Grid.Column="0" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Save</Button>
-                <Button Click="OnLoad_Click" Grid.Column="1" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Load</Button>
-                <Button Click="OnTheme_Click" Grid.Column="2" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Theme</Button>
+                <Button Click="OnAdd_Click" Grid.Column="0" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Add</Button>
+                <Button Click="OnDelete_Click" Grid.Column="1" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Delete</Button>
+                <Button Click="OnReset_Click" Grid.Column="2" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Reset</Button>
+                <Button Click="OnSave_Click" Grid.Column="3" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Save</Button>
+                <Button Click="OnLoad_Click" Grid.Column="4" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Load</Button>
+                <Button Click="OnTheme_Click" Grid.Column="5" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Theme</Button>
             </Grid>
         </Border>
 
@@ -121,6 +127,8 @@
                         VerticalAlignment="Center">
                 <TextBlock Text="Accumulator: " Foreground="{DynamicResource ForegroundBrush}"/>
                 <TextBlock Name="TextAccumulator" Text="" Foreground="{DynamicResource ForegroundBrush}"/>
+                <TextBlock Text="Max Memory: " Foreground="{DynamicResource ForegroundBrush}" Margin="20,0,0,0"/>
+                <TextBlock Name="TextMaxMemory" Text="" Foreground="{DynamicResource ForegroundBrush}"/>
             </StackPanel>
         </Border>
 
@@ -188,7 +196,7 @@
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
-                <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Content="Send" Margin="5" x:Name="ButtonSendInput" Foreground="{DynamicResource ForegroundBrush}"/>
+                <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Content="Send" Margin="5" x:Name="ButtonSendInput" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{DynamicResource ForegroundBrush}"/>
             </Grid>
         </Border>
     </Grid>

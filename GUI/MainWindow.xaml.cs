@@ -24,6 +24,15 @@ namespace UVSim
             }
         }
         public ObservableCollection<BasicML> Instructions { get; set; }
+        private int maxLines = 0;
+        public int MaxLines
+        {
+            get => maxLines; set
+            {
+                maxLines = value;
+                UpdateAccumulator(VirtualMachine.CPU.Accumulator.Data);
+            }
+        }
 
         public bool IsUILocked { get; set; } = false;
 
@@ -32,13 +41,25 @@ namespace UVSim
             InitializeComponent();
             VirtualMachine = new();
             DataContext = this;
+
+            for (int i = 0; i < VirtualMachine.MainMemory.Capacity; i++)
+            {
+                VirtualMachine.MainMemory.Locations.Add(new MemoryLine()
+                {
+                    LineNumber = i,
+                    Data = 0,
+                    Instruction = BasicML.NONE
+                });
+            }
+
             ListboxCodeSpace.ItemsSource = VirtualMachine.MainMemory.Locations;
 
             // Subscribing changes to the Accumulator's data to the TextBlock
             VirtualMachine.CPU.Accumulator.OnPropertyChanged += UpdateAccumulator;
             VirtualMachine.CPU.Accumulator.Data = 0;
+            MaxLines = VirtualMachine.MainMemory.Capacity;
             UpdateAccumulator(VirtualMachine.CPU.Accumulator.Data);
-
+            TextLocations.Text = $"Locations ({VirtualMachine.MainMemory.Locations.Count})";
             // Populate Enum list
             Instructions = new ObservableCollection<BasicML>(Enum.GetValues(typeof(BasicML)).Cast<BasicML>());
         }
@@ -51,6 +72,7 @@ namespace UVSim
         private void UpdateAccumulator(int data)
         {
             TextAccumulator.Text = $"{data}";
+            TextMaxMemory.Text = $"{MaxLines}";
         }
 
         /// <summary>
@@ -92,7 +114,7 @@ namespace UVSim
                 // Process the file as needed (e.g., write to memory or load data)
                 VirtualMachine.MainMemory.ReadFile(0, filePath);
             }
-
+            TextLocations.Text = $"Locations ({VirtualMachine.MainMemory.Locations.Count})";
         }
 
         /// <summary>
@@ -117,6 +139,7 @@ namespace UVSim
                 // data must be a string
                 VirtualMachine.MainMemory.SaveFile(dialog.FileName);
             }
+            TextLocations.Text = $"Locations ({VirtualMachine.MainMemory.Locations.Count})";
         }
 
         /// <summary>
@@ -138,6 +161,68 @@ namespace UVSim
                 ShowInTaskbar = false,
             };
             themeWindow.ShowDialog();
+        }
+
+        /// <summary>
+        /// Adds a line to the bottom of the codespace, then scrolls to the bottom
+        /// </summary>
+        private void AddLine()
+        {
+            // If the Virtual Machine has room for more lines
+            if (VirtualMachine.MainMemory.Locations.Count <= VirtualMachine.MainMemory.Capacity - 1)
+            {
+                // Get the last index (If you are adding the 100th item, it will have an index of 99, so nothing needs to be done here)
+                int lastIndex = VirtualMachine.MainMemory.Locations.Count;
+
+                // Then create the empty line and add it
+                VirtualMachine.MainMemory.Locations.Add(new() { Data = 0, LineNumber = lastIndex, Instruction = BasicML.NONE, Word = 0 });
+                // Recount the line numbers
+                RecountLineNumbers();
+                // Then scroll to the last item
+                ListboxCodeSpace.ScrollIntoView(ListboxCodeSpace.Items[^1]);
+            }
+        }
+
+        /// <summary>
+        /// Deletes the line currently selected in the CodeSpace, if no item is selected, nothing happens, doesn't check for errors
+        /// </summary>
+        private void DeleteLine(int location = -1)
+        {
+            if (location == -1)
+            {
+                location = ListboxCodeSpace.SelectedIndex;
+            }
+
+            // Is an item in the CodeSpace selected?
+            if (location != -1)
+            {
+                // If so, delete the item at the selected index
+                VirtualMachine.MainMemory.Locations.RemoveAt(location);
+                // Then recount all line numbers
+                RecountLineNumbers();
+            }
+        }
+
+        private void ResetMemory()
+        {
+            VirtualMachine.MainMemory.Locations.Clear();
+            for (int i = 0; i < VirtualMachine.MainMemory.Capacity; i++)
+            {
+                VirtualMachine.MainMemory.Locations.Add(new() { Data = 0, LineNumber = i, Instruction = BasicML.NONE, Word = 0 });
+            }
+            RecountLineNumbers(); // just in case
+        }
+
+        /// <summary>
+        /// Relabels all memory lines with their appropriate line, used after adding or removing a line
+        /// </summary>
+        private void RecountLineNumbers()
+        {
+            for (int i = 0; i < VirtualMachine.MainMemory.Locations.Count; i++)
+            {
+                VirtualMachine.MainMemory.Locations[i].LineNumber = i;
+            }
+            TextLocations.Text = $"Locations ({VirtualMachine.MainMemory.Locations.Count})";
         }
         #endregion
 
@@ -177,11 +262,44 @@ namespace UVSim
         /// </summary>
         private void OnExecute_Click(object sender, RoutedEventArgs e)
         {
-            if (!IsUILocked)
+            if (!IsUILocked && ListboxCodeSpace.Items.Count > 0)
             {
                 IsUILocked = true;
                 VirtualMachine.Execute();
                 IsUILocked = false;
+            }
+        }
+
+        /// <summary>
+        /// Adds a new line, if able to, to the table
+        /// </summary>
+        private void OnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsUILocked)
+            {
+                AddLine();
+            }
+        }
+
+        /// <summary>
+        /// Removes the currently selected line, if able to, from the table
+        /// </summary>
+        private void OnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsUILocked)
+            {
+                DeleteLine();
+            }
+        }
+
+        /// <summary>
+        /// Resets the table to its default state
+        /// </summary>
+        private void OnReset_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsUILocked)
+            {
+                ResetMemory();
             }
         }
 
@@ -227,14 +345,17 @@ namespace UVSim
                     case Key.F5:
                         SaveFile();
                         break;
-                    case Key.F10:
-                        VirtualMachine.Execute();
+                    case Key.F6:
+                        OpenThemeWindow();
+                        break;
+                    case Key.F7:
+                        AddLine();
+                        break;
+                    case Key.F8:
+                        DeleteLine(ListboxCodeSpace.Items.Count - 1);
                         break;
                     case Key.F11:
-                        VirtualMachine.Step();
-                        break;
-                    case Key.F12:
-                        VirtualMachine.Halt();
+                        VirtualMachine.Execute();
                         break;
                 }
             }

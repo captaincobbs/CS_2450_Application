@@ -6,26 +6,13 @@ namespace UVSim
     public partial class Memory
     {
         public ObservableCollection<MemoryLine> Locations { get; set; }
-        public readonly int MaxWord;
         public readonly int Capacity;
 
 
-        public Memory(int capacity = 100, int maxWord = 9999)
+        public Memory(int capacity = 100)
         {
-            MaxWord = maxWord;
             Capacity = capacity;
             Locations = [];
-
-
-            for (int i = 0; i < capacity; i++)
-            {
-                Locations.Add(new MemoryLine()
-                {
-                    LineNumber = i,
-                    Data = 0,
-                    Instruction = BasicML.NONE
-                });
-            }
         }
 
         /// <summary>
@@ -54,7 +41,7 @@ namespace UVSim
         public bool WriteWord(int location, int data)
         {
             // If not within bounds, return
-            if (location < 0 || location >= Locations.Count || Math.Abs(data) > MaxWord)
+            if (location < 0 || location >= Locations.Count || Math.Abs(data) > Capacity)
             {
                 return false;
             }
