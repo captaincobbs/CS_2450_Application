@@ -41,7 +41,7 @@ namespace UVSim
         public bool WriteWord(int location, int data)
         {
             // If not within bounds, return
-            if (location < 0 || location >= Locations.Count || Math.Abs(data) > Capacity)
+            if (location < 0 || location >= Locations.Count || Math.Abs(data) > 9999) // 9999 is the max size a single line can be
             {
                 return false;
             }
@@ -77,7 +77,7 @@ namespace UVSim
                     // If value is equal to end signature, stop reading file as file is finished
                     if (data == -99999)
                     {
-                        return true;
+                        break;
                     }
 
                     // Otherwise, attempt to write the word
@@ -89,6 +89,11 @@ namespace UVSim
                     {
                         return false;
                     }
+                }
+
+                for (int i = location; i < Capacity; i++)
+                {
+                    _ = WriteWord(location, 0);
                 }
                 return true;
             }
