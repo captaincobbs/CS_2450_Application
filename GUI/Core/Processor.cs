@@ -220,18 +220,18 @@ namespace UVSim
             // Offset by -1 because it is immediately incremented after this
             switch (condition) {
                 case (int) BasicML.BRANCH:
-                    currentLocation = location;
+                    currentLocation = location - 1;
                     break;
                 case (int) BasicML.BRANCHNEG:
                     if(Accumulator.Data < 0)
                     {
-                        currentLocation = location;
+                        currentLocation = location - 1;
                     }
                     break;
                 case (int) BasicML.BRANCHZERO:
                     if(Accumulator.Data == 0)
                     {
-                        currentLocation = location;
+                        currentLocation = location - 1;
                     }
                     break;
             }
