@@ -2,34 +2,46 @@
 
 namespace UVSim
 {
-    public class Processor
+    /// <summary>
+    /// Models the processor of the virtual machine
+    /// </summary>
+    public class Processor(Memory mainMemory)
     {
-        private readonly Register accumulator = new();
-        private readonly Memory mainMemory;
-        private int currentLocation = 0;
+        public event Action<bool, int>? AwaitingInput;
+        public event Action<string>? OnOutput;
+        public bool IsAwaitingInput { get; set; } = false;
 
-        public Processor(Memory mainMemory)
-        {
-            this.mainMemory = mainMemory;
-        }
+        public readonly Register Accumulator = new();
+        private readonly Memory mainMemory = mainMemory;
+        private int currentLocation = 0;
+        private int savedLocation = 0;
+        private bool unbroken = true;
 
         /// <summary>
         /// Used mainly for the tests, will return the location to ensure Halt has worked.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Current location in memory being read</returns>
         public int GetCurrentLocation()
         {
             return currentLocation;
         }
 
+        /// <summary>
+        /// Sets the value retained in the accumulator to the argument
+        /// </summary>
+        /// <param name="value">The value to store in the accumulator</param>
         public void SetAccumulator(int value)
         {
-            accumulator.Data = value;
+            Accumulator.Data = value;
         }
 
+        /// <summary>
+        /// Returns the current value retained in the accumulator
+        /// </summary>
+        /// <returns>The value stored in the accumulator</returns>
         public int GetAccumulator()
         {
-            return accumulator.Data;
+            return Accumulator.Data;
         }
 
         /// <summary>
@@ -38,10 +50,14 @@ namespace UVSim
         /// </summary>
         /// <param name="location">Location to begin execution</param>
         /// <returns>Executes and returns true if beginning location was valid, otherwise does not execute and returns false</returns>
-        public bool Execute(int location)
+        public bool Execute(int location = -1)
         {
-            accumulator.Data = 0;
-            bool last_command = false;
+            if (location < 0)
+            {
+                location = currentLocation;
+            }
+
+            Accumulator.Data = 0;
             if(location < 0 || location > 99)
             {
                 return false;
@@ -50,11 +66,19 @@ namespace UVSim
             {
                 currentLocation = location;
             }
-            while(currentLocation < mainMemory.capacity)
+
+            bool operationSuccess = false;
+            while(currentLocation < mainMemory.Capacity && unbroken)
             {
-                last_command = Interpret();
+                operationSuccess = Interpret();
+                currentLocation++;
+
+                if (!unbroken)
+                {
+                    return true; // Returns false if it expects you to be coming back
+                }
             }
-            return last_command;
+            return operationSuccess;
         }
 
         #region Methods
@@ -63,15 +87,14 @@ namespace UVSim
         /// </summary>
         public bool Interpret()
         {
-            int word = mainMemory.Read(currentLocation);
-            currentLocation++;
-            //parse instruction
-            int location = word % 100;
-            int instruction = word / 100;
+            int location = mainMemory.Locations[currentLocation].Data;
+            int instruction = mainMemory.Locations[currentLocation].Word;
 
             //switch function autocompleted by AI (chatgpt)
             switch (instruction)
             {
+                case 0: // Continue if it is just a stored number
+                    break;
                 case (int)BasicML.READ:
                     Read(location);
                     break;
@@ -103,14 +126,11 @@ namespace UVSim
                     break;
                 case (int)BasicML.HALT:
                     Halt();
-                    Console.WriteLine("program HALT -- exit: success");
                     break;
                 default:
                     // Halts on invalid instruction
-                    Console.WriteLine($"error -- invalid instruction at location {location}\nprocess halted");
                     Halt();
                     return false;
-                    break;
             }
             return true;
         }
@@ -121,25 +141,10 @@ namespace UVSim
         /// <param name="location"></param>
         public void Read(int location)
         {
-            while (true)
-            {
-                Console.Write("input: ");
-                string? in_word = Console.ReadLine();
-                if (!int.TryParse(in_word, out int word))
-                {
-                    Console.WriteLine("error - please enter a 4 digit decimal number");
-                    continue;
-                }
-
-                if (!mainMemory.WriteWord(location, word))
-                {
-                    Console.WriteLine($"error - max word is {mainMemory.max_word}");
-                }
-                else
-                {
-                    break;
-                }
-            }
+            AwaitingInput?.Invoke(true, location);
+            IsAwaitingInput = true;
+            savedLocation = location;
+            unbroken = false;
         }
 
         /// <summary>
@@ -148,7 +153,8 @@ namespace UVSim
         /// <param name="location"></param>
         public void Write(int location)
         {
-            Console.WriteLine($"{mainMemory.Read(location)}");
+            string output = $"{mainMemory.Read(location)}";
+            OnOutput?.Invoke(output);
         }
 
         /// <summary>
@@ -157,7 +163,7 @@ namespace UVSim
         /// <param name="location"></param>
         public void Load(int location)
         {
-            accumulator.Data = mainMemory.Read(location);
+            Accumulator.Data = mainMemory.Read(location);
         }
 
         /// <summary>
@@ -166,7 +172,7 @@ namespace UVSim
         /// <param name="location"></param>
         public void Store(int location)
         {
-            mainMemory.WriteWord(location, accumulator.Data);
+            mainMemory.WriteWord(location, Accumulator.Data);
         }
         /// <summary>
         /// Adds the word at the location in mainMemory to the value in the accumulator
@@ -174,8 +180,8 @@ namespace UVSim
         /// <param name="location"></param>
         public void Add(int location)
         {
-            int result = accumulator.Data + mainMemory.Read(location);
-            accumulator.Data = result;
+            int result = Accumulator.Data + mainMemory.Read(location);
+            Accumulator.Data = result;
         }
         /// <summary>
         /// Subtracts the word at the location in mainMemory from the value in the accumulator
@@ -183,8 +189,8 @@ namespace UVSim
         /// <param name="location"></param>
         public void Subtract(int location)
         {
-            int result = accumulator.Data - mainMemory.Read(location);
-            accumulator.Data = result;
+            int result = Accumulator.Data - mainMemory.Read(location);
+            Accumulator.Data = result;
         }
         /// <summary>
         /// Divides the value in the accumulator by the word at the location in mainMemory
@@ -192,8 +198,8 @@ namespace UVSim
         /// <param name="location"></param>
         public void Divide(int location)
         {
-            int result = accumulator.Data / mainMemory.Read(location);
-            accumulator.Data = result;
+            int result = Accumulator.Data / mainMemory.Read(location);
+            Accumulator.Data = result;
         }
         /// <summary>
         /// Multiplies the value in the accumulator by the word at the location in mainMemory
@@ -201,8 +207,8 @@ namespace UVSim
         /// <param name="location"></param>
         public void Multiply(int location)
         {
-            int result = accumulator.Data * mainMemory.Read(location);
-            accumulator.Data = result;
+            int result = Accumulator.Data * mainMemory.Read(location);
+            Accumulator.Data = result;
         }
         /// <summary>
         /// Branches to the location based on the condition
@@ -211,20 +217,21 @@ namespace UVSim
         /// <param name="location"></param>
         public void Branch(int condition, int location)
         {
+            // Offset by -1 because it is immediately incremented after this
             switch (condition) {
                 case (int) BasicML.BRANCH:
-                    currentLocation = location;
+                    currentLocation = location - 1;
                     break;
                 case (int) BasicML.BRANCHNEG:
-                    if(accumulator.Data < 0)
+                    if(Accumulator.Data < 0)
                     {
-                        currentLocation = location;
+                        currentLocation = location - 1;
                     }
                     break;
                 case (int) BasicML.BRANCHZERO:
-                    if(accumulator.Data == 0)
+                    if(Accumulator.Data == 0)
                     {
-                        currentLocation = location;
+                        currentLocation = location - 1;
                     }
                     break;
             }
@@ -234,7 +241,21 @@ namespace UVSim
         /// </summary>
         public void Halt()
         {
-            currentLocation = mainMemory.capacity;
+            currentLocation = mainMemory.Capacity;
+        }
+
+        /// <summary>
+        /// Send input to awaiting READ command so processor may continue
+        /// </summary>
+        public void ReceiveInput(int input)
+        {
+            mainMemory.WriteWord(savedLocation, input);
+            OnOutput?.Invoke($"> {input}");
+
+            IsAwaitingInput = false;
+            AwaitingInput?.Invoke(false, currentLocation);
+            unbroken = true;
+            Execute(-1);
         }
     }
     #endregion

@@ -247,7 +247,7 @@ namespace AutomatedTests
             processor.Store(5);
             Assert.AreEqual(10, memory.Read(5));
             processor.Halt();
-            Assert.AreEqual(memory.capacity, processor.GetCurrentLocation());
+            Assert.AreEqual(memory.Capacity, processor.GetCurrentLocation());
         }
 
         [TestMethod]
