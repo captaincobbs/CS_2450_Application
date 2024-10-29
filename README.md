@@ -14,7 +14,9 @@ The GUI contains a register, which store values, boxes for output and input, but
 - **Data**, which represents an input for a line of memory's instruction
 - **Instruction**, which determines how a line of memory will be interpreted. A list of all instructions can be found below.
 
-To start using the program, either begin editing the memory, or importing an existing .uvsim (or valid .txt) file, then hittin run to have the operating system iterate through each instruction.
+To start using the program, either begin editing the memory, or importing an existing .uvsim (or valid .txt) file, then hitting run to have the operating system iterate through each instruction.
+
+The UI also contains a Theme manager, which can be used to determine the colors of various parts of the UI.
 
 ### BasicML instructions :
 #### I/O operation:
