@@ -37,7 +37,12 @@ namespace UVSim
             }
         }
 
-        public int Word { get; set; }
+        public int Word
+        {
+            get {
+                return (int)Instruction;
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -41,8 +41,9 @@ namespace UVSim
             InitializeComponent();
             VirtualMachine = new();
             DataContext = this;
+            MaxLines = VirtualMachine.MainMemory.Capacity;
 
-            for (int i = 0; i < VirtualMachine.MainMemory.Capacity; i++)
+            for (int i = 0; i < MaxLines; i++)
             {
                 VirtualMachine.MainMemory.Locations.Add(new MemoryLine()
                 {
@@ -169,13 +170,13 @@ namespace UVSim
         private void AddLine()
         {
             // If the Virtual Machine has room for more lines
-            if (VirtualMachine.MainMemory.Locations.Count <= VirtualMachine.MainMemory.Capacity - 1)
+            if (VirtualMachine.MainMemory.Locations.Count <= MaxLines - 1)
             {
                 // Get the last index (If you are adding the 100th item, it will have an index of 99, so nothing needs to be done here)
                 int lastIndex = VirtualMachine.MainMemory.Locations.Count;
 
                 // Then create the empty line and add it
-                VirtualMachine.MainMemory.Locations.Add(new() { Data = 0, LineNumber = lastIndex, Instruction = BasicML.NONE, Word = 0 });
+                VirtualMachine.MainMemory.Locations.Add(new() { Data = 0, LineNumber = lastIndex, Instruction = BasicML.NONE});
                 // Recount the line numbers
                 RecountLineNumbers();
                 // Then scroll to the last item
@@ -206,9 +207,9 @@ namespace UVSim
         private void ResetMemory()
         {
             VirtualMachine.MainMemory.Locations.Clear();
-            for (int i = 0; i < VirtualMachine.MainMemory.Capacity; i++)
+            for (int i = 0; i < MaxLines; i++)
             {
-                VirtualMachine.MainMemory.Locations.Add(new() { Data = 0, LineNumber = i, Instruction = BasicML.NONE, Word = 0 });
+                VirtualMachine.MainMemory.Locations.Add(new() { Data = 0, LineNumber = i, Instruction = BasicML.NONE});
             }
             RecountLineNumbers(); // just in case
         }
@@ -265,7 +266,7 @@ namespace UVSim
             if (!IsUILocked && ListboxCodeSpace.Items.Count > 0)
             {
                 IsUILocked = true;
-                VirtualMachine.Execute();
+                VirtualMachine.Execute(0);
                 IsUILocked = false;
             }
         }
@@ -355,7 +356,7 @@ namespace UVSim
                         DeleteLine(ListboxCodeSpace.Items.Count - 1);
                         break;
                     case Key.F11:
-                        VirtualMachine.Execute();
+                        VirtualMachine.Execute(0);
                         break;
                 }
             }

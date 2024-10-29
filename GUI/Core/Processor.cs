@@ -45,8 +45,13 @@ namespace UVSim
         /// </summary>
         /// <param name="location">Location to begin execution</param>
         /// <returns>Executes and returns true if beginning location was valid, otherwise does not execute and returns false</returns>
-        public bool Execute(int location)
+        public bool Execute(int location = -1)
         {
+            if (location < 0)
+            {
+                location = currentLocation;
+            }
+
             Accumulator.Data = 0;
             bool last_command = false;
             if(location < 0 || location > 99)
@@ -60,6 +65,7 @@ namespace UVSim
             while(currentLocation < mainMemory.Capacity)
             {
                 last_command = Interpret();
+                currentLocation++;
             }
             return last_command;
         }
@@ -73,8 +79,8 @@ namespace UVSim
             int word = mainMemory.Read(currentLocation);
             currentLocation++;
             //parse instruction
-            int location = word % 100;
-            int instruction = word / 100;
+            int location = mainMemory.Locations[currentLocation].Data;
+            int instruction = mainMemory.Locations[currentLocation].Word;
 
             //switch function autocompleted by AI (chatgpt)
             switch (instruction)

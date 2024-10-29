@@ -17,9 +17,9 @@
         /// <summary>
         /// Begins instruction execution at location 0.
         /// </summary>
-        public void Execute()
+        public bool Execute(int location)
         {
-            CPU.Execute(0);
+            return CPU.Execute(location);
         }
     }
 }
