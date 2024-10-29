@@ -13,16 +13,8 @@ namespace UVSim
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region Properties
         public OperatingSystemGui VirtualMachine { get; set; }
-        private string _consoleOutput = string.Empty;
-        public string ConsoleOutput
-        {
-            get => _consoleOutput; set
-            {
-                _consoleOutput = value;
-                UpdateOutput(_consoleOutput);
-            }
-        }
         public ObservableCollection<BasicML> Instructions { get; set; }
         private int maxLines = 0;
         public int MaxLines
@@ -34,7 +26,10 @@ namespace UVSim
             }
         }
 
+        private int sendLocation = -1;
+
         public bool IsUILocked { get; set; } = false;
+        #endregion
 
         public MainWindow()
         {
@@ -43,6 +38,7 @@ namespace UVSim
             DataContext = this;
             MaxLines = VirtualMachine.MainMemory.Capacity;
 
+            // Populate default
             for (int i = 0; i < MaxLines; i++)
             {
                 VirtualMachine.MainMemory.Locations.Add(new MemoryLine()
@@ -54,6 +50,8 @@ namespace UVSim
             }
 
             ListboxCodeSpace.ItemsSource = VirtualMachine.MainMemory.Locations;
+            VirtualMachine.CPU.OnOutput += UpdateOutput;
+            VirtualMachine.CPU.AwaitingInput += PrepareForInput;
 
             // Subscribing changes to the Accumulator's data to the TextBlock
             VirtualMachine.CPU.Accumulator.OnPropertyChanged += UpdateAccumulator;
@@ -113,7 +111,11 @@ namespace UVSim
             {
                 string filePath = dialog.FileName;
                 // Process the file as needed (e.g., write to memory or load data)
-                VirtualMachine.MainMemory.ReadFile(0, filePath);
+                if(!VirtualMachine.MainMemory.ReadFile(0, filePath))
+                {
+                    RecountLineNumbers();
+                    MessageBox.Show("Invalid file!");
+                }
             }
             TextLocations.Text = $"Locations ({VirtualMachine.MainMemory.Locations.Count})";
         }
@@ -140,15 +142,22 @@ namespace UVSim
                 // data must be a string
                 VirtualMachine.MainMemory.SaveFile(dialog.FileName);
             }
-            TextLocations.Text = $"Locations ({VirtualMachine.MainMemory.Locations.Count})";
+            RecountLineNumbers();
         }
 
         /// <summary>
         /// Enables the text input functionality, locks editing other UI until input is provided.
         /// </summary>
-        private void PrepareForInput()
+        private void PrepareForInput(bool isAwaiting, int location)
         {
+            TextBoxInput.IsReadOnly = !isAwaiting;
+            ButtonSendInput.IsEnabled = isAwaiting;
+            sendLocation = location;
 
+            if (isAwaiting)
+            {
+                TextBoxInput.Focus();
+            }
         }
 
         /// <summary>
@@ -266,8 +275,10 @@ namespace UVSim
             if (!IsUILocked && ListboxCodeSpace.Items.Count > 0)
             {
                 IsUILocked = true;
-                VirtualMachine.Execute(0);
-                IsUILocked = false;
+                if (VirtualMachine.Execute(0))
+                {
+                    IsUILocked = false;
+                }
             }
         }
 
@@ -302,6 +313,14 @@ namespace UVSim
             {
                 ResetMemory();
             }
+        }
+
+        /// <summary>
+        /// Called when input button clicks, sends input in textbox to memory, continues processor
+        /// </summary>
+        private void ButtonSendInput_Click(object sender, RoutedEventArgs e)
+        {
+            VirtualMachine.CPU.ReceiveInput(TextBoxInput.Value ?? 0);
         }
 
         /// <summary>

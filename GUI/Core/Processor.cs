@@ -7,10 +7,15 @@ namespace UVSim
     /// </summary>
     public class Processor(Memory mainMemory)
     {
+        public event Action<bool, int>? AwaitingInput;
+        public event Action<string>? OnOutput;
+        public bool IsAwaitingInput { get; set; } = false;
+
         public readonly Register Accumulator = new();
         private readonly Memory mainMemory = mainMemory;
         private int currentLocation = 0;
-        public event Action<bool>? AwaitingInput;
+        private int savedLocation = 0;
+        private bool unbroken = true;
 
         /// <summary>
         /// Used mainly for the tests, will return the location to ensure Halt has worked.
@@ -53,7 +58,6 @@ namespace UVSim
             }
 
             Accumulator.Data = 0;
-            bool last_command = false;
             if(location < 0 || location > 99)
             {
                 return false;
@@ -62,12 +66,19 @@ namespace UVSim
             {
                 currentLocation = location;
             }
-            while(currentLocation < mainMemory.Capacity)
+
+            bool operationSuccess = false;
+            while(currentLocation < mainMemory.Capacity && unbroken)
             {
-                last_command = Interpret();
+                operationSuccess = Interpret();
                 currentLocation++;
+
+                if (!unbroken)
+                {
+                    return true; // Returns false if it expects you to be coming back
+                }
             }
-            return last_command;
+            return operationSuccess;
         }
 
         #region Methods
@@ -76,15 +87,14 @@ namespace UVSim
         /// </summary>
         public bool Interpret()
         {
-            int word = mainMemory.Read(currentLocation);
-            currentLocation++;
-            //parse instruction
             int location = mainMemory.Locations[currentLocation].Data;
             int instruction = mainMemory.Locations[currentLocation].Word;
 
             //switch function autocompleted by AI (chatgpt)
             switch (instruction)
             {
+                case 0: // Continue if it is just a stored number
+                    break;
                 case (int)BasicML.READ:
                     Read(location);
                     break;
@@ -131,36 +141,20 @@ namespace UVSim
         /// <param name="location"></param>
         public void Read(int location)
         {
-            while (true)
-            {
-                Console.Write("input: ");
-                string? in_word = Console.ReadLine();
-                if (!int.TryParse(in_word, out int word))
-                {
-                    Console.WriteLine("error - please enter a 4 digit decimal number");
-                    continue;
-                }
-
-                try
-                {
-                    mainMemory.WriteWord(location, word);
-                }
-                catch
-                {
-                    break;
-                }
-            }
+            AwaitingInput?.Invoke(true, location);
+            IsAwaitingInput = true;
+            savedLocation = location;
+            unbroken = false;
         }
 
         /// <summary>
         /// Writes the word at the specified location in memory to the console.
         /// </summary>
         /// <param name="location"></param>
-        public string Write(int location)
+        public void Write(int location)
         {
             string output = $"{mainMemory.Read(location)}";
-            Console.WriteLine(output);
-            return output;
+            OnOutput?.Invoke(output);
         }
 
         /// <summary>
@@ -223,6 +217,7 @@ namespace UVSim
         /// <param name="location"></param>
         public void Branch(int condition, int location)
         {
+            // Offset by -1 because it is immediately incremented after this
             switch (condition) {
                 case (int) BasicML.BRANCH:
                     currentLocation = location;
@@ -247,6 +242,20 @@ namespace UVSim
         public void Halt()
         {
             currentLocation = mainMemory.Capacity;
+        }
+
+        /// <summary>
+        /// Send input to awaiting READ command so processor may continue
+        /// </summary>
+        public void ReceiveInput(int input)
+        {
+            mainMemory.WriteWord(savedLocation, input);
+            OnOutput?.Invoke($"> {input}");
+
+            IsAwaitingInput = false;
+            AwaitingInput?.Invoke(false, currentLocation);
+            unbroken = true;
+            Execute(-1);
         }
     }
     #endregion

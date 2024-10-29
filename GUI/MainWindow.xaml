@@ -159,13 +159,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock FontSize="14" Grid.Row="0" Text="Output" Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
-                <TextBox Name="TextOutput" IsReadOnly="True" Grid.Row="1" Text="{Binding ConsoleOutput}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
+                <TextBox Name="TextOutput" IsReadOnly="True" Grid.Row="1" Text="{Binding ConsoleOutput}" Foreground="{DynamicResource ForegroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}"/>
             </Grid>
         </Border>
 
@@ -189,14 +183,8 @@
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
                 <TextBlock FontSize="14" Grid.Row="0" Text="Input" Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
-                <TextBox IsReadOnly="True" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}" Foreground="{DynamicResource ForegroundBrush}">
-                    <TextBox.Resources>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="10"/>
-                        </Style>
-                    </TextBox.Resources>
-                </TextBox>
-                <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Content="Send" Margin="5" x:Name="ButtonSendInput" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{DynamicResource ForegroundBrush}"/>
+                <xctk:IntegerUpDown Name="TextBoxInput" Value="0" IsReadOnly="True" Grid.Row="1" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}" Foreground="{DynamicResource ForegroundBrush}" Minimum="-99" Maximum="99" MaxLength="5" PreviewTextInput="OnData_TextInput"/>
+                <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Content="Send" Margin="5" x:Name="ButtonSendInput" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{DynamicResource ForegroundBrush}" Click="ButtonSendInput_Click" IsEnabled="false"/>
             </Grid>
         </Border>
     </Grid>
