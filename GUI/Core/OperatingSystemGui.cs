@@ -10,7 +10,7 @@
         /// </summary>
         public OperatingSystemGui()
         {
-            MainMemory = new Memory();
+            MainMemory = new Memory(250, ProgramType.SixDigit);
             CPU = new Processor(MainMemory);
         }
 

@@ -113,7 +113,7 @@ namespace UVSim
                 // Process the file as needed (e.g., write to memory or load data)
                 if(!VirtualMachine.MainMemory.ReadFile(0, filePath))
                 {
-                    RecountLineNumbers();
+                    ResetMemory();
                     MessageBox.Show("Invalid file!");
                 }
             }
