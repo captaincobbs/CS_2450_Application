@@ -10,6 +10,8 @@ namespace UVSim
         private int _lineNumber;
         private int _data;
         private BasicML _instruction;
+        private int _maximum;
+        private int _minimum;
         public int LineNumber
         {
             get { return _lineNumber; }
@@ -34,6 +36,26 @@ namespace UVSim
             set {
                 _instruction = value;
                 OnPropertyChanged(nameof(Instruction));
+            }
+        }
+
+        public int Maximum
+        {
+            get { return _maximum; }
+            set
+            {
+                _maximum = value;
+                OnPropertyChanged(nameof(Maximum));
+            }
+        }
+
+        public int Minimum
+        {
+            get { return _minimum; }
+            set
+            {
+                _minimum = value;
+                OnPropertyChanged(nameof(Minimum));
             }
         }
 
