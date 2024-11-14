@@ -378,6 +378,7 @@ namespace UVSim
         {
             if (!IsUILocked)
             {
+                VirtualMachine.MainMemory.ProgramType = ProgramType.SixDigit;
                 ResetMemory();
             }
         }
