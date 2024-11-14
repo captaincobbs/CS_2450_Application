@@ -83,7 +83,7 @@
 
                         <TextBlock Grid.Column="0" TextAlignment="Center" Text="{Binding LineNumber, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}" Margin="5,0,5,0"/>
                         <ComboBox Grid.Column="1" ItemsSource="{Binding DataContext.Instructions, RelativeSource={RelativeSource AncestorType=Window}}" SelectedValue="{Binding Instruction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="."/>
-                        <xctk:IntegerUpDown Grid.Column="2" TextAlignment="Center" Value="{Binding Data, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="5" Foreground="{StaticResource ForegroundBrush}" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}" PreviewTextInput="OnData_TextInput" Maximum="99" Minimum="-99" Margin="5,0,5,0"/>
+                        <xctk:IntegerUpDown Grid.Column="2" TextAlignment="Center" Value="{Binding Data, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="5" Foreground="{StaticResource ForegroundBrush}" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}" PreviewTextInput="OnData_TextInput" Maximum="{Binding Maximum, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Minimum, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,5,0"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
@@ -183,7 +183,7 @@
                     <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
                 <TextBlock FontSize="14" Grid.Row="0" Text="Input" Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
-                <xctk:IntegerUpDown Name="TextBoxInput" Value="0" IsReadOnly="True" Grid.Row="1" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}" Foreground="{DynamicResource ForegroundBrush}" Minimum="-99" Maximum="99" MaxLength="5" PreviewTextInput="OnData_TextInput"/>
+                <xctk:IntegerUpDown Name="TextBoxInput" Value="0" IsReadOnly="True" Grid.Row="1" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}" Foreground="{DynamicResource ForegroundBrush}" Maximum="{Binding InputMaximum, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding InputMinimum, UpdateSourceTrigger=PropertyChanged}" MaxLength="5" PreviewTextInput="OnData_TextInput"/>
                 <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Content="Send" Margin="5" x:Name="ButtonSendInput" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{DynamicResource ForegroundBrush}" Click="ButtonSendInput_Click" IsEnabled="false"/>
             </Grid>
         </Border>

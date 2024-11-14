@@ -12,6 +12,7 @@ namespace UVSim
             set
             {
                 _programType = value;
+                OnProgramTypeChanged?.Invoke(value);
             }
         }
         int MaxWord
@@ -31,6 +32,7 @@ namespace UVSim
         }
         public ObservableCollection<MemoryLine> Locations { get; set; }
         public readonly int Capacity;
+        public event Action<ProgramType>? OnProgramTypeChanged;
 
 
         public Memory(int capacity = 250, ProgramType programType = ProgramType.None)

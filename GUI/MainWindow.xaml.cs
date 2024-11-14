@@ -29,6 +29,30 @@ namespace UVSim
         private int sendLocation = -1;
 
         public bool IsUILocked { get; set; } = false;
+
+        private int inputMaximum = 0;
+        public int InputMaximum
+        {
+            get => inputMaximum;
+            set
+            {
+                inputMaximum = value;
+                OnPropertyChanged(nameof(InputMaximum));
+            }
+        }
+
+        private int inputMinimum = 0;
+        public int InputMinimum
+        {
+            get => inputMinimum;
+            set
+            {
+                inputMinimum = value;
+                OnPropertyChanged(nameof(InputMinimum));
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         public MainWindow()
@@ -52,6 +76,7 @@ namespace UVSim
             ListboxCodeSpace.ItemsSource = VirtualMachine.MainMemory.Locations;
             VirtualMachine.CPU.OnOutput += UpdateOutput;
             VirtualMachine.CPU.AwaitingInput += PrepareForInput;
+            VirtualMachine.MainMemory.OnProgramTypeChanged += ChangeProgramType;
 
             // Subscribing changes to the Accumulator's data to the TextBlock
             VirtualMachine.CPU.Accumulator.OnPropertyChanged += UpdateAccumulator;
@@ -61,9 +86,15 @@ namespace UVSim
             TextLocations.Text = $"Locations ({VirtualMachine.MainMemory.Locations.Count})";
             // Populate Enum list
             Instructions = new ObservableCollection<BasicML>(Enum.GetValues(typeof(BasicML)).Cast<BasicML>());
+            ChangeProgramType(VirtualMachine.MainMemory.ProgramType);
         }
 
         #region Functions
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         /// <summary>
         /// Updates the TextAccumulator with the most recent value from the Accumulator
         /// </summary>
@@ -233,6 +264,30 @@ namespace UVSim
                 VirtualMachine.MainMemory.Locations[i].LineNumber = i;
             }
             TextLocations.Text = $"Locations ({VirtualMachine.MainMemory.Locations.Count})";
+        private void ChangeProgramType(ProgramType newType)
+        {
+            if (newType == ProgramType.FourDigit)
+            {
+                InputMaximum = 99;
+                InputMinimum = -99;
+                for (int i = 0; i < VirtualMachine.MainMemory.Locations.Count; i++)
+                {
+                    VirtualMachine.MainMemory.Locations[i].Maximum = InputMaximum;
+                    VirtualMachine.MainMemory.Locations[i].Minimum = InputMinimum;
+                    TextData.Text = "Data (±99)";
+                }
+            }
+            else
+            {
+                InputMaximum = 999;
+                InputMinimum = -999;
+                for (int i = 0; i < VirtualMachine.MainMemory.Locations.Count; i++)
+                {
+                    VirtualMachine.MainMemory.Locations[i].Maximum = InputMaximum;
+                    VirtualMachine.MainMemory.Locations[i].Minimum = InputMinimum;
+                    TextData.Text = "Data (±999)";
+                }
+            }
         }
         #endregion
 
