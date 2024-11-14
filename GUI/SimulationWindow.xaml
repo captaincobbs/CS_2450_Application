@@ -105,14 +105,12 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
-                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button Click="OnAdd_Click" Grid.Column="0" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Add</Button>
                 <Button Click="OnDelete_Click" Grid.Column="1" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Delete</Button>
                 <Button Click="OnReset_Click" Grid.Column="2" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Reset</Button>
                 <Button Click="OnSave_Click" Grid.Column="3" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Save</Button>
                 <Button Click="OnLoad_Click" Grid.Column="4" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Load</Button>
-                <Button Click="OnTheme_Click" Grid.Column="5" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Theme</Button>
             </Grid>
         </Border>
 

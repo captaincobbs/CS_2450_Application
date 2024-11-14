@@ -57,15 +57,15 @@ namespace UVSim
         public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
-        public SimulationWindow()
+        public SimulationWindow(int capacity = 250, int initialLines = 0)
         {
             InitializeComponent();
-            VirtualMachine = new();
+            VirtualMachine = new(capacity);
             DataContext = this;
             MaxLines = VirtualMachine.MainMemory.Capacity;
 
             // Populate default
-            for (int i = 0; i < MaxLines; i++)
+            for (int i = 0; i < initialLines; i++)
             {
                 VirtualMachine.MainMemory.Locations.Add(new MemoryLine()
                 {
@@ -194,19 +194,6 @@ namespace UVSim
         }
 
         /// <summary>
-        /// Opens a new modal ThemeWindow and disables the MainWindow until it is closed
-        /// </summary>
-        private void OpenThemeWindow()
-        {
-            ThemeWindow themeWindow = new()
-            {
-                Owner = this,
-                ShowInTaskbar = false,
-            };
-            themeWindow.ShowDialog();
-        }
-
-        /// <summary>
         /// Adds a line to the bottom of the codespace, then scrolls to the bottom
         /// </summary>
         private void AddLine()
@@ -253,7 +240,7 @@ namespace UVSim
         /// <summary>
         /// Removes all lines of memory then recreate the maximum amount of memory lines
         /// </summary>
-        private void ResetMemory()
+        public void ResetMemory()
         {
             VirtualMachine.MainMemory.Locations.Clear();
             for (int i = 0; i < MaxLines; i++)
@@ -275,8 +262,10 @@ namespace UVSim
             TextLocations.Text = $"Locations ({VirtualMachine.MainMemory.Locations.Count})"; // Update location count on column header
         }
 
-
-        private void ChangeProgramType(ProgramType newType)
+        /// <summary>
+        /// Updates the UI to accept either 2 digit or 3 digit programs
+        /// </summary>
+        public void ChangeProgramType(ProgramType newType)
         {
             if (newType == ProgramType.FourDigit)
             {
@@ -324,14 +313,6 @@ namespace UVSim
             {
                 SaveFile();
             }
-        }
-
-        /// <summary>
-        /// Allows user to edit their current theme
-        /// </summary>
-        private void OnTheme_Click(object sender, RoutedEventArgs e)
-        {
-            OpenThemeWindow();
         }
 
         /// <summary>
@@ -418,26 +399,11 @@ namespace UVSim
                     case Key.F2:
                         Console.WriteLine("Use this as a manual breakpoint");
                         break;
-                    case Key.F3:
-                        VirtualMachine = new();
-                        ListboxCodeSpace.ItemsSource = VirtualMachine.MainMemory.Locations;
-
-                        // Subscribing changes to the Accumulator's data to the TextBlock
-                        VirtualMachine.CPU.Accumulator.OnPropertyChanged += UpdateAccumulator;
-                        VirtualMachine.CPU.Accumulator.Data = 0;
-                        UpdateAccumulator(VirtualMachine.CPU.Accumulator.Data);
-                        break;
                     case Key.F4:
                         LoadFile();
                         break;
                     case Key.F5:
                         SaveFile();
-                        break;
-                    case Key.F6:
-                        OpenThemeWindow();
-                        break;
-                    case Key.F7:
-                        AddLine();
                         break;
                     case Key.F11:
                         VirtualMachine.Execute(0);
