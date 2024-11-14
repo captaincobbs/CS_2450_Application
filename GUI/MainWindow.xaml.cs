@@ -258,7 +258,7 @@ namespace UVSim
             VirtualMachine.MainMemory.Locations.Clear();
             for (int i = 0; i < MaxLines; i++)
             {
-                VirtualMachine.MainMemory.Locations.Add(new() { Data = 0, LineNumber = i, Instruction = BasicML.NONE});
+                VirtualMachine.MainMemory.Locations.Add(new() { Data = 0, LineNumber = i, Instruction = BasicML.NONE, Maximum = InputMaximum, Minimum = InputMinimum});
             }
             RecountLineNumbers(); // just in case
         }
