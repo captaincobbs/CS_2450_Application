@@ -108,7 +108,7 @@ namespace UVSim
                 }
 
                 // If there are more lines than the capacity, don't try loading
-                if (lines.Length > Capacity)
+                if (lines.Length - 1 > Capacity)
                 {
                     return false;
                 }

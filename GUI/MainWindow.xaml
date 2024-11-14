@@ -3,17 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UVSim"
         mc:Ignorable="d"
-        xmlns:local="clr-namespace:UVSim" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        Title="UVSim Editor"
-        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Title="UVSim Menu"
         MinHeight="360"
         MinWidth="640"
         Width="960"
         Height="540"
-        KeyDown="Window_KeyDown"
         Background="{Binding Source={x:Static local:App.Theme}, Path=Background}">
-
     <Window.Resources>
         <!-- Define Brushes based on the theme -->
         <SolidColorBrush x:Key="BackgroundBrush" Color="{Binding Source={x:Static local:App.Theme}, Path=Background}" />
@@ -27,167 +24,27 @@
         <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{Binding Source={x:Static local:App.Theme}, Path=ButtonBackground}" />
         <SolidColorBrush x:Key="CodeSpaceBrush" Color="{Binding Source={x:Static local:App.Theme}, Path=CodeSpace}" />
     </Window.Resources>
-
-    <Grid x:Name="MainGrid" ShowGridLines="False">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-        <!-- CodeSpace Header -->
-        <Border BorderThickness="1" BorderBrush="{StaticResource BorderBrush}" x:Name="BorderCodeSpace" Margin="5" Width="Auto" Grid.ColumnSpan="3">
-            <Grid Background="{StaticResource HeaderBrush}" MinHeight="30">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Column="0" Text="Locations ({x})" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}" Name="TextLocations"/>
-                <TextBlock Grid.Column="1" Text="Instruction" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}"/>
-                <TextBlock Grid.Column="2" Text="Data ({y})" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}" Name="TextData"/>
-            </Grid>
-        </Border>
-
-        <!-- CodeSpace (ListBox with Relative Max Height) -->
-        <ListBox x:Name="ListboxCodeSpace"
-                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="8"
-                     BorderThickness="1"
-                     ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     Background="{StaticResource CodeSpaceBrush}"
-                     BorderBrush="{StaticResource BorderBrush}"
-                     Width="Auto"
-                     Margin="5" SelectionMode="Extended"
-                     >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Width="Auto">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0" TextAlignment="Center" Text="{Binding LineNumber, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Foreground="{StaticResource ForegroundBrush}" Margin="5,0,5,0"/>
-                        <ComboBox Grid.Column="1" ItemsSource="{Binding DataContext.Instructions, RelativeSource={RelativeSource AncestorType=Window}}" SelectedValue="{Binding Instruction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="."/>
-                        <xctk:IntegerUpDown Grid.Column="2" TextAlignment="Center" Value="{Binding Data, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxLength="5" Foreground="{StaticResource ForegroundBrush}" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}" PreviewTextInput="OnData_TextInput" Maximum="{Binding Maximum, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding Minimum, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,5,0"/>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListBox>
-
-        <!-- Buttons (Save/Upload) -->
-        <Border Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="3" BorderThickness="1" BorderBrush="{StaticResource BorderBrush}" x:Name="BorderCodeSpaceFooter" Background="{StaticResource HeaderBrush}" MinHeight="40" Margin="5">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Button Click="OnAdd_Click" Grid.Column="0" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Add</Button>
-                <Button Click="OnDelete_Click" Grid.Column="1" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Delete</Button>
-                <Button Click="OnReset_Click" Grid.Column="2" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Reset</Button>
-                <Button Click="OnSave_Click" Grid.Column="3" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Save</Button>
-                <Button Click="OnLoad_Click" Grid.Column="4" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Load</Button>
-                <Button Click="OnTheme_Click" Grid.Column="5" Background="{StaticResource ButtonBackgroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Foreground="{StaticResource ForegroundBrush}" Margin="5">Theme</Button>
-            </Grid>
-        </Border>
-
-        <!-- Register Space -->
-        <Border Grid.Column="3"
-                Grid.ColumnSpan="2"
-                Grid.Row="0"
-                BorderBrush="{StaticResource BorderBrush}"
-                BorderThickness="1"
-                Margin="5"
-                x:Name="BorderRegister">
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                <TextBlock Text="Accumulator: " Foreground="{DynamicResource ForegroundBrush}"/>
-                <TextBlock Name="TextAccumulator" Text="" Foreground="{DynamicResource ForegroundBrush}"/>
-                <TextBlock Text="Max Memory: " Foreground="{DynamicResource ForegroundBrush}" Margin="20,0,0,0"/>
-                <TextBlock Name="TextMaxMemory" Text="" Foreground="{DynamicResource ForegroundBrush}"/>
-            </StackPanel>
-        </Border>
-
-        <!-- Control Buttons -->
-        <Button Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Content="Execute" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="OnExecute_Click" Margin="10"/>
-        <StackPanel Grid.Column="3"
-                    Grid.Row="1"
-                    Grid.ColumnSpan="2"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom">
-            
-        </StackPanel>
-
-        <!-- Output Section -->
-        <Border Grid.Column="3"
-                Grid.Row="2"
-                Grid.ColumnSpan="2"
-                Grid.RowSpan="6"
-                BorderBrush="{StaticResource BorderBrush}"
-                BorderThickness="1"
-                Margin="5"
-                Padding="5"
-                x:Name="BorderOutput">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <TextBlock FontSize="14" Grid.Row="0" Text="Output" Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
-                <TextBox Name="TextOutput" IsReadOnly="True" Grid.Row="1" Foreground="{DynamicResource ForegroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}"/>
-            </Grid>
-        </Border>
-
-        <!-- Input Section -->
-        <Border Grid.Column="3"
-                Grid.Row="8"
-                Grid.ColumnSpan="2"
-                Grid.RowSpan="2"
-                BorderBrush="{StaticResource BorderBrush}"
-                BorderThickness="1"
-                Margin="5"
-                Padding="5"
-                x:Name="BorderInput">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="2*"/>
-                </Grid.RowDefinitions>
-                <TextBlock FontSize="14" Grid.Row="0" Text="Input" Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
-                <xctk:IntegerUpDown Name="TextBoxInput" Value="0" IsReadOnly="True" Grid.Row="1" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}" Foreground="{DynamicResource ForegroundBrush}" Maximum="{Binding InputMaximum, UpdateSourceTrigger=PropertyChanged}" Minimum="{Binding InputMinimum, UpdateSourceTrigger=PropertyChanged}" MaxLength="5" PreviewTextInput="OnData_TextInput"/>
-                <Button Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Content="Send" Margin="5" x:Name="ButtonSendInput" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{DynamicResource ForegroundBrush}" Click="ButtonSendInput_Click" IsEnabled="false"/>
-            </Grid>
-        </Border>
+        <Label Name="LabelTitle" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="4" Content="UVSim" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" FontSize="58" Padding="0" Foreground="{StaticResource ForegroundBrush}"/>
+        <Button Name="ButtonNew" Grid.Column="1" Grid.Row="2" Content="New Project" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="ButtonNew_Click" Margin="10"/>
+        <Button Name="ButtonOpen" Grid.Column="2" Grid.Row="2" Content="Open Project" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="ButtonOpen_Click" Margin="10"/>
+        <Button Name="ButtonTheme" Grid.Column="3" Grid.Row="2" Content="Edit Theme" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="ButtonTheme_Click" Margin="10"/>
+        <Button Name="ButtonExit" Grid.Column="4" Grid.Row="2" Content="Exit" Background="{StaticResource ButtonBackgroundBrush}" Foreground="{StaticResource ForegroundBrush}" BorderBrush="{StaticResource ButtonBorderBrush}" Click="ButtonExit_Click" Margin="10"/>
     </Grid>
 </Window>
