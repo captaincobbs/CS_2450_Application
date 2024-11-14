@@ -34,7 +34,6 @@ namespace UVSim
         public readonly int Capacity;
         public event Action<ProgramType>? OnProgramTypeChanged;
 
-
         public Memory(int capacity = 250, ProgramType programType = ProgramType.None)
         {
             ProgramType = programType;
@@ -100,6 +99,13 @@ namespace UVSim
             else
             {
                 string[] lines = File.ReadAllLines(fileName);
+                int totalLines = lines.Length;
+
+                Locations.Clear();
+                for (int i = 0; i < totalLines; i++)
+                {
+                    Locations.Add(new() { Data = 0, LineNumber = i, Instruction = BasicML.NONE });
+                }
 
                 // If there are more lines than the capacity, don't try loading
                 if (lines.Length > Capacity)
@@ -167,11 +173,6 @@ namespace UVSim
                     {
                         return false;
                     }
-                }
-
-                for (int i = location; i < Capacity; i++)
-                {
-                    _ = WriteWord(location, 0);
                 }
                 return true;
             }
