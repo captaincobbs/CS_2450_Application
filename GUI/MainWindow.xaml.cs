@@ -5,13 +5,15 @@ using Microsoft.Win32;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using System.ComponentModel;
+using System.Windows.Controls;
 
 namespace UVSim
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         #region Properties
         public OperatingSystemGui VirtualMachine { get; set; }
@@ -209,41 +211,48 @@ namespace UVSim
         /// </summary>
         private void AddLine()
         {
-            // If the Virtual Machine has room for more lines
-            if (VirtualMachine.MainMemory.Locations.Count <= MaxLines - 1)
+            if (VirtualMachine.MainMemory.Locations.Count <= MaxLines - 1) // If the Virtual Machine has room for more lines
             {
-                // Get the last index (If you are adding the 100th item, it will have an index of 99, so nothing needs to be done here)
-                int lastIndex = VirtualMachine.MainMemory.Locations.Count;
+                int lastIndex = VirtualMachine.MainMemory.Locations.Count; // Get the last index (If you are adding the 100th item, it will have an index of 99, so nothing needs to be done here)
 
-                // Then create the empty line and add it
-                VirtualMachine.MainMemory.Locations.Add(new() { Data = 0, LineNumber = lastIndex, Instruction = BasicML.NONE});
-                // Recount the line numbers
-                RecountLineNumbers();
-                // Then scroll to the last item
-                ListboxCodeSpace.ScrollIntoView(ListboxCodeSpace.Items[^1]);
+                VirtualMachine.MainMemory.Locations.Add(new() { Data = 0, LineNumber = lastIndex, Instruction = BasicML.NONE, Maximum = InputMaximum, Minimum = InputMinimum}); // Then create the empty line and add it
+                RecountLineNumbers(); // Recount the line numbers
+                ListboxCodeSpace.ScrollIntoView(ListboxCodeSpace.Items[^1]); // Then scroll to the last item
             }
         }
 
         /// <summary>
         /// Deletes the line currently selected in the CodeSpace, if no item is selected, nothing happens, doesn't check for errors
         /// </summary>
-        private void DeleteLine(int location = -1)
+        private void DeleteLine()
         {
-            if (location == -1)
+            if (ListboxCodeSpace.SelectionMode == SelectionMode.Single) // If the listbox can select only one item
             {
-                location = ListboxCodeSpace.SelectedIndex;
-            }
+                if (ListboxCodeSpace.SelectedIndex == -1) // If it's not selecting anything
+                {
+                    ListboxCodeSpace.SelectedIndex = ListboxCodeSpace.Items.Count - 1; // Make it select the last item
+                }
 
-            // Is an item in the CodeSpace selected?
-            if (location != -1)
-            {
-                // If so, delete the item at the selected index
-                VirtualMachine.MainMemory.Locations.RemoveAt(location);
-                // Then recount all line numbers
+                VirtualMachine.MainMemory.Locations.RemoveAt(ListboxCodeSpace.SelectedIndex); // Delete selected item
                 RecountLineNumbers();
+            }
+            else // Else if the listbox can select multiple items
+            {
+                if (ListboxCodeSpace.SelectedItems.Count > 0) // If there are any items selected
+                {
+                    List<MemoryLine> linesToRemove = [.. from MemoryLine line in ListboxCodeSpace.SelectedItems select line]; // Save a copy of all selected items
+                    foreach (MemoryLine line in linesToRemove) // Iterate through all selected items
+                    {
+                        VirtualMachine.MainMemory.Locations.Remove(line); // Remove them from memory
+                    }
+                    RecountLineNumbers();
+                }
             }
         }
 
+        /// <summary>
+        /// Removes all lines of memory then recreate the maximum amount of memory lines
+        /// </summary>
         private void ResetMemory()
         {
             VirtualMachine.MainMemory.Locations.Clear();
@@ -263,7 +272,10 @@ namespace UVSim
             {
                 VirtualMachine.MainMemory.Locations[i].LineNumber = i;
             }
-            TextLocations.Text = $"Locations ({VirtualMachine.MainMemory.Locations.Count})";
+            TextLocations.Text = $"Locations ({VirtualMachine.MainMemory.Locations.Count})"; // Update location count on column header
+        }
+
+
         private void ChangeProgramType(ProgramType newType)
         {
             if (newType == ProgramType.FourDigit)
@@ -425,9 +437,6 @@ namespace UVSim
                         break;
                     case Key.F7:
                         AddLine();
-                        break;
-                    case Key.F8:
-                        DeleteLine(ListboxCodeSpace.Items.Count - 1);
                         break;
                     case Key.F11:
                         VirtualMachine.Execute(0);

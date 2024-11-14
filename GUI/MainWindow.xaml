@@ -58,9 +58,9 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Column="0" Text="Locations (0)" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}" Name="TextLocations"/>
+                <TextBlock Grid.Column="0" Text="Locations ({x})" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}" Name="TextLocations"/>
                 <TextBlock Grid.Column="1" Text="Instruction" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}"/>
-                <TextBlock Grid.Column="2" Text="Data" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}"/>
+                <TextBlock Grid.Column="2" Text="Data ({y})" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource ForegroundBrush}" Name="TextData"/>
             </Grid>
         </Border>
 
@@ -71,7 +71,9 @@
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      Background="{StaticResource CodeSpaceBrush}"
                      BorderBrush="{StaticResource BorderBrush}"
-                     Width="Auto" Margin="5">
+                     Width="Auto"
+                     Margin="5" SelectionMode="Extended"
+                     >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Width="Auto">
@@ -159,7 +161,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock FontSize="14" Grid.Row="0" Text="Output" Foreground="{DynamicResource ForegroundBrush}" Margin="0,0,0,5"/>
-                <TextBox Name="TextOutput" IsReadOnly="True" Grid.Row="1" Text="{Binding ConsoleOutput}" Foreground="{DynamicResource ForegroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}"/>
+                <TextBox Name="TextOutput" IsReadOnly="True" Grid.Row="1" Foreground="{DynamicResource ForegroundBrush}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" Background="{StaticResource TextBoxBackgroundBrush}" BorderBrush="{StaticResource TextBoxBorderBrush}"/>
             </Grid>
         </Border>
 
