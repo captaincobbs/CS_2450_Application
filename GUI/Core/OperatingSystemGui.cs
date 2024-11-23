@@ -8,9 +8,9 @@
         /// <summary>
         /// Creates and links a CPU and MainMemory
         /// </summary>
-        public OperatingSystemGui()
+        public OperatingSystemGui(int capacity)
         {
-            MainMemory = new Memory();
+            MainMemory = new Memory(capacity, ProgramType.SixDigit);
             CPU = new Processor(MainMemory);
         }
 

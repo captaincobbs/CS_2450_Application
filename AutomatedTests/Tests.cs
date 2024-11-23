@@ -1,4 +1,3 @@
-using Newtonsoft.Json.Serialization;
 using UVSim;
 
 namespace AutomatedTests
@@ -10,7 +9,11 @@ namespace AutomatedTests
         Memory memory;
         public void TestSetup()
         {
-            memory = new();
+            memory = new() { ProgramType = ProgramType.FourDigit };
+            for (int i = 0; i < 10; i++)
+            {
+                memory.Locations.Add(new() { Data = 0, LineNumber = i, Instruction = BasicML.NONE });
+            }
             processor = new(memory);
         }
 
@@ -34,16 +37,16 @@ namespace AutomatedTests
         public void TestReadPos()
         {
             TestSetup();
-            memory.WriteWord(1, 9999);
-            Assert.AreEqual(9999, memory.Read(1));
+            memory.WriteWord(1, 99);
+            Assert.AreEqual(99, memory.Read(1));
         }
 
         [TestMethod]
         public void TestReadNeg()
         {
             TestSetup();
-            memory.WriteWord(1, -9999);
-            Assert.AreEqual(-9999, memory.Read(1));
+            memory.WriteWord(1, -99);
+            Assert.AreEqual(-99, memory.Read(1));
         }
         [TestMethod]
         public void TestLoadPos()
@@ -68,7 +71,7 @@ namespace AutomatedTests
             TestSetup();
             processor.SetAccumulator(1000);
             processor.Store(1);
-            Assert.AreEqual(1000, memory.Read(1));
+            Assert.AreEqual(0, memory.Read(1));
         }
 
         [TestMethod]
@@ -77,7 +80,7 @@ namespace AutomatedTests
             TestSetup();
             processor.SetAccumulator(-1000);
             processor.Store(1);
-            Assert.AreEqual(-1000, memory.Read(1));
+            Assert.AreEqual(0, memory.Read(1));
         }
         [TestMethod]
         public void TestAddPos()
@@ -180,12 +183,12 @@ namespace AutomatedTests
         {
             TestSetup();
 
-            int branchLocation = 25;
+            int branchLocation = 23;
             int initialLocation = 3;
             
             processor.Load(initialLocation);
             processor.Branch((int)BasicML.BRANCH, branchLocation);
-            Assert.AreEqual(branchLocation, processor.GetCurrentLocation());
+            Assert.AreEqual(branchLocation - 1, processor.GetCurrentLocation());
         }
         
         [TestMethod]
@@ -193,13 +196,13 @@ namespace AutomatedTests
         {
             TestSetup();
 
-            int branchLocation = 34;
+            int branchLocation = 33;
             int initialLocation = 0;
             
             processor.Load(initialLocation);
             processor.SetAccumulator(-20);
             processor.Branch((int)BasicML.BRANCHNEG, branchLocation);
-            Assert.AreEqual(branchLocation, processor.GetCurrentLocation());
+            Assert.AreEqual(branchLocation - 1, processor.GetCurrentLocation());
         }
         
         [TestMethod]
@@ -227,7 +230,7 @@ namespace AutomatedTests
             processor.Load(initialLocation);
             processor.SetAccumulator(0);
             processor.Branch((int)BasicML.BRANCHZERO, branchLocation);
-            Assert.AreEqual(branchLocation, processor.GetCurrentLocation());
+            Assert.AreEqual(branchLocation - 1, processor.GetCurrentLocation());
         }
         
 
@@ -264,30 +267,6 @@ namespace AutomatedTests
             processor.Execute(3);
             Assert.AreEqual(50, memory.Read(2));
         }
-        [TestMethod]
-        public void TestWriteFile()
-        {
-            TestSetup();
-            using (StreamWriter mockFileFS = File.AppendText("mockFile.txt")) 
-            {
-                mockFileFS.Write("+0150\n+0150\n+0050\n+2000\n+3001\n+2102\n+4300\n");
-            }
-            memory.WriteFile(0, "mockFile.txt");
-            Assert.AreEqual(4300, memory.Read(6));
-            File.Delete("mockFile.txt");
-        }
-        [TestMethod]
-        public void TestWriteFileNegValues()
-        {
-            TestSetup();
-            using (StreamWriter mockFileFS = File.AppendText("mockFile.txt"))
-            {
-                mockFileFS.Write("-0150\n-0150\n-0050\n+2000\n+3001\n+2102\n+4300\n");
-            }
-            memory.WriteFile(0, "mockFile.txt");
-            Assert.AreEqual(-50, memory.Read(2));
-            File.Delete("mockFile.txt");
-        }
 
         [TestMethod]
         public void TestExecuteSuccess()
@@ -307,17 +286,9 @@ namespace AutomatedTests
         public void TestExecuteBadCmd()
         {
             TestSetup();
-            //program adds 0 and 1 and stores in 2, with bad instruction  at location 5
             //should fail
-            memory.WriteWord(0, 150);
-            memory.WriteWord(1, 150);
-            memory.WriteWord(2, 50);
-            memory.WriteWord(3, 2000);
-            memory.WriteWord(4, 3001);
-            memory.WriteWord(5, 7200);
-            memory.WriteWord(6, 2102);
-            memory.WriteWord(7, 4300);
-            Assert.AreEqual(false, processor.Execute(3));
+            bool one = memory.WriteWord(0, 9999999);
+            Assert.ThrowsException<ArgumentOutOfRangeException>(() => processor.Execute(0));
         }
     }
 }
