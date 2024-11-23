@@ -67,4 +67,9 @@ The last two digits of a BasicML instruction are the operand – the address of 
 #### Import/Save
 When the application is open and the user has a prewritten file of valid BasicML code, the user has the option of selecting the Import button underneath the codespace and importing the file to the codespace. Another function of the application is the "Save" button. When the user needs the save their code in a file the Save button is all that needs to be clicked.
 
+#### Added Features
+- **Expanded Memory:** The application now supports data files containing up to 250 lines, with internal memory registers ranging from 000 to 249.
+- **Six-Digit Words:** The new file format supports six-digit words, with function codes updated to three digits (e.g. 010 for READ).
+- **File Format Support:** The application supports both old (four-digit) and new (six-digit) file formats. Files are differentiated at load or run time, but mixing formats within a single file is not allowed.
+- **Multiple File Handling:** The application allows multiple files to be opened simultaneously within a single instance. Users can switch between, edit, and execute each file independently.
 
