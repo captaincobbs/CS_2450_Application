@@ -27,6 +27,15 @@ namespace UVSim
         {
             var properties = typeof(Theme).GetProperties();
 
+            Button button = new()
+            {
+                Content = "Reset All to Default"
+            };
+
+            button.Click += ResetColors;
+
+            ColorPickerPanel.Children.Add(button);
+
             foreach (var property in properties)
             {
                 ColorPicker picker = new()
@@ -48,6 +57,32 @@ namespace UVSim
                 Label label = new() { Content = property.Name };
                 ColorPickerPanel.Children.Add(label);
                 ColorPickerPanel.Children.Add(picker);
+            }
+        }
+
+        // I have no clue how this works, ChatGPT made it, if it explodes I am not legally responsible
+        private void ResetColors(object sender, RoutedEventArgs e)
+        {
+            var properties = typeof(Theme).GetProperties();
+            foreach (var property in properties)
+            {
+                var defaultValue = property.GetCustomAttributes(typeof(DefaultValueAttribute), false)
+                                           .Cast<DefaultValueAttribute>()
+                                           .FirstOrDefault()?.Value;
+
+                if (defaultValue != null)
+                {
+                    property.SetValue(App.Theme, defaultValue.ToString());
+                }
+            }
+
+            // Reload the color pickers to reflect the reset values
+            ColorPickerPanel.Children.Clear();
+            LoadColors();
+
+            foreach (Window window in Application.Current.Windows)
+            {
+                BindingOperations.GetBindingExpressionBase(window, BackgroundProperty)?.UpdateTarget();
             }
         }
         #endregion

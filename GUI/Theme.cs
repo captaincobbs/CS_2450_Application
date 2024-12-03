@@ -15,6 +15,7 @@ namespace UVSim
         private static readonly Regex rgbaPattern = new(@"^#([0-9A-Fa-f]{4}|[0-9A-Fa-f]{8})$", RegexOptions.Compiled);
 
         private string background = "#4C721D";
+        [DefaultValue("#4C721D")]
         [JsonProperty(PropertyName = "BACKGROUND")]
         public string Background
         {
@@ -23,6 +24,7 @@ namespace UVSim
         }
 
         private string foreground = "#FFFFFF";
+        [DefaultValue("#FFFFFF")]
         [JsonProperty(PropertyName = "FOREGROUND")]
         public string Foreground
         {
@@ -35,6 +37,7 @@ namespace UVSim
         }
 
         private string border = "#000000";
+        [DefaultValue("#000000")]
         [JsonProperty(PropertyName = "BORDER")]
         public string Border
         {
@@ -47,6 +50,7 @@ namespace UVSim
         }
 
         private string header = "#808080";
+        [DefaultValue("#808080")]
         [JsonProperty(PropertyName = "HEADER")]
         public string Header
         {
@@ -59,6 +63,7 @@ namespace UVSim
         }
 
         private string textBoxBackground = "#39FFFFFF";
+        [DefaultValue("#39FFFFFF")]
         [JsonProperty(PropertyName = "TEXTBOX_BACKGROUND")]
         public string TextBoxBackground
         {
@@ -71,6 +76,7 @@ namespace UVSim
         }
 
         private string textBoxBorder = "#3FABADB3";
+        [DefaultValue("#3FABADB3")]
         [JsonProperty(PropertyName = "TEXTBOX_BORDER")]
         public string TextBoxBorder
         {
@@ -83,6 +89,7 @@ namespace UVSim
         }
 
         private string buttonBackground = "#39FFFFFF";
+        [DefaultValue("#39FFFFFF")]
         [JsonProperty(PropertyName = "BUTTON_BACKGROUND")]
         public string ButtonBackground
         {
@@ -95,6 +102,7 @@ namespace UVSim
         }
 
         private string buttonBorder = "#3FABADB3";
+        [DefaultValue("#3FABADB3")]
         [JsonProperty(PropertyName = "BUTTON_BORDER")]
         public string ButtonBorder
         {
@@ -107,6 +115,7 @@ namespace UVSim
         }
 
         private string codeSpace = "#39FFFFFF";
+        [DefaultValue("#39FFFFFF")]
         [JsonProperty(PropertyName = "CODESPACE")]
         public string CodeSpace
         {
