@@ -58,7 +58,7 @@ namespace UVSim
             }
 
             Accumulator.Data = 0;
-            if(location < 0 || location > 99)
+            if(location < 0 || location > mainMemory.MaxWord)
             {
                 return false;
             }
@@ -77,6 +77,11 @@ namespace UVSim
                 {
                     return true; // Returns false if it expects you to be coming back
                 }
+
+                if (!operationSuccess)
+                {
+                    return false;
+                }
             }
             return operationSuccess;
         }
@@ -90,49 +95,55 @@ namespace UVSim
             int location = mainMemory.Locations[currentLocation].Data;
             int instruction = mainMemory.Locations[currentLocation].Word;
 
-            //switch function autocompleted by AI (chatgpt)
-            switch (instruction)
+            try
             {
-                case 0: // Continue if it is just a stored number
-                    break;
-                case (int)BasicML.READ:
-                    Read(location);
-                    break;
-                case (int)BasicML.WRITE:
-                    Write(location);
-                    break;
-                case (int)BasicML.LOAD:
-                    Load(location);
-                    break;
-                case (int)BasicML.STORE:
-                    Store(location);
-                    break;
-                case (int)BasicML.ADD:
-                    Add(location);
-                    break;
-                case (int)BasicML.SUBTRACT:
-                    Subtract(location);
-                    break;
-                case (int)BasicML.DIVIDE:
-                    Divide(location);
-                    break;
-                case (int)BasicML.MULTIPLY:
-                    Multiply(location);
-                    break;
-                case (int)BasicML.BRANCH:
-                case (int)BasicML.BRANCHNEG:
-                case (int)BasicML.BRANCHZERO:
-                    Branch(instruction, location);
-                    break;
-                case (int)BasicML.HALT:
-                    Halt();
-                    break;
-                default:
-                    // Halts on invalid instruction
-                    Halt();
-                    return false;
+                switch (instruction)
+                {
+                    case 0: // Continue if it is just a stored number
+                        break;
+                    case (int)BasicML.READ:
+                        Read(location);
+                        break;
+                    case (int)BasicML.WRITE:
+                        Write(location);
+                        break;
+                    case (int)BasicML.LOAD:
+                        Load(location);
+                        break;
+                    case (int)BasicML.STORE:
+                        Store(location);
+                        break;
+                    case (int)BasicML.ADD:
+                        Add(location);
+                        break;
+                    case (int)BasicML.SUBTRACT:
+                        Subtract(location);
+                        break;
+                    case (int)BasicML.DIVIDE:
+                        Divide(location);
+                        break;
+                    case (int)BasicML.MULTIPLY:
+                        Multiply(location);
+                        break;
+                    case (int)BasicML.BRANCH:
+                    case (int)BasicML.BRANCHNEG:
+                    case (int)BasicML.BRANCHZERO:
+                        Branch(instruction, location);
+                        break;
+                    case (int)BasicML.HALT:
+                        Halt();
+                        break;
+                    default:
+                        // Halts on invalid instruction
+                        Halt();
+                        return false;
+                }
+                return true;
             }
-            return true;
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -201,6 +212,7 @@ namespace UVSim
             int result = Accumulator.Data / mainMemory.Read(location);
             Accumulator.Data = result;
         }
+
         /// <summary>
         /// Multiplies the value in the accumulator by the word at the location in mainMemory
         /// </summary>
@@ -247,7 +259,7 @@ namespace UVSim
         /// <summary>
         /// Send input to awaiting READ command so processor may continue
         /// </summary>
-        public void ReceiveInput(int input)
+        public bool ReceiveInput(int input)
         {
             mainMemory.WriteWord(savedLocation, input);
             OnOutput?.Invoke($"> {input}");
@@ -255,7 +267,7 @@ namespace UVSim
             IsAwaitingInput = false;
             AwaitingInput?.Invoke(false, currentLocation);
             unbroken = true;
-            Execute(-1);
+            return Execute(-1);
         }
     }
     #endregion

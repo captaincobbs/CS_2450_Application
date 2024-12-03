@@ -15,7 +15,7 @@ namespace UVSim
                 OnProgramTypeChanged?.Invoke(value);
             }
         }
-        int MaxWord
+        public int MaxWord
         {
             get
             {

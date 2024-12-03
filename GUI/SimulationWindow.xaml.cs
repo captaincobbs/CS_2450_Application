@@ -290,6 +290,22 @@ namespace UVSim
                 }
             }
         }
+
+        private void ExecuteProgram(int startingLine = 0)
+        {
+            if (!IsUILocked && ListboxCodeSpace.Items.Count > 0)
+            {
+                IsUILocked = true;
+                if (VirtualMachine.Execute(startingLine))
+                {
+                    IsUILocked = false;
+                }
+                else
+                {
+                    TextOutput.Text += "\nYour program encountered an error and was halted";
+                }
+            }
+        }
         #endregion
 
         #region Events
@@ -320,14 +336,7 @@ namespace UVSim
         /// </summary>
         private void OnExecute_Click(object sender, RoutedEventArgs e)
         {
-            if (!IsUILocked && ListboxCodeSpace.Items.Count > 0)
-            {
-                IsUILocked = true;
-                if (VirtualMachine.Execute(0))
-                {
-                    IsUILocked = false;
-                }
-            }
+            ExecuteProgram();
         }
 
         /// <summary>
@@ -369,7 +378,14 @@ namespace UVSim
         /// </summary>
         private void ButtonSendInput_Click(object sender, RoutedEventArgs e)
         {
-            VirtualMachine.CPU.ReceiveInput(TextBoxInput.Value ?? 0);
+            if (VirtualMachine.CPU.ReceiveInput(TextBoxInput.Value ?? 0))
+            {
+                IsUILocked = false;
+            }
+            else
+            {
+                TextOutput.Text += "\nYour program encountered an error and was halted";
+            }
         }
 
         /// <summary>
