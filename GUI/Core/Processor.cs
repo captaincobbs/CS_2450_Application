@@ -140,8 +140,11 @@ namespace UVSim
                 }
                 return true;
             }
-            catch
+            catch (Exception e)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Exception Caught: {e.Message}");
+                Console.ForegroundColor = ConsoleColor.White;
                 return false;
             }
         }
