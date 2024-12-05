@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="UVSim.Processor">
+    <Position X="12" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAhgBAAQAAIARBgAADAAAgAAAIAA0AAAAAAQEAAAA=</HashCode>
+      <FileName>Core\Processor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="mainMemory" />
+      <Field Name="Accumulator" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="UVSim.Memory">
+    <Position X="14.75" Y="1.5" Width="2" />
+    <Members>
+      <Field Name="_programType" Hidden="true" />
+      <Field Name="Capacity" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAQAAAAAIAAAAiAAAAAIAABAEIAAAABAA=</HashCode>
+      <FileName>Core\Memory.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ProgramType" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Locations" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="UVSim.Register">
+    <Position X="14.75" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAIAAAAAAAgAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\Register.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UVSim.MemoryLine">
+    <Position X="10" Y="7.75" Width="1.5" />
+    <Members>
+      <Field Name="_data" Hidden="true" />
+      <Field Name="_instruction" Hidden="true" />
+      <Field Name="_lineNumber" Hidden="true" />
+      <Field Name="_maximum" Hidden="true" />
+      <Field Name="_minimum" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>gAEAAACABAAAAAAAIAAIIAAAgAIIABAAAAAIAAAAAAA=</HashCode>
+      <FileName>Core\MemoryLine.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Instruction" />
+    </ShowAsAssociation>
+    <Lollipop Orientation="Left" Position="0.256" />
+  </Class>
+  <Class Name="UVSim.OperatingSystemGui">
+    <Position X="17.25" Y="6.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAACAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Core\OperatingSystemGui.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="CPU" />
+      <Field Name="MainMemory" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="UVSim.App">
+    <Position X="18.5" Y="3.25" Width="2" />
+    <Members>
+      <Field Name="theme" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAJAAAAAQAAQAAgAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Theme" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="UVSim.Theme">
+    <Position X="22" Y="3" Width="2" />
+    <Members>
+      <Field Name="background" Hidden="true" />
+      <Field Name="border" Hidden="true" />
+      <Field Name="buttonBackground" Hidden="true" />
+      <Field Name="buttonBorder" Hidden="true" />
+      <Field Name="codeSpace" Hidden="true" />
+      <Field Name="foreground" Hidden="true" />
+      <Field Name="header" Hidden="true" />
+      <Field Name="rgbaPattern" Hidden="true" />
+      <Field Name="rgbPattern" Hidden="true" />
+      <Field Name="textBoxBackground" Hidden="true" />
+      <Field Name="textBoxBorder" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>JAAAACQAAAAkAAAAIEAAEARAgFABAAAAAKEgAACgIAA=</HashCode>
+      <FileName>Theme.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UVSim.MainWindow">
+    <Position X="16.25" Y="8.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAAAAAEAAAgAAAAAAAAAAAIAAAAAAQ=</HashCode>
+      <FileName>MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UVSim.SimulationWindow">
+    <Position X="19.5" Y="6.5" Width="2.25" />
+    <Members>
+      <Field Name="inputMaximum" Hidden="true" />
+      <Field Name="inputMinimum" Hidden="true" />
+      <Field Name="sendLocation" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>IAgCAAAAAEAAAAiAIALEAAWAgAAIkgAABAICQAZgBgg=</HashCode>
+      <FileName>SimulationWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="VirtualMachine" />
+    </ShowAsAssociation>
+    <Lollipop Orientation="Right" Position="0.432" />
+  </Class>
+  <Class Name="UVSim.ThemeWindow">
+    <Position X="12" Y="8.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAEEAAAAAAAAAAA=</HashCode>
+      <FileName>ThemeWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UVSim.ColorStringConverter">
+    <Position X="22" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAAAAAAIAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ColorStringConverter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="UVSim.InputWindow">
+    <Position X="14.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAIAAAAAAAACAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>InputWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="System.Windows.Window" Collapsed="true">
+    <Position X="14.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Enum Name="UVSim.ProgramType">
+    <Position X="19.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAAAA=</HashCode>
+      <FileName>Core\ProgramType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="UVSim.BasicML">
+    <Position X="9.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQEJAACACAAAAIAAAQAAAAAAAIAAAAAAAAAAEACACQA=</HashCode>
+      <FileName>Core\BasicML.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="UVSim.BranchCondition">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEACAAAA=</HashCode>
+      <FileName>Core\BranchCondition.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
