@@ -5,7 +5,7 @@ using System.Windows.Media;
 namespace UVSim
 {
     /// <summary>
-    /// Handles the conversion of hexcolor <see cref="string"/>s to <see cref="Color"/>
+    /// Handles the conversion of hexcolor <see cref="string"/>s to <see cref="Color"/> in a MVVM binding
     /// </summary>
     public class ColorStringConverter : IValueConverter
     {

@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace UVSim
 {
-    // If you add non-hexcolor string properties to this class, the program will not launch. I will not fix this.
+    // If you add non-hexcolor string properties to this class, the program will not launch.
     /// <summary>
     /// Stores hexcolor data for user theme
     /// </summary>
