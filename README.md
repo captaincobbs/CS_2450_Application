@@ -1,3 +1,13 @@
+## Table of Contents
+##### Installation
+- Cloning the Repository
+- Building the Application
+##### Usage
+- Writing and Executing BasicML
+- BasicML instructions
+##### GUI
+- Buttons and Design
+
 ## Installation
 ### Cloning the Repository
 Begin by cloning the repository. This can be done by running this command in the command line: git clone https://github.com/captaincobbs/CS_2450_Application.git
