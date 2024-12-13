@@ -36,11 +36,20 @@ The GUI contains a register, which store values, boxes for output and input, but
 - **Data**, which represents an input for a line of memory's instruction
 - **Instruction**, which determines how a line of memory will be interpreted. A list of all instructions can be found below.
 
+![image](https://github.com/user-attachments/assets/375cacd5-4664-40ee-b575-fa55485c84dc)
+
 To start using the program, either begin editing the memory, or importing an existing .uvsim (or valid .txt) file, then hitting run to have the operating system iterate through each instruction.
+
+![image](https://github.com/user-attachments/assets/35ea28c9-57e7-435a-bd56-61ef64094666)
 
 The UI also contains a Theme manager, which can be used to determine the colors of various parts of the UI.
 
+![image](https://github.com/user-attachments/assets/fe497396-ea8d-4da9-8468-7a034b87a421)
+
 ### BasicML instructions :
+![image](https://github.com/user-attachments/assets/287781d7-5779-4bb4-9dbf-c7684e31e4d5)
+
+
 #### I/O operation:
 
  - **READ** = 10 - Read a word from the keyboard into a specific location in
@@ -97,6 +106,8 @@ When the application is open and the user has a prewritten file of valid BasicML
 
 
 ## GUI
+![image](https://github.com/user-attachments/assets/ea49874a-4970-4b13-8d09-cfd53b9e1d06)
+
 #### Buttons
 There are a few buttons on the main page/screen of the User Interface. These buttons consist of:
 **Main page buttons**
