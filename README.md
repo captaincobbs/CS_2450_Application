@@ -74,8 +74,8 @@ When the application is open and the user has a prewritten file of valid BasicML
 - **Multiple File Handling:** The application allows multiple files to be opened simultaneously within a single instance. Users can switch between, edit, and execute each file independently.
 
 
-##GUI
-####Buttons
+## GUI
+#### Buttons
 There are a few buttons on the main page/screen of the User Interface. These buttons consist of:
 **Main page buttons**
 - Open Project: lets the user select a pre-written file of valid code to the interface
