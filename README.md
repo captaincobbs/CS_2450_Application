@@ -1,3 +1,25 @@
+## Table of Contents
+### Introduction
+### Installation
+- Cloning the Repository
+- Building the Application
+### Usage
+- Writing and Executing BasicML
+- BasicML instructions
+  - I/O Operations
+  - Load/Store Operations
+  - Arithmetic Operations
+  - Control Operations
+### GUI
+- Buttons and Design
+
+
+## Introduction
+Welcome to the UVSim Program! This Project was created to have UVU students pursuing a Computer Science degree practice and learn Some Assembly that we created. Since this Introduction aims to describe the main functionality of this project, all information on the operations/instructions of this program is written below. This project allows users to create a project using our BasicML(Basic Machine Learning) to create programs on either one page or multiple pages. These pages act independently from each other and do not interfere with the processing of other pages. An additional feature in this project is allowing the user to save their code into a file on their device and then later loading that saved file back into the program. Lastly, the Program we have created also allows users to personalize their page by using the Edit Theme button. 
+
+### Current plans for the future
+Current improvement plans are letting the user store letters and other characters. This will allow users the opportunity to create a larger variety of programs. Currently, there are no ways of allowing users to store or utilize characters other than digits. In essence, the current functionality of our program is a calculator.
+
 ## Installation
 ### Cloning the Repository
 Begin by cloning the repository. This can be done by running this command in the command line: git clone https://github.com/captaincobbs/CS_2450_Application.git
@@ -72,4 +94,14 @@ When the application is open and the user has a prewritten file of valid BasicML
 - **Six-Digit Words:** The new file format supports six-digit words, with function codes updated to three digits (e.g. 010 for READ).
 - **File Format Support:** The application supports both old (four-digit) and new (six-digit) file formats. Files are differentiated at load or run time, but mixing formats within a single file is not allowed.
 - **Multiple File Handling:** The application allows multiple files to be opened simultaneously within a single instance. Users can switch between, edit, and execute each file independently.
+
+
+## GUI
+#### Buttons
+There are a few buttons on the main page/screen of the User Interface. These buttons consist of:
+**Main page buttons**
+- Open Project: lets the user select a pre-written file of valid code to the interface
+- New Project: allows users to open a new project. However, the user is asked to specify the maximum number of lines their code will consist of.
+- Edit Theme: Allows users to change the entire interface's color theme by selecting a color or inputting a color.
+- Exit: Closes the Program
 
