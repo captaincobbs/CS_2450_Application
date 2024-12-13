@@ -1,17 +1,19 @@
 ## Table of Contents
-### Introduction
-### Installation
-- Cloning the Repository
-- Building the Application
-### Usage
-- Writing and Executing BasicML
-- BasicML instructions
-  - I/O Operations
-  - Load/Store Operations
-  - Arithmetic Operations
-  - Control Operations
-### GUI
-- Buttons and Design
+### [Introduction](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#introduction-1)
+### [Installation](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#installation-1)
+- [Cloning the Repository](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#cloning-the-repository)
+- [Building the Application](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#building-the-application)
+### [Usage](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#usage-1)
+- [Writing and Executing BasicML](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#writing-and-executing-basicml)
+- [BasicML instructions](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#basicml-instructions-)
+  - [I/O Operations](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#io-operation)
+  - [Load/Store Operations](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#loadstore-operations)
+  - [Arithmetic Operations](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#arithmetic-operation)
+  - [Control Operations](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#control-operation)
+- [Import/Save](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#importsave)
+- [Added Features](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#added-features)
+### [GUI](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#gui-1)
+- [Buttons and Design](https://github.com/captaincobbs/CS_2450_Application?tab=readme-ov-file#buttons)
 
 
 ## Introduction
