@@ -1,12 +1,15 @@
 ## Table of Contents
 ### Installation
-- #### Cloning the Repository
-- #### Building the Application
+- Cloning the Repository
+- Building the Application
 ### Usage
-- #### Writing and Executing BasicML
-- #### BasicML instructions
-  - ##### I/O Operations
-##### GUI
+- Writing and Executing BasicML
+- BasicML instructions
+  - I/O Operations
+  - Load/Store Operations
+  - Arithmetic Operations
+  - Control Operations
+### GUI
 - Buttons and Design
 
 ## Installation
