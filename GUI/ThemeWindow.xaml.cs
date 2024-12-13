@@ -60,7 +60,9 @@ namespace UVSim
             }
         }
 
-        // I have no clue how this works, ChatGPT made it, if it explodes I am not legally responsible
+        /// <summary>
+        /// Sets all properties in <seealso cref="App.Theme"/> to their preset default, then forces an update event for each on every window
+        /// </summary>
         private void ResetColors(object sender, RoutedEventArgs e)
         {
             var properties = typeof(Theme).GetProperties();
@@ -90,6 +92,7 @@ namespace UVSim
         #region Events
         private void OnWindowClosing(object? sender, CancelEventArgs e)
         {
+            // Save theme settings file when the window is closed
             DialogResult = true;
             App.SaveColorScheme();
         }

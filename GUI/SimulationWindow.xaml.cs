@@ -291,6 +291,9 @@ namespace UVSim
             }
         }
 
+        /// <summary>
+        /// Executes the virtual machine from an input location in memory, automatically prints errors to the console
+        /// </summary>
         private void ExecuteProgram(int startingLine = 0)
         {
             if (!IsUILocked && ListboxCodeSpace.Items.Count > 0)
