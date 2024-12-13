@@ -73,3 +73,13 @@ When the application is open and the user has a prewritten file of valid BasicML
 - **File Format Support:** The application supports both old (four-digit) and new (six-digit) file formats. Files are differentiated at load or run time, but mixing formats within a single file is not allowed.
 - **Multiple File Handling:** The application allows multiple files to be opened simultaneously within a single instance. Users can switch between, edit, and execute each file independently.
 
+
+##GUI
+####Buttons
+There are a few buttons on the main page/screen of the User Interface. These buttons consist of:
+**Main page buttons**
+- Open Project: lets the user select a pre-written file of valid code to the interface
+- New Project: allows users to open a new project. However, the user is asked to specify the maximum number of lines their code will consist of.
+- Edit Theme: Allows users to change the entire interface's color theme by selecting a color or inputting a color.
+- Exit: Closes the Program
+
