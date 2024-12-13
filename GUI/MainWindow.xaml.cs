@@ -24,6 +24,7 @@ namespace UVSim
             {
                 Owner = this,
                 ShowInTaskbar = false,
+                Topmost = false,
             };
             themeWindow.ShowDialog();
         }
@@ -44,6 +45,7 @@ namespace UVSim
                 {
                     Owner = this,
                     ShowInTaskbar = false,
+                    Topmost = false,
                 };
                 simWindow.Show();
             }
@@ -62,25 +64,29 @@ namespace UVSim
             // Show the dialog and get the result
             bool? result = dialog.ShowDialog();
 
+            // If there is a valid file chosen
             if (result == true && !string.IsNullOrEmpty(dialog.FileName))
             {
                 SimulationWindow simWindow = new()
                 {
                     Owner = this,
                     ShowInTaskbar = false,
+                    Topmost = false,
                 };
 
+                // Try opening it, then set default values
                 string filePath = dialog.FileName;
-                if (!simWindow.VirtualMachine.MainMemory.ReadFile(0, filePath))
-                {
-                    simWindow.ResetMemory();
-                    MessageBox.Show("Invalid file!");
-                }
-                else
+                if (simWindow.VirtualMachine.MainMemory.ReadFile(0, filePath))
                 {
                     simWindow.TextLocations.Text = $"Locations ({simWindow.VirtualMachine.MainMemory.Locations.Count})";
                     simWindow.ChangeProgramType(simWindow.VirtualMachine.MainMemory.ProgramType);
                     simWindow.Show();
+                    
+                }
+                else
+                {
+                    simWindow.ResetMemory();
+                    MessageBox.Show("Invalid file!");
                 }
             }
         }
