@@ -7,6 +7,9 @@ namespace AutomatedTests
     {
         Processor processor;
         Memory memory;
+        /// <summary>
+        /// Recreates the initial state assumed for a given test
+        /// </summary>
         public void TestSetup()
         {
             memory = new() { ProgramType = ProgramType.FourDigit };
@@ -17,6 +20,9 @@ namespace AutomatedTests
             processor = new(memory);
         }
 
+        /// <summary>
+        /// Test writing a word with a positive value into memory
+        /// </summary>
         [TestMethod]
         public void TestWritePos()
         {
@@ -25,6 +31,9 @@ namespace AutomatedTests
             Assert.AreEqual(10, memory.Read(0));
         }
         
+        /// <summary>
+        /// Test writing a word with a negative value into memory
+        /// </summary>
         [TestMethod]
         public void TestWriteNeg()
         {
@@ -33,6 +42,9 @@ namespace AutomatedTests
             Assert.AreEqual(-10, memory.Read(0));
         }
 
+        /// <summary>
+        /// Test reading the maximum word value from memory
+        /// </summary>
         [TestMethod]
         public void TestReadPos()
         {
@@ -41,6 +53,9 @@ namespace AutomatedTests
             Assert.AreEqual(99, memory.Read(1));
         }
 
+        /// <summary>
+        /// Test reading the minimum word value from memory
+        /// </summary>
         [TestMethod]
         public void TestReadNeg()
         {
@@ -48,6 +63,10 @@ namespace AutomatedTests
             memory.WriteWord(1, -99);
             Assert.AreEqual(-99, memory.Read(1));
         }
+
+        /// <summary>
+        /// Test writing a positive valid value into the accumulator
+        /// </summary>
         [TestMethod]
         public void TestLoadPos()
         {
@@ -57,6 +76,9 @@ namespace AutomatedTests
             Assert.AreEqual(33, processor.GetAccumulator());
         }
 
+        /// <summary>
+        /// Test writing a negative valid value into the accumulator
+        /// </summary>
         [TestMethod]
         public void TestLoadNeg()
         {
@@ -65,6 +87,10 @@ namespace AutomatedTests
             processor.Load(1);
             Assert.AreEqual(-33, processor.GetAccumulator());
         }
+
+        /// <summary>
+        /// Test storing a positive overflowing value into the accumulator, then storing it in memory
+        /// </summary>
         [TestMethod]
         public void TestStorePos()
         {
@@ -74,6 +100,9 @@ namespace AutomatedTests
             Assert.AreEqual(0, memory.Read(1));
         }
 
+        /// <summary>
+        /// Test storing a negative overflowing value into the accumulator, then storing it in memory
+        /// </summary>
         [TestMethod]
         public void TestStoreNeg()
         {
@@ -82,6 +111,10 @@ namespace AutomatedTests
             processor.Store(1);
             Assert.AreEqual(0, memory.Read(1));
         }
+
+        /// <summary>
+        /// Test adding positive numbers
+        /// </summary>
         [TestMethod]
         public void TestAddPos()
         {
@@ -94,6 +127,9 @@ namespace AutomatedTests
             Assert.AreEqual(20, memory.Read(3));
         }
 
+        /// <summary>
+        /// Test adding a negative to a positive
+        /// </summary>
         [TestMethod]
         public void TestAddNegtoPos()
         {
@@ -106,6 +142,9 @@ namespace AutomatedTests
             Assert.AreEqual(0, memory.Read(3));
         }
 
+        /// <summary>
+        /// Test subtracting two positive numbers
+        /// </summary>
         [TestMethod]
         public void TestSubPos()
         {
@@ -118,6 +157,9 @@ namespace AutomatedTests
             Assert.AreEqual(5, memory.Read(3));
         }
 
+        /// <summary>
+        /// Test subtracting a negative number from a positive
+        /// </summary>
         [TestMethod]
         public void TestSubNegFromPos()
         {
@@ -130,6 +172,9 @@ namespace AutomatedTests
             Assert.AreEqual(15, memory.Read(3));
         }
 
+        /// <summary>
+        /// Test dividing two positive numbers
+        /// </summary>
         [TestMethod]
         public void TestDividePos()
         {
@@ -142,6 +187,9 @@ namespace AutomatedTests
             Assert.AreEqual(2, memory.Read(3));
         }
 
+        /// <summary>
+        /// Test dividing a negative number from a positive
+        /// </summary>
         [TestMethod]
         public void TestDivideNegFromPos()
         {
@@ -154,6 +202,9 @@ namespace AutomatedTests
             Assert.AreEqual(-2, memory.Read(3));
         }
 
+        /// <summary>
+        /// Test multiplying two positive numbers
+        /// </summary>
         [TestMethod]
         public void TestMultPos()
         {
@@ -166,6 +217,9 @@ namespace AutomatedTests
             Assert.AreEqual(50, memory.Read(3));
         }
 
+        /// <summary>
+        /// Test multiplying two negative numbers
+        /// </summary>
         [TestMethod]
         public void TestMultNeg()
         {
@@ -178,6 +232,9 @@ namespace AutomatedTests
             Assert.AreEqual(20, memory.Read(3));
         }
 
+        /// <summary>
+        /// Test a simple positive branch condition
+        /// </summary>
         [TestMethod]
         public void TestBranch()
         {
@@ -191,6 +248,9 @@ namespace AutomatedTests
             Assert.AreEqual(branchLocation - 1, processor.GetCurrentLocation());
         }
         
+        /// <summary>
+        /// Test a simple negative branch condition
+        /// </summary>
         [TestMethod]
         public void TestBranchNeg()
         {
@@ -205,6 +265,9 @@ namespace AutomatedTests
             Assert.AreEqual(branchLocation - 1, processor.GetCurrentLocation());
         }
         
+        /// <summary>
+        /// Test if a positive number triggers a negative branch
+        /// </summary>
         [TestMethod]
         public void TestBranchNeg2() // Testing to see if a positive number would work on BRANCHNEG.
         {
@@ -219,6 +282,9 @@ namespace AutomatedTests
             Assert.AreNotEqual(branchLocation, processor.GetCurrentLocation());
         }
         
+        /// <summary>
+        /// Test a simple equalszero branch condition
+        /// </summary>
         [TestMethod]
         public void TestBranchZero()
         {
@@ -234,6 +300,9 @@ namespace AutomatedTests
         }
         
 
+        /// <summary>
+        /// Tests to see if the correct location is saved when halting
+        /// </summary>
         [TestMethod]
         public void TestHalt()
         {
@@ -253,6 +322,9 @@ namespace AutomatedTests
             Assert.AreEqual(memory.Capacity, processor.GetCurrentLocation());
         }
 
+        /// <summary>
+        /// Tests if halting mid-program returns the correct output
+        /// </summary>
         [TestMethod]
         public void TestHaltMidProgram()
         {
@@ -268,6 +340,9 @@ namespace AutomatedTests
             Assert.AreEqual(50, memory.Read(2));
         }
 
+        /// <summary>
+        /// Tests a known program to ensure it executes correctly
+        /// </summary>
         [TestMethod]
         public void TestExecuteSuccess()
         {
@@ -282,6 +357,10 @@ namespace AutomatedTests
             memory.WriteWord(6, 4300);
             Assert.AreEqual(true, processor.Execute(3));
         }
+
+        /// <summary>
+        /// Tests an intentionally bad word to see if it throws an exception
+        /// </summary>
         [TestMethod]
         public void TestExecuteBadCmd()
         {
