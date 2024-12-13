@@ -1,4 +1,5 @@
 ## Table of Contents
+### Introduction
 ### Installation
 - Cloning the Repository
 - Building the Application
@@ -11,6 +12,13 @@
   - Control Operations
 ### GUI
 - Buttons and Design
+
+
+## Introduction
+Welcome to the UVSim Program! This Project was created to have UVU students pursuing a Computer Science degree practice and learn Some Assembly that we created. Since this Introduction aims to describe the main functionality of this project, all information on the operations/instructions of this program is written below. This project allows users to create a project using our BasicML(Basic Machine Learning) to create programs on either one page or multiple pages. These pages act independently from each other and do not interfere with the processing of other pages. An additional feature in this project is allowing the user to save their code into a file on their device and then later loading that saved file back into the program. Lastly, the Program we have created also allows users to personalize their page by using the Edit Theme button. 
+
+### Current plans for the future
+Current improvement plans are letting the user store letters and other characters. This will allow users the opportunity to create a larger variety of programs. Currently, there are no ways of allowing users to store or utilize characters other than digits. In essence, the current functionality of our program is a calculator.
 
 ## Installation
 ### Cloning the Repository
