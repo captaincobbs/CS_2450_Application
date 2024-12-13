@@ -5,7 +5,7 @@
 ### Usage
 - #### Writing and Executing BasicML
 - #### BasicML instructions
-- ##### I/O Operations
+  - ##### I/O Operations
 ##### GUI
 - Buttons and Design
 
